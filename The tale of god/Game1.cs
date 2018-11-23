@@ -12,7 +12,11 @@ namespace TheTaleOfGod
 
         Character character = new Character();
 
+        public static NPC npc;
+
         public static ContentManager content { get; set; }
+
+        public static Vector2 screenCenter;
 
         public Game1()
         {
@@ -29,8 +33,12 @@ namespace TheTaleOfGod
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            screenCenter = new Vector2(GraphicsDevice.Viewport.Width / 2f, GraphicsDevice.Viewport.Height / 2f);
 
             character.LoadCharacter();
+
+            npc = new NPC();
+            npc.Load(DebugTextures.GenerateSquare(GraphicsDevice, 100, 100, Color.White));
         }
 
         protected override void UnloadContent()
@@ -55,6 +63,8 @@ namespace TheTaleOfGod
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
             character.Draw(spriteBatch);
+
+            npc.Draw(spriteBatch);
 
             spriteBatch.End();
 

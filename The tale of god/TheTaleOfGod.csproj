@@ -9,7 +9,7 @@
     <ProjectGuid>{CB57F607-9260-4E8B-B8D5-D24FFEE9BA0E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>The_tale_of_god</RootNamespace>
+    <RootNamespace>TheTaleOfGod</RootNamespace>
     <AssemblyName>The tale of god</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
@@ -43,7 +43,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Character.cs" />
+    <Compile Include="DebugTextures.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="NPC.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

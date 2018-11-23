@@ -36,6 +36,8 @@ namespace TheTaleOfGod
 
             move = Vector2.Zero;
 
+            #region input
+
             if (key.IsKeyDown(Keys.D))
             {
                 move.X += speed;
@@ -51,6 +53,18 @@ namespace TheTaleOfGod
             else if (key.IsKeyDown(Keys.S))
             {
                 move.Y += speed;
+            }
+
+            if (key.IsKeyDown(Keys.Enter))
+            {
+                Game1.npc.Interact();
+            }
+
+            #endregion
+
+            if (move.Length() > speed)
+            {
+                move = new Vector2(move.X / 2f, move.Y / 2f);
             }
 
             position += move;

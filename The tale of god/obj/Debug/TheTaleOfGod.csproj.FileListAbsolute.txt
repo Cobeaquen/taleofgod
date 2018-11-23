@@ -18,3 +18,25 @@ C:\Users\Cobeaquen\source\repos\The tale of god\The tale of god\obj\Debug\TheTal
 C:\Users\Cobeaquen\source\repos\The tale of god\The tale of god\obj\Debug\The tale of god.exe
 C:\Users\Cobeaquen\source\repos\The tale of god\The tale of god\obj\Debug\The tale of god.pdb
 C:\Users\Cobeaquen\source\repos\The tale of god\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\textures\chr1\chr_head.xnb
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\x86\SDL2.dll
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\x64\SDL2.dll
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\x86\soft_oal.dll
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\x64\soft_oal.dll
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\x86\libSDL2-2.0.so.0
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\x64\libSDL2-2.0.so.0
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\x86\libopenal.so.1
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\x64\libopenal.so.1
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\libSDL2-2.0.0.dylib
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\libopenal.1.dylib
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll.config
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\textures\chr1\chr_head.xnb
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\Content\textures\chr1\chr_head.xnb
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\The tale of god.exe
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\The tale of god.pdb
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\obj\Debug\TheTaleOfGod.csprojAssemblyReference.cache
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\obj\Debug\TheTaleOfGod.csproj.CoreCompileInputs.cache
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\obj\Debug\TheTaleOfGod.csproj.CopyComplete
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\obj\Debug\The tale of god.exe
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\obj\Debug\The tale of god.pdb
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\fonts\npc1.xnb
