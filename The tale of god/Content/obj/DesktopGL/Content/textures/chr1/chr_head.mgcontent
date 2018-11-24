@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Cobeaquen/source/repos/The tale of god/The tale of god/Content/textures/chr1/chr_head.png</SourceFile>
+  <SourceFile>C:/Users/Cobeaquen/Documents/GitHub/taleofgod/The tale of god/Content/textures/chr1/chr_head.png</SourceFile>
   <SourceTime>2018-11-21T19:49:00.9193648+01:00</SourceTime>
-  <DestFile>C:/Users/Cobeaquen/source/repos/The tale of god/The tale of god/Content/bin/DesktopGL/Content/textures/chr1/chr_head.xnb</DestFile>
-  <DestTime>2018-11-21T20:30:58.1688592+01:00</DestTime>
+  <DestFile>C:/Users/Cobeaquen/Documents/GitHub/taleofgod/The tale of god/Content/bin/DesktopGL/Content/textures/chr1/chr_head.xnb</DestFile>
+  <DestTime>2018-11-23T20:03:58.6527095+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-09-23T23:55:52+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

@@ -52,6 +52,7 @@ namespace TheTaleOfGod
                 Exit();
 
             character.Update(gameTime);
+            npc.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -64,7 +65,7 @@ namespace TheTaleOfGod
 
             character.Draw(spriteBatch);
 
-            npc.Draw(spriteBatch);
+            npc.Draw(spriteBatch, gameTime);
 
             spriteBatch.End();
 

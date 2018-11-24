@@ -57,7 +57,10 @@ namespace TheTaleOfGod
 
             if (key.IsKeyDown(Keys.Enter))
             {
-                Game1.npc.Interact();
+                if (!Game1.npc.interacting)
+                {
+                    Game1.npc.Interact();
+                }
             }
 
             #endregion

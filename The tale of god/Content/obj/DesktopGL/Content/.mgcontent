@@ -4,9 +4,11 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/Cobeaquen/source/repos/The tale of god/The tale of god/Content/textures/chr1/chr_head.png</File>
+    <File>C:/Users/Cobeaquen/Documents/GitHub/taleofgod/The tale of god/Content/textures/chr1/chr_head.png</File>
+    <File>C:/Users/Cobeaquen/Documents/GitHub/taleofgod/The tale of god/Content/fonts/npc1.spritefont</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>
