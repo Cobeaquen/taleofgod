@@ -7,10 +7,16 @@ namespace TheTaleOfGod
 {
     public class Game1 : Game
     {
+        #region singleton
+
+        public static Game1 instance;
+
+        #endregion
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Character character = new Character();
+        public Character character = new Character();
 
         public static NPC npc;
 
@@ -20,6 +26,7 @@ namespace TheTaleOfGod
 
         public Game1()
         {
+            instance = this;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             content = Content;

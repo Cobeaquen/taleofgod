@@ -4,7 +4,7 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/user/Documents/GitHub/taleofgod/The tale of god/Content/textures/chr1/chr_head.png</File>
-    <File>C:/Users/user/Documents/GitHub/taleofgod/The tale of god/Content/fonts/npc1.spritefont</File>
+    <File>D:/taleofgod/The tale of god/Content/textures/chr1/chr_head.png</File>
+    <File>D:/taleofgod/The tale of god/Content/fonts/npc1.spritefont</File>
   </SourceFiles>
 </SourceFileCollection>

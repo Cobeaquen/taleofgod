@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/user/Documents/GitHub/taleofgod/The tale of god/Content/fonts/npc1.spritefont</SourceFile>
-  <SourceTime>2017-03-01T16:05:30+01:00</SourceTime>
-  <DestFile>C:/Users/user/Documents/GitHub/taleofgod/The tale of god/Content/bin/DesktopGL/fonts/npc1.xnb</DestFile>
-  <DestTime>2018-11-22T09:26:23.5261378+01:00</DestTime>
+  <SourceFile>D:/taleofgod/The tale of god/Content/fonts/npc1.spritefont</SourceFile>
+  <SourceTime>2018-11-24T18:59:32.4411792+01:00</SourceTime>
+  <DestFile>D:/taleofgod/The tale of god/Content/bin/DesktopGL/fonts/npc1.xnb</DestFile>
+  <DestTime>2018-11-24T18:59:34.1709266+01:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2017-03-01T16:05:36+01:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>

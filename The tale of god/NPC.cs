@@ -13,8 +13,9 @@ namespace TheTaleOfGod
     public class NPC
     {
         public Vector2 position;
+        public Vector2 origin;
         public Texture2D sprite;
-        public float textSize = 2f;
+        public float textSize = 1f;
 
         public bool interacting;
 
@@ -27,27 +28,25 @@ namespace TheTaleOfGod
 
         Queue<char> characters = new Queue<char>();
 
-        bool isTalking;
-
         KeyboardState prevState;
 
         public NPC()
         {
             interacting = false;
-            position = Vector2.Zero;
+            position = Game1.screenCenter;
+        }
 
-            dialogue.Enqueue("oof, wellp\n" +
-            "that stuff happens from time to time");
+        public void LoadLines() // initializes the speech of the npc
+        {
+            dialogue.Enqueue("are you new here?\ni have not seen you before...");
             dialogue.Enqueue("anyway have a good day");
-            dialogue.Enqueue("lol noob");
-            dialogue.Enqueue("alluhakbar");
-            dialogue.Enqueue("no ty");
         }
 
         public void Load(Texture2D sprite)
         {
             this.sprite = sprite;
             font = Game1.content.Load<SpriteFont>("fonts\\npc1");
+            origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
             prevState = Keyboard.GetState();
         }
 
@@ -57,10 +56,9 @@ namespace TheTaleOfGod
 
             if (interacting)
             {
-                if (state.IsKeyDown(Keys.Space) & !prevState.IsKeyDown(Keys.Space))
+                if (state.IsKeyDown(Keys.Enter) & !prevState.IsKeyDown(Keys.Enter))
                 {
                     AdvanceLine();
-                    Console.WriteLine("pressed space");
                 }
             }
 
@@ -69,7 +67,7 @@ namespace TheTaleOfGod
 
         public void Draw(SpriteBatch batch, GameTime gameTime)
         {
-            batch.Draw(sprite, new Vector2(100, 100), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            batch.Draw(sprite, position, null, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
 
             if (interacting)
             {
@@ -81,15 +79,8 @@ namespace TheTaleOfGod
                 Vector2 txtpos = new Vector2(Game1.screenCenter.X, 3 * Game1.screenCenter.Y / 2f);
                 float size = textSize;
 
-                batch.DrawString(font, currentLine, txtpos, Color.Red, 0f, txtorigin, size, SpriteEffects.None, 0f);
+                batch.DrawString(font, currentLine, txtpos, Color.Black, 0f, txtorigin, size, SpriteEffects.None, 0f);
             }
-        }
-
-        public void Talk(SpriteBatch batch, string line, float talkSpeed)
-        {
-            currentLine = "";
-
-            isTalking = false;
         }
 
         private void AdvanceCharacter()
@@ -100,10 +91,8 @@ namespace TheTaleOfGod
 
         private void AdvanceLine()
         {
-            if (dialogue.Count > 0 && !isTalking)
+            if (dialogue.Count > 0)
             {
-                //isTalking = true;
-
                 line = dialogue.Dequeue();
 
                 characters = new Queue<char>(line);
@@ -112,13 +101,16 @@ namespace TheTaleOfGod
             }
             else
             {
-                //isTalking = false;
+                interacting = false;
+                Game1.instance.character.isInteracting = false;
             }
         }
 
         public void Interact()
         {
             interacting = true;
+
+            LoadLines();
         }
     }
 }
