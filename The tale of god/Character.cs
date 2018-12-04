@@ -17,7 +17,7 @@ namespace TheTaleOfGod
 
         #endregion
 
-        public float speed = 5f;
+        public float speed = 10f;
         public float maxInteractionDistance = 125f;
 
         public Vector2 position;
@@ -100,6 +100,11 @@ namespace TheTaleOfGod
                 move = new Vector2(move.X / 2f, move.Y / 2f);
             }
 
+            if (Collision.Colliding_Rectangle(position, sprite.Width, sprite.Height))
+            {
+                Console.WriteLine("the player is colliding with an object in the scene");
+            }
+
             if (!isInteracting)
             {
                 Move(position + move);
@@ -119,7 +124,7 @@ namespace TheTaleOfGod
 
         public void Draw(SpriteBatch batch)
         {
-            batch.Draw(sprite, position, null, Color.White, 0f, origin, 4f, SpriteEffects.None, 0f);
+            batch.Draw(sprite, position, null, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
         }
     }
 }

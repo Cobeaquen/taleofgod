@@ -10,27 +10,24 @@ using Microsoft.Xna.Framework.Content;
 
 namespace TheTaleOfGod
 {
-    public class Wall
+    public class Wall : SceneObject
     {
-        public Vector2 position;
-        int width = 100;
-        int height = 400;
-
-        Texture2D sprite;
-
-        public Wall()
+        public Wall(Vector2 position, int width, int height) : base(width, height)
         {
-
+            this.position = position;
+        }
+        public override void Load(GraphicsDevice grphDev)
+        {
+            base.Load(grphDev);
         }
 
-        public void Load(GraphicsDevice grphDev)
+        public override void Update()
         {
-            sprite = DebugTextures.GenerateSquare(grphDev, width, height, Color.AliceBlue);
+            base.Update();
         }
-
-        public void Update()
+        public override void Draw(SpriteBatch batch)
         {
-            
+            base.Draw(batch);
         }
     }
 }

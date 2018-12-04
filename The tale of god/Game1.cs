@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using System.Collections.Generic;
 
 namespace TheTaleOfGod
 {
@@ -16,6 +17,8 @@ namespace TheTaleOfGod
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        public List<SceneObject> sceneObjects = new List<SceneObject>();
+
         public Character character = new Character();
 
         public static NPC npc;
@@ -24,12 +27,18 @@ namespace TheTaleOfGod
 
         public static Vector2 screenCenter;
 
+        public Wall testWall = new Wall(Vector2.One * 300, 100, 200);
+
         public Game1()
         {
             instance = this;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             content = Content;
+
+            sceneObjects.Add(testWall);
+
+            SetApplicationSettings();
         }
 
         protected override void Initialize()
@@ -46,6 +55,11 @@ namespace TheTaleOfGod
 
             npc = new NPC();
             npc.Load(DebugTextures.GenerateSquare(GraphicsDevice, 100, 100, Color.White));
+
+            foreach (var so in sceneObjects)
+            {
+                so.Load(GraphicsDevice); // is this function only being called on the subclass?
+            }
         }
 
         protected override void UnloadContent()
@@ -74,9 +88,21 @@ namespace TheTaleOfGod
 
             npc.Draw(spriteBatch, gameTime);
 
+            foreach (var so in sceneObjects)
+            {
+                so.Draw(spriteBatch); // is this function only being called on the subclass?
+            }
+
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void SetApplicationSettings()
+        {
+            // resolution
+            graphics.PreferredBackBufferWidth = 1500;
+            graphics.PreferredBackBufferHeight = 1000;
         }
     }
 }
