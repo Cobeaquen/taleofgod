@@ -26,7 +26,8 @@ namespace TheTaleOfGod
 
         public bool isInteracting;
 
-        private Vector2 move;
+        public Vector2 move;
+        public Vector2 previousMove;
 
         KeyboardState prevState;
 
@@ -40,10 +41,10 @@ namespace TheTaleOfGod
         {
             sprite = Game1.content.Load<Texture2D>("textures\\chr1\\chr_head");
 
-            A = Vector2.Zero;
-            B = new Vector2(sprite.Width, 0);
-            C = new Vector2(0, sprite.Width);
-            D = new Vector2(sprite.Width, sprite.Height);
+            A = Vector2.Zero; // top left
+            B = new Vector2(sprite.Width, 0); // top right
+            C = new Vector2(0, sprite.Width); // bottom left
+            D = new Vector2(sprite.Width, sprite.Height); // bottom right
 
             origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
 
@@ -100,13 +101,18 @@ namespace TheTaleOfGod
                 move = new Vector2(move.X / 2f, move.Y / 2f);
             }
 
-            if (Collision.Colliding_Rectangle(position, sprite.Width, sprite.Height))
+            Rectangle[] colliders = Collision.Colliding_Rectangle(new Rectangle((int)position.X, (int)position.Y, sprite.Width, sprite.Height));
+
+            if (colliders.Length > 0) // calculate from which side we are colliding
             {
+                var col = colliders[0];
                 Console.WriteLine("the player is colliding with an object in the scene");
+                //move = Vector2.Zero;
             }
 
             if (!isInteracting)
             {
+                previousMove = move;
                 Move(position + move);
             }
         }
@@ -124,7 +130,7 @@ namespace TheTaleOfGod
 
         public void Draw(SpriteBatch batch)
         {
-            batch.Draw(sprite, position, null, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
+            batch.Draw(sprite, position, null, Color.White, 0f, origin, 3f, SpriteEffects.None, 0f);
         }
     }
 }
