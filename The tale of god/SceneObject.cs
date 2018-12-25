@@ -30,9 +30,9 @@ namespace TheTaleOfGod
 
         }
 
-        public virtual void Load(GraphicsDevice grphDev)
+        public virtual void Load()
         {
-            sprite = DebugTextures.GenerateSquare(grphDev, width, height, Color.PowderBlue);
+            sprite = DebugTextures.GenerateRectangle(width, height, Color.PowderBlue);
             origin = new Vector2(width / 2f, height / 2f);
         }
 

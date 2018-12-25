@@ -12,6 +12,11 @@ namespace TheTaleOfGod
 {
     public class Collision
     {
+
+        public static Texture2D debugTexture;
+        public static Vector2 colPosition;
+        public static Vector2 colOrigin;
+
         /// <summary>
         /// is an object colliding with any of the scene objects?
         /// </summary>
@@ -41,8 +46,19 @@ namespace TheTaleOfGod
                 Rectangle rect2 = new Rectangle(so.position.ToPoint(), new Point(so.width, so.height));
 
                 Rectangle col = Rectangle.Intersect(rect1, rect2);
-                if (col != Rectangle.Empty)
+                if (!col.IsEmpty)
                     colliders.Add(col);
+
+                #region debug
+
+                if (Game1.instance.debugDrawing)
+                {
+                    debugTexture = DebugTextures.GenerateHollowRectangele(rect1.Width, rect1.Height, 2, Color.Red);
+                    colPosition = rect1.Center.ToVector2();
+                    colOrigin = new Vector2(debugTexture.Width / 2f, debugTexture.Height / 2f);
+                }
+
+                #endregion
 
 
                 /*if (leftEdge < so_rightEdge && rightEdge > so_leftEdge && bottomEdge > so_topEdge && topEdge < so_bottomEdge)

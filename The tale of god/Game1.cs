@@ -14,6 +14,8 @@ namespace TheTaleOfGod
 
         #endregion
 
+        public static GraphicsDevice graphicsDevice;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -28,6 +30,8 @@ namespace TheTaleOfGod
         public static Vector2 screenCenter;
 
         public Wall testWall = new Wall(Vector2.One * 300, 100, 200);
+
+        public bool debugDrawing = true;
 
         public Game1()
         {
@@ -50,15 +54,16 @@ namespace TheTaleOfGod
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             screenCenter = new Vector2(GraphicsDevice.Viewport.Width / 2f, GraphicsDevice.Viewport.Height / 2f);
+            graphicsDevice = GraphicsDevice;
 
             character.LoadCharacter();
 
             npc = new NPC();
-            npc.Load(DebugTextures.GenerateSquare(GraphicsDevice, 100, 100, Color.White));
+            npc.Load(DebugTextures.GenerateRectangle(100, 100, Color.White));
 
             foreach (var so in sceneObjects)
             {
-                so.Load(GraphicsDevice); // is this function only being called on the subclass?
+                so.Load(); // is this function only being called on the subclass?
             }
         }
 
@@ -91,6 +96,14 @@ namespace TheTaleOfGod
             foreach (var so in sceneObjects)
             {
                 so.Draw(spriteBatch); // is this function only being called on the subclass?
+            }
+
+            if (debugDrawing)
+            {
+                if (Collision.debugTexture != null)
+                {
+                    spriteBatch.Draw(Collision.debugTexture, Collision.colPosition, null, Color.Red, 0f, Collision.colOrigin, 1f, SpriteEffects.None, 0f);
+                }
             }
 
             spriteBatch.End();

@@ -16,9 +16,9 @@ namespace TheTaleOfGod
         {
             this.position = position;
         }
-        public override void Load(GraphicsDevice grphDev)
+        public override void Load()
         {
-            base.Load(grphDev);
+            base.Load();
         }
 
         public override void Update()
