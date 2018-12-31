@@ -14,7 +14,18 @@ namespace TheTaleOfGod
 
         #endregion
 
+        #region game dimensions
+
+        public static readonly int gameWidth = 640;
+        public static readonly int gameHeight = 360;
+
+        float resolutionScale;
+
+        #endregion
+
         public static GraphicsDevice graphicsDevice;
+
+        RenderTarget2D scene;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -29,7 +40,7 @@ namespace TheTaleOfGod
 
         public static Vector2 screenCenter;
 
-        public Wall testWall = new Wall(Vector2.One * 300, 100, 200);
+        public Wall testWall = new Wall(Vector2.One * 40, 40, 70);
 
         public bool debugDrawing = true;
 
@@ -48,22 +59,25 @@ namespace TheTaleOfGod
         protected override void Initialize()
         {
             base.Initialize();
+            scene = new RenderTarget2D(graphics.GraphicsDevice, gameWidth, gameHeight, false, SurfaceFormat.Color, DepthFormat.None, graphics.GraphicsDevice.PresentationParameters.MultiSampleCount, RenderTargetUsage.DiscardContents);
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            screenCenter = new Vector2(GraphicsDevice.Viewport.Width / 2f, GraphicsDevice.Viewport.Height / 2f);
+            screenCenter = new Vector2(gameWidth / 2f, gameHeight / 2f);
             graphicsDevice = GraphicsDevice;
+
+            resolutionScale = GraphicsDevice.Viewport.Width / gameWidth;
 
             character.LoadCharacter();
 
             npc = new NPC();
-            npc.Load(DebugTextures.GenerateRectangle(100, 100, Color.White));
+            npc.Load(DebugTextures.GenerateRectangle(16, 32, Color.White));
 
             foreach (var so in sceneObjects)
             {
-                so.Load(); // is this function only being called on the subclass?
+                so.Load(); // is this function only being called on the base class?
             }
         }
 
@@ -85,9 +99,13 @@ namespace TheTaleOfGod
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            graphics.GraphicsDevice.SetRenderTarget(scene);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
+            graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, DepthStencilState.None, null, null);
+
+            spriteBatch.Draw(scene, Vector2.Zero, Color.White);
 
             character.Draw(spriteBatch);
 
@@ -95,27 +113,39 @@ namespace TheTaleOfGod
 
             foreach (var so in sceneObjects)
             {
-                so.Draw(spriteBatch); // is this function only being called on the subclass?
+                so.Draw(spriteBatch); // is this function only being called on the base class?
             }
 
             if (debugDrawing)
             {
                 if (Collision.debugTexture != null)
                 {
-                    spriteBatch.Draw(Collision.debugTexture, Collision.colPosition, null, Color.Red, 0f, Collision.colOrigin, 1f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(Collision.debugTexture, Collision.colPosition, null, Color.DarkRed, 0f, Collision.colOrigin, 1f, SpriteEffects.None, 0f);
                 }
             }
 
+            //spriteBatch.DrawString(npc.font, "testing out this new rendertartget!! NICE JOB TEAM", new Vector2(Mouse.GetState().Position.X/resolutionScale, Mouse.GetState().Position.Y/resolutionScale), Color.Black);
+
             spriteBatch.End();
+            graphics.GraphicsDevice.SetRenderTarget(null);
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, DepthStencilState.None, null);
+
+            spriteBatch.Draw(scene, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, resolutionScale, SpriteEffects.None, 0f);
+            spriteBatch.End();
+
 
             base.Draw(gameTime);
         }
 
         private void SetApplicationSettings()
         {
-            // resolution
-            graphics.PreferredBackBufferWidth = 1500;
-            graphics.PreferredBackBufferHeight = 1000;
+            // screen resolution
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
+            IsMouseVisible = true;
+            graphics.SynchronizeWithVerticalRetrace = false;
+            IsFixedTimeStep = false;
         }
     }
 }

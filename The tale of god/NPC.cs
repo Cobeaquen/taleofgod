@@ -79,7 +79,7 @@ namespace TheTaleOfGod
                 Vector2 txtpos = new Vector2(Game1.screenCenter.X, 3 * Game1.screenCenter.Y / 2f);
                 float size = textSize;
 
-                batch.DrawString(font, currentLine, txtpos, Color.Black, 0f, txtorigin, size, SpriteEffects.None, 0f);
+                batch.DrawString(font, currentLine, txtpos, Color.Black, 0f, txtorigin, 1f, SpriteEffects.None, 0f);
             }
         }
 

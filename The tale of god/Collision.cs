@@ -12,7 +12,7 @@ namespace TheTaleOfGod
 {
     public class Collision
     {
-
+        // latest collision test
         public static Texture2D debugTexture;
         public static Vector2 colPosition;
         public static Vector2 colOrigin;
@@ -43,19 +43,27 @@ namespace TheTaleOfGod
                 float so_rightEdge = so.position.X + so.width / 2f;
                 */
 
-                Rectangle rect2 = new Rectangle(so.position.ToPoint(), new Point(so.width, so.height));
+                Rectangle rect2 = new Rectangle((int)so.position.X - so.width/2, (int)so.position.Y - so.height/2, so.width, so.height);
 
                 Rectangle col = Rectangle.Intersect(rect1, rect2);
                 if (!col.IsEmpty)
+                {
                     colliders.Add(col);
+                    if (Game1.instance.debugDrawing)
+                    {
+                        debugTexture = DebugTextures.GenerateHollowRectangele(col.Width, col.Height, 1, Color.White);
+                        colPosition = col.Location.ToVector2();
+                        colOrigin = new Vector2(debugTexture.Width / 2f, debugTexture.Height / 2f);
+                    }
+                }
 
                 #region debug
 
                 if (Game1.instance.debugDrawing)
                 {
-                    debugTexture = DebugTextures.GenerateHollowRectangele(rect1.Width, rect1.Height, 2, Color.Red);
-                    colPosition = rect1.Center.ToVector2();
-                    colOrigin = new Vector2(debugTexture.Width / 2f, debugTexture.Height / 2f);
+                    //debugTexture = DebugTextures.GenerateHollowRectangele(rect1.Width, rect1.Height, 2, Color.White);
+                    //colPosition = rect1.Location.ToVector2();
+                    //colOrigin = new Vector2(debugTexture.Width / 2f, debugTexture.Height / 2f);
                 }
 
                 #endregion

@@ -29,11 +29,11 @@ namespace TheTaleOfGod
 
             Color[] clrs = new Color[width * height];
 
-            for (int y = 0; y < width; y++)
+            for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
-                    if (x >= edgeSize & x < width - edgeSize && y >= edgeSize & y < height - edgeSize)
+                    if (x >= edgeSize && x < width - edgeSize && y >= edgeSize && y < height - edgeSize)
                     {
                         clrs[y * width + x] = Color.Transparent;
                     }
