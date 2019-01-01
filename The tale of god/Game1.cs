@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
+using System;
 
 namespace TheTaleOfGod
 {
@@ -19,8 +20,15 @@ namespace TheTaleOfGod
         public static readonly int gameWidth = 640;
         public static readonly int gameHeight = 360;
 
-        float resolutionScale;
+        public float resolutionScale;
+        public float resolutionScale2;
 
+        #endregion
+
+        #region fps
+        double totalSeconds;
+        int frames;
+        float fps;
         #endregion
 
         public static GraphicsDevice graphicsDevice;
@@ -58,8 +66,11 @@ namespace TheTaleOfGod
 
         protected override void Initialize()
         {
+            PresentationParameters pp = graphics.GraphicsDevice.PresentationParameters;
+
+            scene = new RenderTarget2D(graphics.GraphicsDevice, gameWidth, gameHeight, false, SurfaceFormat.Color, DepthFormat.None, pp.MultiSampleCount, RenderTargetUsage.DiscardContents);
+
             base.Initialize();
-            scene = new RenderTarget2D(graphics.GraphicsDevice, gameWidth, gameHeight, false, SurfaceFormat.Color, DepthFormat.None, graphics.GraphicsDevice.PresentationParameters.MultiSampleCount, RenderTargetUsage.DiscardContents);
         }
 
         protected override void LoadContent()
@@ -69,6 +80,7 @@ namespace TheTaleOfGod
             graphicsDevice = GraphicsDevice;
 
             resolutionScale = GraphicsDevice.Viewport.Width / gameWidth;
+            resolutionScale2 = gameWidth / gameHeight;
 
             character.LoadCharacter();
 
@@ -94,6 +106,21 @@ namespace TheTaleOfGod
             character.Update(gameTime);
             npc.Update(gameTime);
 
+            #region fps
+
+            totalSeconds += gameTime.ElapsedGameTime.Ticks / 10000000f;
+            frames++;
+            fps = (1f / (float)totalSeconds) * frames;
+
+            if ((int)totalSeconds > 1)
+            {
+                frames = 0;
+                totalSeconds = 0;
+                Console.WriteLine(fps);
+            }
+
+            #endregion
+
             base.Update(gameTime);
         }
 
@@ -103,7 +130,7 @@ namespace TheTaleOfGod
 
             graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, DepthStencilState.None, null, null);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, character.camera.view);
 
             spriteBatch.Draw(scene, Vector2.Zero, Color.White);
 
@@ -124,16 +151,19 @@ namespace TheTaleOfGod
                 }
             }
 
-            //spriteBatch.DrawString(npc.font, "testing out this new rendertartget!! NICE JOB TEAM", new Vector2(Mouse.GetState().Position.X/resolutionScale, Mouse.GetState().Position.Y/resolutionScale), Color.Black);
-
             spriteBatch.End();
             graphics.GraphicsDevice.SetRenderTarget(null);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, DepthStencilState.None, null);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
             spriteBatch.Draw(scene, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, resolutionScale, SpriteEffects.None, 0f);
             spriteBatch.End();
 
+            spriteBatch.Begin(); // drawing ui
+
+            //spriteBatch.DrawString(npc.font, "testing out this new rendertartget!! NICE JOB TEAM", new Vector2( Mouse.GetState().Position.X, Mouse.GetState().Position.Y), Color.Black);
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
@@ -146,6 +176,7 @@ namespace TheTaleOfGod
             IsMouseVisible = true;
             graphics.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
+            graphics.IsFullScreen = false;
         }
     }
 }

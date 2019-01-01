@@ -18,10 +18,12 @@ namespace TheTaleOfGod
         public float damage = 10f;
         public float fireRate = 1f;
         public bool autoFire = false;
+        public Vector2 offsetPosition = new Vector2(0, -10);
 
         public Bullet bullet;
 
         public Vector2 position;
+        public float rotation;
 
         public Gun(float damage, float fireRate, bool autoFire, Vector2 position, Bullet bullet)
         {
@@ -34,14 +36,15 @@ namespace TheTaleOfGod
 
         public virtual void Load()
         {
-            //sprite = Game1.content.Load<Texture2D>("gun");
-            sprite = DebugTextures.GenerateRectangle(2, 2, Color.DarkGreen);
-            origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
+            sprite = Game1.content.Load<Texture2D>("textures\\laser_pistol");
+            //sprite = DebugTextures.GenerateRectangle(5, 10, Color.DarkGreen);
+            origin = new Vector2(0, sprite.Height);
             bullet.Load();
         }
-        public virtual void Update(GameTime gameTime, Vector2 position)
+        public virtual void Update(GameTime gameTime, Vector2 position, float rotation)
         {
-            this.position = position;
+            this.position = position + offsetPosition;
+            this.rotation = rotation;
         }
         public virtual void Fire()
         {
@@ -49,7 +52,7 @@ namespace TheTaleOfGod
         }
         public virtual void Draw(SpriteBatch batch)
         {
-            batch.Draw(sprite, position, null, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
+            batch.Draw(sprite, position, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
         }
     }
 }

@@ -13,6 +13,13 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin fonts/npc1.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/npc1.spritefont
+
 #begin textures/chr1/chr_head.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -25,10 +32,15 @@
 /processorParam:TextureFormat=Color
 /build:textures/chr1/chr_head.png
 
-#begin fonts/npc1.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
+#begin textures/laser_pistol.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:fonts/npc1.spritefont
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/laser_pistol.png
 

@@ -21,6 +21,7 @@ namespace TheTaleOfGod
         public float maxInteractionDistance = 125f;
 
         public Vector2 position;
+        public float rotation;
         public Texture2D sprite; // customize this with clothes
         public Vector2 origin;
 
@@ -31,15 +32,12 @@ namespace TheTaleOfGod
         public Vector2 move;
         public Vector2 previousMove;
 
+        public Camera camera;
+
         KeyboardState prevKeyState;
         MouseState prevMouseState;
 
         private float timeToFire;
-
-        double totalSeconds;
-        int prevTotalSeconds;
-        int frames;
-        float fps;
 
         public Character()
         {
@@ -47,6 +45,7 @@ namespace TheTaleOfGod
             position = new Vector2(100, 100);
 
             gun = new Gun(10f, 1f, true, position, new Bullet(10f, BulletType.Normal));
+            //camera = new Camera(Game1.graphicsDevice.Viewport);//Vector2.Zero, -5000, 5000, -5000, 5000);
         }
 
         public void LoadCharacter()
@@ -62,6 +61,7 @@ namespace TheTaleOfGod
             origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
 
             gun.Load();
+            camera = new Camera(new Vector2(0, 0), -500, 500, -500, 500);
 
             prevKeyState = Keyboard.GetState();
             prevMouseState = Mouse.GetState();
@@ -94,6 +94,16 @@ namespace TheTaleOfGod
             {
                 move.Y += speed;
             }
+            #endregion
+
+            camera.MoveTowards(position, gameTime);
+
+            #region rotation
+
+            Vector2 mouse = camera.WindowToWorldSpace(mouseState.Position.ToVector2()) - position;
+
+            rotation = (float)Math.Atan2(mouse.Y, mouse.X);
+
             #endregion
 
             #region interacting
@@ -156,21 +166,7 @@ namespace TheTaleOfGod
                 Move(position + move);
             }
 
-            #region fps
-
-            totalSeconds += gameTime.ElapsedGameTime.Ticks / 10000000f;
-            frames++;
-            fps = (1f/(float)totalSeconds) * frames;
-
-            if ((int)totalSeconds - prevTotalSeconds > 1)
-            {
-                prevTotalSeconds = (int)totalSeconds;
-                Console.WriteLine(fps);
-            }
-
-            #endregion
-
-            gun.Update(gameTime, position);
+            gun.Update(gameTime, position, rotation);
         }
 
         public void Move(Vector2 newPos)
@@ -186,7 +182,7 @@ namespace TheTaleOfGod
 
         public void Draw(SpriteBatch batch)
         {
-            batch.Draw(sprite, position, null, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
+            batch.Draw(sprite, position, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
             gun.Draw(batch);
         }
     }
