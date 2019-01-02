@@ -17,7 +17,7 @@ namespace TheTaleOfGod
 
         #endregion
 
-        public float speed = 4f; // make sure it is even (it is divided by two when moving diagonally) - thus we aren't moving half a pixel
+        public float speed = 3f;
         public float maxInteractionDistance = 125f;
 
         public Vector2 position;
@@ -39,13 +39,14 @@ namespace TheTaleOfGod
 
         private float timeToFire;
 
+        CollisionDirection colDir;
+
         public Character()
         {
             isInteracting = false;
             position = new Vector2(100, 100);
 
-            gun = new Gun(10f, 10f, true, position, new Bullet(10f, BulletType.Normal));
-            //camera = new Camera(Game1.graphicsDevice.Viewport);//Vector2.Zero, -5000, 5000, -5000, 5000);
+            gun = new Gun(10f, 5f, true, position, new Bullet(10f, BulletType.Normal));
         }
 
         public void LoadCharacter()
@@ -78,22 +79,79 @@ namespace TheTaleOfGod
 
             #region move
 
-            if (keyState.IsKeyDown(Keys.D))
+            // collision detection
+
+            Rectangle playerRect = new Rectangle((int)position.X - sprite.Width / 2, (int)position.Y - sprite.Height / 2, sprite.Width, sprite.Height);
+            Rectangle[] colliders = Collision.Colliding_Rectangle(playerRect);
+
+            if (keyState.IsKeyDown(Keys.D) && colDir != CollisionDirection.Left)
             {
                 move.X += speed;
             }
-            else if (keyState.IsKeyDown(Keys.A))
+            else if (keyState.IsKeyDown(Keys.A) && colDir != CollisionDirection.Right)
             {
                 move.X -= speed;
             }
-            if (keyState.IsKeyDown(Keys.W))
+            if (keyState.IsKeyDown(Keys.W) && colDir != CollisionDirection.Bottom)
             {
                 move.Y -= speed;
             }
-            else if (keyState.IsKeyDown(Keys.S))
+            else if (keyState.IsKeyDown(Keys.S) && colDir != CollisionDirection.Top)
             {
                 move.Y += speed;
             }
+
+            if (move.Length() > speed)
+            {
+                move = new Vector2(move.X / 2f, move.Y / 2f);
+            }
+            move *= gameTime.ElapsedGameTime.Ticks / 100000f;
+
+            if (colliders != null) // calculate from which side we are colliding
+            {
+                foreach (var col in colliders)
+                {
+                    if (playerRect.Right > col.Right && col.Height > col.Width) // colliding from the right
+                    {
+                        if (!(move.X > 0))
+                        {
+                            move.X = col.Width - 1f;
+                        }
+                        colDir = CollisionDirection.Right;
+                    }
+                    else if (playerRect.Left < col.Left && col.Height > col.Width) // colliding from the left
+                    {
+                        if (!(move.X < 0))
+                        {
+                            move.X = 1f - col.Width;
+                        }
+                        colDir = CollisionDirection.Left;
+                    }
+                    else if (playerRect.Top < col.Top) // colliding from the top
+                    {
+                        if (!(move.Y < 0))
+                        {
+                            move.Y = 1f - col.Height;
+                        }
+                        colDir = CollisionDirection.Top;
+                    }
+                    else if (playerRect.Bottom > col.Bottom) // colliding from the bottom
+                    {
+                        if (!(move.Y > 0))
+                        {
+                            move.Y = col.Height - 1f;
+                        }
+                        colDir = CollisionDirection.Bottom;
+                    }
+                }
+
+                //Console.WriteLine("the player is colliding with an object");
+            }
+            else
+            {
+                colDir = CollisionDirection.None;
+            }
+
             #endregion
 
             camera.MoveTowards(position, gameTime);
@@ -102,6 +160,7 @@ namespace TheTaleOfGod
 
             Vector2 mouseDirection = camera.WindowToWorldSpace(mouseState.Position.ToVector2()) - position;
             mouseDirection.Normalize();
+
             rotation = (float)Math.Atan2(mouseDirection.Y, mouseDirection.X) - MathHelper.PiOver2;
 
             #endregion
@@ -146,25 +205,8 @@ namespace TheTaleOfGod
 
             #endregion
 
-            if (move.Length() > speed)
-            {
-                move = new Vector2(move.X / 2f, move.Y / 2f);
-            }
-            move *= gameTime.ElapsedGameTime.Ticks / 100000f;
-
-            Rectangle[] colliders = Collision.Colliding_Rectangle(new Rectangle((int)position.X, (int)position.Y, sprite.Width, sprite.Height));
-
-            if (colliders.Length > 0) // calculate from which side we are colliding
-            {
-                var col = colliders[0];
-                //Console.WriteLine("the player is colliding with an object");
-            }
-
-            if (!isInteracting)
-            {
-                previousMove = move;
-                Move(position + move);
-            }
+            previousMove = move;
+            Move(position + move);
 
             gun.Update(gameTime, position, rotation, mouseDirection);
         }

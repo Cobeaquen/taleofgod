@@ -48,7 +48,7 @@ namespace TheTaleOfGod
 
         public static Vector2 screenCenter;
 
-        public Wall testWall = new Wall(Vector2.One * 40, 40, 70);
+        public Wall testWall = new Wall(Vector2.One * 40, 70, 100);
 
         public bool debugDrawing = true;
 
@@ -103,7 +103,10 @@ namespace TheTaleOfGod
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            character.Update(gameTime);
+            if (!character.isInteracting)
+            {
+                character.Update(gameTime);
+            }
             npc.Update(gameTime);
 
             #region fps
@@ -159,7 +162,7 @@ namespace TheTaleOfGod
 
             spriteBatch.Begin(); // drawing ui
 
-            spriteBatch.DrawString(npc.font, "testing out this new rendertartget!! NICE JOB TEAM", new Vector2( Mouse.GetState().Position.X, Mouse.GetState().Position.Y), Color.Black);
+            //spriteBatch.DrawString(npc.font, "testing out this new rendertartget!! NICE JOB TEAM", new Vector2( Mouse.GetState().Position.X, Mouse.GetState().Position.Y), Color.Black);
 
             spriteBatch.End();
 

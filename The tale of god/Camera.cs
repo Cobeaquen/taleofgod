@@ -43,7 +43,7 @@ namespace TheTaleOfGod
             }
             else
             {
-                position = Vector2.Lerp(position, target, 1f/gameTime.ElapsedGameTime.Ticks * 5);
+                position = Vector2.Lerp(position, target, gameTime.ElapsedGameTime.Ticks/1000000f);
             }
             HitMapWall();
             SetDisplay(position);

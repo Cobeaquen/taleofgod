@@ -20,7 +20,6 @@ namespace TheTaleOfGod
         {
             base.Load();
         }
-
         public override void Update()
         {
             base.Update();

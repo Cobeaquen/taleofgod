@@ -33,7 +33,7 @@ namespace TheTaleOfGod
             float bottomEdge = position.Y + height / 2f;
             */
 
-            List<Rectangle> colliders = new List<Rectangle>();
+            List<Rectangle> colliders = null;
 
             foreach (var so in Game1.instance.sceneObjects) // loop through every possible collidable object (has to be more efficent in the fututre)
             {
@@ -48,11 +48,16 @@ namespace TheTaleOfGod
                 Rectangle col = Rectangle.Intersect(rect1, rect2);
                 if (!col.IsEmpty)
                 {
+                    if (colliders == null)
+                    {
+                        colliders = new List<Rectangle>();
+                    }
+
                     colliders.Add(col);
                     if (Game1.instance.debugDrawing)
                     {
                         debugTexture = DebugTextures.GenerateHollowRectangele(col.Width, col.Height, 1, Color.White);
-                        colPosition = col.Location.ToVector2();
+                        colPosition = col.Center.ToVector2();
                         colOrigin = new Vector2(debugTexture.Width / 2f, debugTexture.Height / 2f);
                     }
                 }
@@ -94,7 +99,13 @@ namespace TheTaleOfGod
                     return true;
                 }*/
             }
+            if (colliders == null)
+                return null;
             return colliders.ToArray();
         }
+    }
+    public enum CollisionDirection
+    {
+        None, Top, Bottom, Right, Left
     }
 }

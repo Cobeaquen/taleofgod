@@ -61,6 +61,10 @@ namespace TheTaleOfGod
                     {
                         bullets.RemoveAt(i);
                     }
+                    else if (Collision.Colliding_Rectangle(new Rectangle(bullets[i].position.ToPoint(), new Point(bullets[i].sprite.Width, bullets[i].sprite.Height))) != null)
+                    {
+                        bullets.RemoveAt(i);
+                    }
                 }
             }
         }
