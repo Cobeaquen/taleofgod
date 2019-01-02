@@ -132,8 +132,6 @@ namespace TheTaleOfGod
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, character.camera.view);
 
-            spriteBatch.Draw(scene, Vector2.Zero, Color.White);
-
             character.Draw(spriteBatch);
 
             npc.Draw(spriteBatch, gameTime);
@@ -161,12 +159,23 @@ namespace TheTaleOfGod
 
             spriteBatch.Begin(); // drawing ui
 
-            //spriteBatch.DrawString(npc.font, "testing out this new rendertartget!! NICE JOB TEAM", new Vector2( Mouse.GetState().Position.X, Mouse.GetState().Position.Y), Color.Black);
+            spriteBatch.DrawString(npc.font, "testing out this new rendertartget!! NICE JOB TEAM", new Vector2( Mouse.GetState().Position.X, Mouse.GetState().Position.Y), Color.Black);
 
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
+
+        public static Vector2 AngleToVector(float angle)
+        {
+            return new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
+        }
+
+        public static float VectorToAngle(Vector2 vector)
+        {
+            return (float)Math.Atan2(vector.Y, vector.X);
+        }
+
 
         private void SetApplicationSettings()
         {

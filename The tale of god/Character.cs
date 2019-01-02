@@ -44,7 +44,7 @@ namespace TheTaleOfGod
             isInteracting = false;
             position = new Vector2(100, 100);
 
-            gun = new Gun(10f, 1f, true, position, new Bullet(10f, BulletType.Normal));
+            gun = new Gun(10f, 10f, true, position, new Bullet(10f, BulletType.Normal));
             //camera = new Camera(Game1.graphicsDevice.Viewport);//Vector2.Zero, -5000, 5000, -5000, 5000);
         }
 
@@ -100,9 +100,9 @@ namespace TheTaleOfGod
 
             #region rotation
 
-            Vector2 mouse = camera.WindowToWorldSpace(mouseState.Position.ToVector2()) - position;
-
-            rotation = (float)Math.Atan2(mouse.Y, mouse.X);
+            Vector2 mouseDirection = camera.WindowToWorldSpace(mouseState.Position.ToVector2()) - position;
+            mouseDirection.Normalize();
+            rotation = (float)Math.Atan2(mouseDirection.Y, mouseDirection.X) - MathHelper.PiOver2;
 
             #endregion
 
@@ -130,7 +130,7 @@ namespace TheTaleOfGod
                     if (gun.autoFire || prevMouseState.LeftButton == ButtonState.Released) // fire here
                     {
                         timeToFire = 1f / gun.fireRate;
-                        gun.Fire();
+                        gun.Fire(mouseDirection);
                     }
                 }
             }
@@ -157,7 +157,7 @@ namespace TheTaleOfGod
             if (colliders.Length > 0) // calculate from which side we are colliding
             {
                 var col = colliders[0];
-                //Console.WriteLine("the player is colliding with an object in the scene");
+                //Console.WriteLine("the player is colliding with an object");
             }
 
             if (!isInteracting)
@@ -166,7 +166,7 @@ namespace TheTaleOfGod
                 Move(position + move);
             }
 
-            gun.Update(gameTime, position, rotation);
+            gun.Update(gameTime, position, rotation, mouseDirection);
         }
 
         public void Move(Vector2 newPos)

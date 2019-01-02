@@ -18,12 +18,15 @@ namespace TheTaleOfGod
         public float damage = 10f;
         public float fireRate = 1f;
         public bool autoFire = false;
-        public Vector2 offsetPosition = new Vector2(0, -10);
+        public float positionOffset = 10f;
 
         public Bullet bullet;
+        public float bulletDestroyTime;
 
         public Vector2 position;
         public float rotation;
+
+        public List<Bullet> bullets;
 
         public Gun(float damage, float fireRate, bool autoFire, Vector2 position, Bullet bullet)
         {
@@ -36,23 +39,48 @@ namespace TheTaleOfGod
 
         public virtual void Load()
         {
-            sprite = Game1.content.Load<Texture2D>("textures\\laser_pistol");
-            //sprite = DebugTextures.GenerateRectangle(5, 10, Color.DarkGreen);
-            origin = new Vector2(0, sprite.Height);
-            bullet.Load();
+            //sprite = Game1.content.Load<Texture2D>("textures\\laser_pistol");
+            sprite = DebugTextures.GenerateRectangle(5, 10, Color.DarkGreen);
+            origin = new Vector2(sprite.Width/2f, sprite.Height/2f);
+
+            bullets = new List<Bullet>();
+
+
         }
-        public virtual void Update(GameTime gameTime, Vector2 position, float rotation)
+        public virtual void Update(GameTime gameTime, Vector2 position, float rotation, Vector2 lookDirection)
         {
-            this.position = position + offsetPosition;
+            this.position = position + (lookDirection * positionOffset);
             this.rotation = rotation;
+
+            if (bullets.Count > 0)
+            {
+                for (int i = 0; i < bullets.Count; i++)
+                {
+                    bullets[i].Update(gameTime);
+                    if (bullets[i].destroyTime < 0)
+                    {
+                        bullets.RemoveAt(i);
+                    }
+                }
+            }
         }
-        public virtual void Fire()
+        public virtual void Fire(Vector2 lookDirection)
         {
             Console.WriteLine("FIRED");
+            bullets.Add(Bullet.SpawnBullet(bullet, position, rotation, lookDirection));
         }
         public virtual void Draw(SpriteBatch batch)
         {
             batch.Draw(sprite, position, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            foreach (var b in bullets)
+            {
+                b.Draw(batch);
+            }
+        }
+
+        public static void DestroyBullet(Bullet b)
+        {
+            
         }
     }
 }

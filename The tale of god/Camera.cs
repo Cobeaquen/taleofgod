@@ -79,18 +79,14 @@ namespace TheTaleOfGod
         }
         public Vector2 WindowToWorldSpace(Vector2 windowPosition)
         {
-            // First, must go from window -> camera space
             Vector2 cameraSpace = WindowToCameraSpace(windowPosition);
 
-            // And then, camera -> world space
             return Vector2.Transform(cameraSpace, Matrix.Invert(view));
         }
 
         public Vector2 WindowToCameraSpace(Vector2 windowPosition)
         {
-            // Scale for camera bounds that vary from window
-            // Also, must adjust for translation if camera isn't at 0, 0 in screen space (such as a mini-map)
-            return (windowPosition / Game1.instance.resolutionScale);
+            return windowPosition / Game1.instance.resolutionScale;
         }
 
         public bool HasMoved(float distance)
