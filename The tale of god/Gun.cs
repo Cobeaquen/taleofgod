@@ -57,13 +57,32 @@ namespace TheTaleOfGod
                 for (int i = 0; i < bullets.Count; i++)
                 {
                     bullets[i].Update(gameTime);
+
                     if (bullets[i].destroyTime < 0)
                     {
                         bullets.RemoveAt(i);
                     }
-                    else if (Collision.Colliding_Rectangle(new Rectangle(bullets[i].position.ToPoint(), new Point(bullets[i].sprite.Width, bullets[i].sprite.Height))) != null)
+                    else if (Collision.CollidingRectangle(new Rectangle((int)bullets[i].position.X - bullets[i].sprite.Width/2, (int)bullets[i].position.Y - bullets[i].sprite.Height/2, bullets[i].sprite.Width, bullets[i].sprite.Height)) != null)
                     {
                         bullets.RemoveAt(i);
+                    }
+                    else
+                    {
+                        Vector2 direction = bullets[i].position - bullets[i].previousPosition;
+                        Vector2 bulletMove = bullets[i].forwardDirection * direction.Length();
+                        if ((int)Math.Abs(direction.X) < 1f)
+                        {
+                            direction.X = 1;
+                        }
+                        if ((int)Math.Abs(direction.Y) < 1f)
+                        {
+                            direction.Y = 1;
+                        }
+                        if (Collision.CollidingRectangle(new Rectangle((bullets[i].position - bulletMove).ToPoint(), new Point((int)Math.Abs(direction.X), (int)Math.Abs(direction.Y)))) != null)
+                        {
+                            bullets.RemoveAt(i);
+                            Console.WriteLine("bullet avoided target on a frame");
+                        }
                     }
                 }
             }

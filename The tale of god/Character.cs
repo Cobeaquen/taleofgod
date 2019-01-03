@@ -77,12 +77,10 @@ namespace TheTaleOfGod
 
             #region input
 
-            #region move
-
-            // collision detection
+            #region movement and collision
 
             Rectangle playerRect = new Rectangle((int)position.X - sprite.Width / 2, (int)position.Y - sprite.Height / 2, sprite.Width, sprite.Height);
-            Rectangle[] colliders = Collision.Colliding_Rectangle(playerRect);
+            Rectangle[] colliders = Collision.CollidingRectangle(playerRect);
 
             if (keyState.IsKeyDown(Keys.D) && colDir != CollisionDirection.Left)
             {

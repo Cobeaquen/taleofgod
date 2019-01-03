@@ -13,6 +13,7 @@ namespace TheTaleOfGod
     public class Bullet
     {
         public Vector2 position;
+        public Vector2 previousPosition;
         public float rotation;
 
         public float destroyTime = 2f;
@@ -40,7 +41,7 @@ namespace TheTaleOfGod
 
         public void Initialize (Vector2 position, float rotation, Vector2 forwardDirection)
         {
-            sprite = DebugTextures.GenerateRectangle(10, 4, Color.Black);
+            sprite = DebugTextures.GenerateRectangle(5, 2, Color.Black);
             origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
 
             this.position = position;
@@ -59,6 +60,7 @@ namespace TheTaleOfGod
         public void Update(GameTime gameTime)
         {
             Vector2 move = forwardDirection * velocity * gameTime.ElapsedGameTime.Ticks/100000f;
+            previousPosition = position;
             position += move;
 
             destroyTime -= gameTime.ElapsedGameTime.Ticks / 10000000f;

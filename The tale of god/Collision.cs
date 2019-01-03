@@ -25,7 +25,7 @@ namespace TheTaleOfGod
         /// <param name="height"></param>
         /// <returns></returns>
 
-        public static Rectangle[] Colliding_Rectangle(Rectangle rect1)
+        public static Rectangle[] CollidingRectangle(Rectangle rect1)
         {
             /*float topEdge = position.Y - height / 2f;
             float rightEdge = position.X + width / 2f;
@@ -44,6 +44,10 @@ namespace TheTaleOfGod
                 */
 
                 Rectangle rect2 = new Rectangle((int)so.position.X - so.width/2, (int)so.position.Y - so.height/2, so.width, so.height);
+
+                debugTexture = DebugTextures.GenerateHollowRectangele(rect1.Width, rect1.Height, 1, Color.White);
+                colPosition = rect1.Center.ToVector2();
+                colOrigin = new Vector2(debugTexture.Width / 2f, debugTexture.Height / 2f);
 
                 Rectangle col = Rectangle.Intersect(rect1, rect2);
                 if (!col.IsEmpty)

@@ -48,7 +48,7 @@ namespace TheTaleOfGod
 
         public static Vector2 screenCenter;
 
-        public Wall testWall = new Wall(Vector2.One * 40, 70, 100);
+        public Wall testWall = new Wall(Vector2.One * 40, 3, 100);
 
         public bool debugDrawing = true;
 
