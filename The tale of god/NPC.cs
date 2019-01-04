@@ -12,41 +12,31 @@ namespace TheTaleOfGod
 {
     public class NPC
     {
+        public static List<NPC> npcs = new List<NPC>();
+
         public Vector2 position;
         public Vector2 origin;
         public Texture2D sprite;
-        public float textSize = 1f;
 
         public bool interacting;
 
-        public SpriteFont font;
-
-        Queue<string> dialogue = new Queue<string>();
-
-        private string currentLine = "";
-        string line = "";
-
-        Queue<char> characters = new Queue<char>();
+        Dialogue dialogue;
 
         KeyboardState prevState;
 
-        public NPC()
+        public NPC(Vector2 position, params string[] speechLines)
         {
             interacting = false;
-            position = Game1.screenCenter;
-        }
-
-        public void LoadLines() // initializes the speech of the npc
-        {
-            dialogue.Enqueue("are you new here?\ni have not seen you before...");
-            dialogue.Enqueue("anyway have a good day");
+            this.position = position;
+            dialogue = new Dialogue(speechLines, 1f, Game1.content.Load<SpriteFont>("fonts\\npc1"));
+            npcs.Add(this);
         }
 
         public void Load(Texture2D sprite)
         {
             this.sprite = sprite;
-            font = Game1.content.Load<SpriteFont>("fonts\\npc1");
             origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
+            dialogue.LoadSpeech();
             prevState = Keyboard.GetState();
         }
 
@@ -58,7 +48,8 @@ namespace TheTaleOfGod
             {
                 if (state.IsKeyDown(Keys.Enter) & !prevState.IsKeyDown(Keys.Enter))
                 {
-                    AdvanceLine();
+                    interacting = dialogue.AdvanceLine();
+                    Game1.instance.character.isInteracting = interacting;
                 }
             }
 
@@ -71,46 +62,21 @@ namespace TheTaleOfGod
 
             if (interacting)
             {
-                if (characters.Count > 0)
-                    AdvanceCharacter();
-
-                Vector2 txtsize = font.MeasureString(line);
-                Vector2 txtorigin = new Vector2(txtsize.X / 2f, txtsize.Y / 2f);
-                Vector2 txtpos = new Vector2(Game1.screenCenter.X, 3 * Game1.screenCenter.Y / 2f);
-                float size = textSize;
-
-                batch.DrawString(font, currentLine, txtpos, Color.Black, 0f, txtorigin, 1f, SpriteEffects.None, 0f);
+                dialogue.DrawDialogueBox(batch);
             }
         }
-
-        private void AdvanceCharacter()
+        public void DrawDialogue(SpriteBatch batch, GameTime gameTime)
         {
-            char c = characters.Dequeue();
-            currentLine += c;
-        }
-
-        private void AdvanceLine()
-        {
-            if (dialogue.Count > 0)
+            if (interacting)
             {
-                line = dialogue.Dequeue();
-
-                characters = new Queue<char>(line);
-
-                currentLine = "";
-            }
-            else
-            {
-                interacting = false;
-                Game1.instance.character.isInteracting = false;
+                dialogue.Draw(batch, gameTime);
             }
         }
 
         public void Interact()
         {
             interacting = true;
-
-            LoadLines();
+            dialogue.LoadSpeech();
         }
     }
 }

@@ -49,8 +49,12 @@ namespace TheTaleOfGod
         }
         public virtual void Update(GameTime gameTime, Vector2 position, float rotation, Vector2 lookDirection)
         {
-            this.position = position + (lookDirection * positionOffset);
+            this.position = position + lookDirection * positionOffset;
             this.rotation = rotation;
+
+            // remember to upgrade this to use raycasts later, this is an unreliable method - it will cause issues on lower framerates (plus raycasts are needed for laser guns)
+
+            #region bullet movement and collisions
 
             if (bullets.Count > 0)
             {
@@ -62,6 +66,7 @@ namespace TheTaleOfGod
                     {
                         bullets.RemoveAt(i);
                     }
+                    // this collision rectangle does not change according to its rotation - NEED RAYCASTS (I'M TAKING TIME TO DEVELOP RETARDED METHODS JUST TO THEN REMOVE THEM AND IMPLEMENT ANOTHER METHOD)
                     else if (Collision.CollidingRectangle(new Rectangle((int)bullets[i].position.X - bullets[i].sprite.Width/2, (int)bullets[i].position.Y - bullets[i].sprite.Height/2, bullets[i].sprite.Width, bullets[i].sprite.Height)) != null)
                     {
                         bullets.RemoveAt(i);
@@ -78,7 +83,23 @@ namespace TheTaleOfGod
                         {
                             direction.Y = 1;
                         }
-                        if (Collision.CollidingRectangle(new Rectangle((bullets[i].position - bulletMove).ToPoint(), new Point((int)Math.Abs(direction.X), (int)Math.Abs(direction.Y)))) != null)
+
+                        Vector2 pos = bullets[i].position - bulletMove;
+
+                        if (direction.Y < 0 & direction.X > 0)
+                        {
+                            pos.Y -= Math.Abs(direction.Y);
+                        }
+                        else if (direction.Y > 0 & direction.X < 0)
+                        {
+                            pos.X -= Math.Abs(direction.X);
+                        }
+                        else if (direction.Y < 0 & direction.X < 0)
+                        {
+                            pos.X -= Math.Abs(direction.X);
+                            pos.Y -= Math.Abs(direction.Y);
+                        }
+                        if (Collision.CollidingRectangle(new Rectangle(pos.ToPoint(), new Point((int)Math.Abs(direction.X), (int)Math.Abs(direction.Y)))) != null)
                         {
                             bullets.RemoveAt(i);
                             Console.WriteLine("bullet avoided target on a frame");
@@ -86,6 +107,7 @@ namespace TheTaleOfGod
                     }
                 }
             }
+            #endregion
         }
         public virtual void Fire(Vector2 lookDirection)
         {

@@ -41,7 +41,7 @@ namespace TheTaleOfGod
 
         public void Initialize (Vector2 position, float rotation, Vector2 forwardDirection)
         {
-            sprite = DebugTextures.GenerateRectangle(5, 2, Color.Black);
+            sprite = DebugTextures.GenerateRectangle(8, 3, Color.Black);
             origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
 
             this.position = position;

@@ -85,3 +85,4 @@ D:\taleofgod\The tale of god\obj\Debug\TheTaleOfGod.csproj.CopyComplete
 D:\taleofgod\The tale of god\obj\Debug\The tale of god.exe
 D:\taleofgod\The tale of god\obj\Debug\The tale of god.pdb
 C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\textures\laser_pistol.xnb
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\textures\ui\dialogue_box.xnb

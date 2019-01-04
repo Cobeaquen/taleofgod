@@ -17,8 +17,8 @@ namespace TheTaleOfGod
 
         #endregion
 
-        public float speed = 3f;
-        public float maxInteractionDistance = 125f;
+        public float speed = 2.5f;
+        public float maxInteractionDistance = 40f;
 
         public Vector2 position;
         public float rotation;
@@ -142,13 +142,14 @@ namespace TheTaleOfGod
                         colDir = CollisionDirection.Bottom;
                     }
                 }
-
-                //Console.WriteLine("the player is colliding with an object");
             }
             else
             {
                 colDir = CollisionDirection.None;
             }
+
+            previousMove = move;
+            Move(position + move);
 
             #endregion
 
@@ -167,19 +168,28 @@ namespace TheTaleOfGod
 
             if (keyState.IsKeyDown(Keys.Enter) & !prevKeyState.IsKeyDown(Keys.Enter))
             {
-                if (!Game1.npc.interacting)
+                foreach (var npc in NPC.npcs)
                 {
-                    float dist = Vector2.Distance(Game1.npc.position, position);
-                    if (dist < maxInteractionDistance)
-                        Interact(Game1.npc);
-                    else
-                        Console.WriteLine("too far away to interact");
+                    if (!npc.interacting)
+                    {
+                        float dist = Vector2.Distance(npc.position, position);
+                        if (dist < maxInteractionDistance)
+                        {
+                            Interact(npc);
+                            break;
+                        }
+                        else
+                            Console.WriteLine("too far away to interact");
+                    }
                 }
             }
 
             #endregion
 
             #region shooting
+
+            gun.Update(gameTime, position, rotation, mouseDirection);
+
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
                 if (0 >= timeToFire)
@@ -202,11 +212,6 @@ namespace TheTaleOfGod
             prevMouseState = mouseState;
 
             #endregion
-
-            previousMove = move;
-            Move(position + move);
-
-            gun.Update(gameTime, position, rotation, mouseDirection);
         }
 
         public void Move(Vector2 newPos)

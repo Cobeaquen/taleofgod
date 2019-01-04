@@ -12,7 +12,14 @@ namespace TheTaleOfGod
 {
     public class Dialogue
     {
+        public static Vector2 DialoguePosition { get; set; }
+        public static Vector2 DialogueBoxPosition { get; set; }
+
         public float talkSpeed;
+        public float textSize;
+
+        public SpriteFont font;
+        public static Texture2D dialogueBox;
 
         public string[] lines;
         public string line;
@@ -20,20 +27,39 @@ namespace TheTaleOfGod
         public Queue<char> characters = new Queue<char>();
         public Queue<string> dialogue = new Queue<string>();
 
-        public Dialogue(params string[] lines)
+        public static void InitializeDialogueSystem(Viewport viewport)
         {
-            this.lines = lines;
+            //dialogueBox = Game1.content.Load<Texture2D>("textures\\ui\\dialogue_box");
+            dialogueBox = DebugTextures.GenerateRectangle(200, 50, new Color(new Vector4(0.15686274509803921568627450980392f, 0.15686274509803921568627450980392f, 0.15686274509803921568627450980392f, 1f)));
+            DialogueBoxPosition = new Vector2(-dialogueBox.Width/2, Game1.gameHeight / 4);
+            DialoguePosition = DialogueBoxPosition * Game1.instance.resolutionScale + new Vector2(viewport.Width, viewport.Height)/2 + new Vector2(15, 25); //Game1.instance.resolutionScale;
         }
 
-        public void LoadLines() // initializes the speech of the npc
+        public Dialogue(string[] lines, float textSize, SpriteFont font)
+        {
+            this.lines = lines;
+            this.textSize = textSize;
+            this.font = font;
+        }
+
+        public void LoadSpeech() // initializes the speech of the npc
         {
             dialogue = new Queue<string>(lines);
         }
 
-        public void AdvanceCharacter()
+        public bool AdvanceCharacter()
         {
-            char c = characters.Dequeue();
-            currentLine += c;
+            if (characters.Count > 0)
+            {
+                char c = characters.Dequeue();
+                currentLine += c;
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool AdvanceLine()
@@ -41,9 +67,7 @@ namespace TheTaleOfGod
             if (dialogue.Count > 0)
             {
                 line = dialogue.Dequeue();
-
                 characters = new Queue<char>(line);
-
                 currentLine = "";
 
                 return true;
@@ -52,6 +76,25 @@ namespace TheTaleOfGod
             {
                 return false;
             }
+        }
+
+        public void Draw(SpriteBatch batch, GameTime gameTime)
+        {
+            if (characters.Count > 0)
+                AdvanceCharacter();
+
+            //Vector2 txtsize = font.MeasureString(line);
+            //Vector2 txtorigin = new Vector2(txtsize.X / 2f, txtsize.Y / 2f);
+            Vector2 txtpos = new Vector2(Game1.screenCenter.X, 3 * Game1.screenCenter.Y / 2f);
+            float size = textSize;
+
+            batch.DrawString(font, currentLine, DialoguePosition, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+        }
+        public void DrawDialogueBox(SpriteBatch batch)
+        {
+            Vector2 windowPosition = Game1.instance.character.camera.position + DialogueBoxPosition;// - new Vector2(600, 950);
+
+            batch.Draw(dialogueBox, windowPosition, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.9f);
         }
     }
 }

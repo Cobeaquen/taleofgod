@@ -17,11 +17,10 @@ namespace TheTaleOfGod
 
         #region game dimensions
 
-        public static readonly int gameWidth = 640;
-        public static readonly int gameHeight = 360;
+        public static readonly int gameWidth = 480;
+        public static readonly int gameHeight = 270;
 
         public float resolutionScale;
-        public float resolutionScale2;
 
         #endregion
 
@@ -42,15 +41,16 @@ namespace TheTaleOfGod
 
         public Character character = new Character();
 
-        public static NPC npc;
+        public static NPC npc1;
+        public static NPC npc2;
 
         public static ContentManager content { get; set; }
 
         public static Vector2 screenCenter;
 
-        public Wall testWall = new Wall(Vector2.One * 40, 3, 100);
+        public Wall testWall = new Wall(Vector2.One * 40, 50, 100);
 
-        public bool debugDrawing = true;
+        public bool debugDrawing = false;
 
         public Game1()
         {
@@ -67,8 +67,13 @@ namespace TheTaleOfGod
         protected override void Initialize()
         {
             PresentationParameters pp = graphics.GraphicsDevice.PresentationParameters;
-
             scene = new RenderTarget2D(graphics.GraphicsDevice, gameWidth, gameHeight, false, SurfaceFormat.Color, DepthFormat.None, pp.MultiSampleCount, RenderTargetUsage.DiscardContents);
+
+            resolutionScale = GraphicsDevice.Viewport.Width / gameWidth;
+
+            graphicsDevice = GraphicsDevice;
+
+            Dialogue.InitializeDialogueSystem(graphics.GraphicsDevice.Viewport);
 
             base.Initialize();
         }
@@ -77,15 +82,14 @@ namespace TheTaleOfGod
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             screenCenter = new Vector2(gameWidth / 2f, gameHeight / 2f);
-            graphicsDevice = GraphicsDevice;
-
-            resolutionScale = GraphicsDevice.Viewport.Width / gameWidth;
-            resolutionScale2 = gameWidth / gameHeight;
 
             character.LoadCharacter();
 
-            npc = new NPC();
-            npc.Load(DebugTextures.GenerateRectangle(16, 32, Color.White));
+            npc1 = new NPC(new Vector2(100, -100), "Hello world!!", "Great to see you decided to play\nthis game!!");
+            npc1.Load(DebugTextures.GenerateRectangle(16, 32, Color.Yellow));
+
+            npc2 = new NPC(new Vector2(150, 10), "Hello, my name is tommy!\nI used to live in peace", "watering me plants in me garden everyday,\nuntil the unpredictable struck");
+            npc2.Load(DebugTextures.GenerateRectangle(16, 32, Color.Yellow));
 
             foreach (var so in sceneObjects)
             {
@@ -107,7 +111,11 @@ namespace TheTaleOfGod
             {
                 character.Update(gameTime);
             }
-            npc.Update(gameTime);
+
+            foreach (var npc in NPC.npcs)
+            {
+                npc.Update(gameTime);
+            }
 
             #region fps
 
@@ -133,11 +141,14 @@ namespace TheTaleOfGod
 
             graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, character.camera.view);
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, character.camera.view);
 
             character.Draw(spriteBatch);
 
-            npc.Draw(spriteBatch, gameTime);
+            foreach (var npc in NPC.npcs)
+            {
+                npc.Draw(spriteBatch, gameTime);
+            }
 
             foreach (var so in sceneObjects)
             {
@@ -148,7 +159,7 @@ namespace TheTaleOfGod
             {
                 if (Collision.debugTexture != null)
                 {
-                    spriteBatch.Draw(Collision.debugTexture, Collision.colPosition, null, Color.DarkRed, 0f, Collision.colOrigin, 1f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(Collision.debugTexture, Collision.colPosition, null, Color.DarkRed, 0f, Collision.colOrigin, 0f, SpriteEffects.None, 1f);
                 }
             }
 
@@ -156,11 +167,16 @@ namespace TheTaleOfGod
             graphics.GraphicsDevice.SetRenderTarget(null);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
-
             spriteBatch.Draw(scene, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, resolutionScale, SpriteEffects.None, 0f);
             spriteBatch.End();
 
             spriteBatch.Begin(); // drawing ui
+
+            foreach (var npc in NPC.npcs)
+            {
+                npc1.DrawDialogue(spriteBatch, gameTime);
+                npc2.DrawDialogue(spriteBatch, gameTime);
+            }
 
             //spriteBatch.DrawString(npc.font, "testing out this new rendertartget!! NICE JOB TEAM", new Vector2( Mouse.GetState().Position.X, Mouse.GetState().Position.Y), Color.Black);
 

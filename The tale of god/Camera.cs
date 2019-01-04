@@ -136,7 +136,7 @@ namespace TheTaleOfGod
         }
         public void SetDisplay(Vector2 position)
         {
-            view = Matrix.CreateTranslation(new Vector3(Game1.screenCenter - position / Game1.instance.resolutionScale2, 0f)); // try putting in loadContent method for optimization
+            view = Matrix.CreateTranslation(new Vector3(Game1.screenCenter - position, 0f)); // try putting in loadContent method for optimization
         }
     }
 }
