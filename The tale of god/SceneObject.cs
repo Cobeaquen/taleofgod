@@ -7,14 +7,19 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using ProtoBuf;
 
 namespace TheTaleOfGod
 {
+    [ProtoContract]
     public class SceneObject
     {
+        [ProtoMember(1)]
         public Vector2 position;
         public Vector2 origin;
+        [ProtoMember(2)]
         public int width;
+        [ProtoMember(3)]
         public int height;
 
         protected Texture2D sprite;

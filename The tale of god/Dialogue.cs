@@ -18,12 +18,11 @@ namespace TheTaleOfGod
         public float talkSpeed;
         public float textSize;
 
-        public SpriteFont font;
         public static Texture2D dialogueBox;
 
-        public string[] lines;
+        public Text[] lines;
         public string line;
-        public string currentLine;
+        public Text currentLine;
         public Queue<char> characters = new Queue<char>();
         public Queue<string> dialogue = new Queue<string>();
 
@@ -37,14 +36,18 @@ namespace TheTaleOfGod
 
         public Dialogue(string[] lines, float textSize, SpriteFont font)
         {
-            this.lines = lines;
+            this.lines = Text.StringsToText(lines, DialoguePosition, (int)(dialogueBox.Width * Game1.instance.resolutionScale), (int)(dialogueBox.Height * Game1.instance.resolutionScale), font);
             this.textSize = textSize;
-            this.font = font;
+            currentLine = new Text(DialoguePosition, "", (int)(dialogueBox.Width * Game1.instance.resolutionScale), (int)(dialogueBox.Height * Game1.instance.resolutionScale), font);
         }
 
         public void LoadSpeech() // initializes the speech of the npc
         {
-            dialogue = new Queue<string>(lines);
+            dialogue = new Queue<string>();
+            foreach (var txt in lines)
+            {
+                dialogue.Enqueue(txt.text);
+            }
         }
 
         public bool AdvanceCharacter()
@@ -52,7 +55,7 @@ namespace TheTaleOfGod
             if (characters.Count > 0)
             {
                 char c = characters.Dequeue();
-                currentLine += c;
+                currentLine.text += c;
 
                 return true;
             }
@@ -68,7 +71,7 @@ namespace TheTaleOfGod
             {
                 line = dialogue.Dequeue();
                 characters = new Queue<char>(line);
-                currentLine = "";
+                currentLine.text = "";
 
                 return true;
             }
@@ -86,9 +89,9 @@ namespace TheTaleOfGod
             //Vector2 txtsize = font.MeasureString(line);
             //Vector2 txtorigin = new Vector2(txtsize.X / 2f, txtsize.Y / 2f);
             Vector2 txtpos = new Vector2(Game1.screenCenter.X, 3 * Game1.screenCenter.Y / 2f);
-            float size = textSize;
 
-            batch.DrawString(font, currentLine, DialoguePosition, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+            currentLine.Draw(batch);
+            //batch.DrawString(lines[0].font, currentLine, DialoguePosition, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f); // remember the font here is always set to the first lines font
         }
         public void DrawDialogueBox(SpriteBatch batch)
         {

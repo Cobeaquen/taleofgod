@@ -86,3 +86,21 @@ D:\taleofgod\The tale of god\obj\Debug\The tale of god.exe
 D:\taleofgod\The tale of god\obj\Debug\The tale of god.pdb
 C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\textures\laser_pistol.xnb
 C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\textures\ui\dialogue_box.xnb
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\protobuf-net.dll
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.DXGI.dll
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.dll
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.Direct3D11.dll
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.MediaFoundation.dll
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.Direct2D1.dll
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.XAudio2.dll
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.XInput.dll
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.pdb
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.xml
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\protobuf-net.xml
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.DXGI.xml
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.xml
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.Direct3D11.xml
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.MediaFoundation.xml
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.Direct2D1.xml
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.XAudio2.xml
+C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.XInput.xml

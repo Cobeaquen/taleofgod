@@ -103,13 +103,13 @@ namespace TheTaleOfGod
             {
                 move = new Vector2(move.X / 2f, move.Y / 2f);
             }
-            move *= gameTime.ElapsedGameTime.Ticks / 100000f;
+            move *= (float)gameTime.ElapsedGameTime.Ticks/100000;
 
             if (colliders != null) // calculate from which side we are colliding
             {
                 foreach (var col in colliders)
                 {
-                    if (playerRect.Right > col.Right && col.Height > col.Width) // colliding from the right
+                    if (playerRect.Right > col.Right && col.Height >= col.Width) // colliding from the right
                     {
                         if (!(move.X > 0))
                         {
@@ -117,7 +117,7 @@ namespace TheTaleOfGod
                         }
                         colDir = CollisionDirection.Right;
                     }
-                    else if (playerRect.Left < col.Left && col.Height > col.Width) // colliding from the left
+                    else if (playerRect.Left < col.Left && col.Height >= col.Width) // colliding from the left
                     {
                         if (!(move.X < 0))
                         {
@@ -203,7 +203,7 @@ namespace TheTaleOfGod
             }
             if (timeToFire > 0)
             {
-                timeToFire -= gameTime.ElapsedGameTime.Ticks / 10000000f;
+                timeToFire -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
 
             #endregion

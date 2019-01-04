@@ -7,13 +7,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Threading;
+using ProtoBuf;
 
 namespace TheTaleOfGod
 {
+    [ProtoContract]
     public class NPC
     {
         public static List<NPC> npcs = new List<NPC>();
 
+        [ProtoMember(1)]
         public Vector2 position;
         public Vector2 origin;
         public Texture2D sprite;

@@ -10,9 +10,16 @@ namespace TheTaleOfGod
 {
     public class DebugTextures
     {
+        public static GraphicsDevice graphicsDevice;
+
+        public static void LoadTextures(GraphicsDevice graphics)
+        {
+            graphicsDevice = graphics;
+        }
+
         public static Texture2D GenerateRectangle(int width, int height, Color color)
         {
-            Texture2D tx = new Texture2D(Game1.graphicsDevice, width, height);
+            Texture2D tx = new Texture2D(graphicsDevice, width, height);
 
             Color[] clrs = new Color[width * height];
 
@@ -25,7 +32,7 @@ namespace TheTaleOfGod
         }
         public static Texture2D GenerateHollowRectangele(int width, int height, int edgeSize, Color color)
         {
-            Texture2D tx = new Texture2D(Game1.graphicsDevice, width, height);
+            Texture2D tx = new Texture2D(graphicsDevice, width, height);
 
             Color[] clrs = new Color[width * height];
 

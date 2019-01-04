@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
 using System;
+using ProtoBuf;
 
 namespace TheTaleOfGod
 {
@@ -73,22 +74,23 @@ namespace TheTaleOfGod
 
             graphicsDevice = GraphicsDevice;
 
-            Dialogue.InitializeDialogueSystem(graphics.GraphicsDevice.Viewport);
-
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            DebugTextures.LoadTextures(GraphicsDevice);
+            Dialogue.InitializeDialogueSystem(graphics.GraphicsDevice.Viewport);
+
             screenCenter = new Vector2(gameWidth / 2f, gameHeight / 2f);
 
             character.LoadCharacter();
 
-            npc1 = new NPC(new Vector2(100, -100), "Hello world!!", "Great to see you decided to play\nthis game!!");
+            npc1 = new NPC(new Vector2(100, -100), "Hello world!!", "Great to see you decided to play this game!!");
             npc1.Load(DebugTextures.GenerateRectangle(16, 32, Color.Yellow));
 
-            npc2 = new NPC(new Vector2(150, 10), "Hello, my name is tommy!\nI used to live in peace", "watering me plants in me garden everyday,\nuntil the unpredictable struck");
+            npc2 = new NPC(new Vector2(150, 10), "Hello, my name is tommy! I used to live in peace", "watering me plants in me garden everyday, until the unpredictable struck");
             npc2.Load(DebugTextures.GenerateRectangle(16, 32, Color.Yellow));
 
             foreach (var so in sceneObjects)
