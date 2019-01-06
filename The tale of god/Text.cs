@@ -15,6 +15,7 @@ namespace TheTaleOfGod
         public string text;
 
         public SpriteFont font;
+        public Color color;
 
         public Vector2 position;
         Vector2 origin;
@@ -27,11 +28,12 @@ namespace TheTaleOfGod
         /// <param name="fieldWidth"></param>
         /// <param name="fieldHeight"></param>
         /// <param name="font"></param>
-        public Text(Vector2 position, string text, int fieldWidth, int fieldHeight, SpriteFont font)
+        public Text(Vector2 position, string text, int fieldWidth, int fieldHeight, SpriteFont font, Color color)
         {
             this.position = position;
             this.fieldWidth = fieldWidth;
             this.fieldHeight = fieldHeight;
+            this.color = color;
             this.text = text;
             this.font = font;
             this.text = ClampText();
@@ -60,7 +62,7 @@ namespace TheTaleOfGod
         }
         public void Draw(SpriteBatch batch)
         {
-            batch.DrawString(font, text, position, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
+            batch.DrawString(font, text, position, color, 0f, origin, 1f, SpriteEffects.None, 0f);
         }
 
         public static Text[] StringsToText(string[] values, Vector2 position, int fieldWidth, int fieldHeight, SpriteFont font)
@@ -68,7 +70,7 @@ namespace TheTaleOfGod
             Text[] texts = new Text[values.Length];
             for (int i = 0; i < texts.Length; i++)
             {
-                texts[i] = new Text(position, values[i], fieldWidth, fieldHeight, font);
+                texts[i] = new Text(position, values[i], fieldWidth, fieldHeight, font, Color.White);
             }
             return texts;
         }

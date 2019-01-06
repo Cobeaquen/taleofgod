@@ -16,10 +16,11 @@ namespace TheTaleOfGod
 
         public Texture2D image;
         public Text text;
+        public Color color;
 
         public bool autoRelease;
 
-        public delegate void onPressed();
+        public delegate void onPressed(MouseState state);
         onPressed pressed;
 
         MouseState previousState;
@@ -29,23 +30,39 @@ namespace TheTaleOfGod
             this.position = position;
             this.image = image;
             this.autoRelease = autoRelease;
-            this.text = new Text(position, text, image.Width, image.Height, font);
+            this.text = new Text(position, text, image.Width, image.Height, font, Color.White);
             origin = new Vector2(image.Width / 2f, image.Height / 2f);
             pressed = onPressed;
 
             previousState = Mouse.GetState();
+
+            color = Color.White;
         }
 
         public void Update()
         {
             MouseState state = Mouse.GetState();
-            if (state.LeftButton == ButtonState.Pressed && (!autoRelease || previousState.LeftButton == ButtonState.Released))
+            if (MouseOver(state.Position))
             {
-                if (MouseOver(state.Position))
+                color.R = 150;
+                color.G = 150;
+                color.B = 150;
+                text.color = color;
+                if (state.LeftButton == ButtonState.Released && previousState.LeftButton == ButtonState.Pressed)
                 {
-                    pressed();
+                    pressed(state);
+                }
+                else if (state.LeftButton == ButtonState.Pressed && !autoRelease)
+                {
+                    pressed(state);
                 }
             }
+            else
+            {
+                color = Color.White;
+                text.color = color;
+            }
+
             previousState = state;
         }
 
@@ -56,7 +73,7 @@ namespace TheTaleOfGod
 
         public void Draw(SpriteBatch batch)
         {
-            batch.Draw(image, position, null, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
+            batch.Draw(image, position, null, color, 0f, origin, 1f, SpriteEffects.None, 0f);
             text.Draw(batch);
         }
     }

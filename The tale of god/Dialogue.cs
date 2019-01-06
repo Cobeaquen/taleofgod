@@ -38,7 +38,7 @@ namespace TheTaleOfGod
         {
             this.lines = Text.StringsToText(lines, DialoguePosition, (int)(dialogueBox.Width * Game1.instance.resolutionScale), (int)(dialogueBox.Height * Game1.instance.resolutionScale), font);
             this.textSize = textSize;
-            currentLine = new Text(DialoguePosition, "", (int)(dialogueBox.Width * Game1.instance.resolutionScale), (int)(dialogueBox.Height * Game1.instance.resolutionScale), font);
+            currentLine = new Text(DialoguePosition, "", (int)(dialogueBox.Width * Game1.instance.resolutionScale), (int)(dialogueBox.Height * Game1.instance.resolutionScale), font, Color.White);
         }
 
         public void LoadSpeech() // initializes the speech of the npc

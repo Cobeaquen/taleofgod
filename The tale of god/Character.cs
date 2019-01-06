@@ -52,7 +52,7 @@ namespace TheTaleOfGod
         public void LoadCharacter()
         {
             //sprite = Game1.content.Load<Texture2D>("textures\\chr1\\chr_head");
-            sprite = DebugTextures.GenerateRectangle(16, 16, Color.PaleVioletRed);
+            sprite = DebugTextures.GenerateRectangle(16, 32, Color.PaleVioletRed);
 
             A = Vector2.Zero; // top left
             B = new Vector2(sprite.Width, 0); // top right
@@ -67,7 +67,7 @@ namespace TheTaleOfGod
             prevKeyState = Keyboard.GetState();
             prevMouseState = Mouse.GetState();
         }
-
+        Rectangle playerRect;
         public void Update(GameTime gameTime)
         {
             KeyboardState keyState = Keyboard.GetState();
@@ -79,7 +79,7 @@ namespace TheTaleOfGod
 
             #region movement and collision
 
-            Rectangle playerRect = new Rectangle((int)position.X - sprite.Width / 2, (int)position.Y - sprite.Height / 2, sprite.Width, sprite.Height);
+            playerRect = new Rectangle((int)position.X - sprite.Width / 2, (int)position.Y - sprite.Height / 2, sprite.Width, sprite.Height);
             Rectangle[] colliders = Collision.CollidingRectangle(playerRect);
 
             if (keyState.IsKeyDown(Keys.D) && colDir != CollisionDirection.Left)
@@ -227,7 +227,7 @@ namespace TheTaleOfGod
 
         public void Draw(SpriteBatch batch)
         {
-            batch.Draw(sprite, position, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            batch.Draw(sprite, position, null, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
             gun.Draw(batch);
         }
     }
