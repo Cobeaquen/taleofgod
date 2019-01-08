@@ -4,7 +4,7 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/Cobeaquen/Documents/GitHub/taleofgod/MapEditor/Content/gui/fonts/font.spritefont</File>
+    <File>D:/taleofgod/MapEditor/Content/gui/fonts/font.spritefont</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

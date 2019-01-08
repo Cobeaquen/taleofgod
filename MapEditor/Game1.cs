@@ -12,6 +12,8 @@ namespace MapEditor
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        RenderTarget2D scene;
+
         GUI hud;
 
         Map map;
@@ -27,6 +29,8 @@ namespace MapEditor
         public static Vector2 screenTopLeft;
         public static Vector2 screenBottomRight;
         public static Vector2 screenBottomLeft;
+
+        public static float resolutionScale;
 
         #endregion
 
@@ -47,6 +51,12 @@ namespace MapEditor
 
         protected override void Initialize()
         {
+            PresentationParameters pp = graphics.GraphicsDevice.PresentationParameters;
+            scene = new RenderTarget2D(graphics.GraphicsDevice, TheTaleOfGod.Game1.gameWidth, TheTaleOfGod.Game1.gameHeight, false, SurfaceFormat.Color, DepthFormat.None, pp.MultiSampleCount, RenderTargetUsage.DiscardContents);
+
+            resolutionScale = GraphicsDevice.Viewport.Width / TheTaleOfGod.Game1.gameWidth;
+            TheTaleOfGod.Game1.resolutionScale = resolutionScale;
+
             base.Initialize();
         }
 
@@ -58,12 +68,12 @@ namespace MapEditor
             DebugTextures.LoadTextures(GraphicsDevice);
 
             hud = new GUI();
-            if (File.Exists("map1.bin"))
+            if (File.Exists("maps\\map1.bin"))
             {
-                map = Map.Load("map1.bin");
+                map = Map.Load("maps\\map1.bin");
                 foreach (var c in map.colliders)
                 {
-                    c.debugSprite = DebugTextures.GenerateHollowRectangele(c.width, c.height, 5, Color.DarkRed);
+                    c.debugSprite = DebugTextures.GenerateHollowRectangele(c.width, c.height, 2, Color.DarkRed);
                     c.debugOrigin = new Vector2(c.width / 2f, c.height / 2f);
                 }
             }
@@ -78,7 +88,7 @@ namespace MapEditor
             screenTopLeft = new Vector2(0, 0);
             screenTopRight = new Vector2(GraphicsDevice.Viewport.Width, 0);
 
-            GUI.buttons.Add(new Button(screenTopLeft + new Vector2(100, 100), "PLACE COLLIDER", true, DebugTextures.GenerateRectangle(150, 150, Color.Sienna), GUI.defaultFont, PlaceCollider));
+            GUI.buttons.Add(new Button(screenTopLeft + new Vector2(150, 150), "PLACE COLLIDER", true, DebugTextures.GenerateRectangle(150, 150, Color.Sienna), GUI.defaultFont, PlaceCollider));
             GUI.buttons.Add(Button.Debug("PLACE TILE", 150, 150, Color.DarkSeaGreen, PlaceTiles));
 
             previousState = Mouse.GetState();
@@ -86,7 +96,9 @@ namespace MapEditor
 
         protected override void UnloadContent()
         {
-
+            Console.WriteLine("Saving map...");
+            map.Save("maps\\map1.bin");
+            Console.WriteLine("Map saved");
         }
 
         protected override void Update(GameTime gameTime)
@@ -94,7 +106,6 @@ namespace MapEditor
             Input.BeginCheckInput();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                map.Save("map1.bin");
                 Exit();
             }
 
@@ -118,7 +129,9 @@ namespace MapEditor
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            graphics.GraphicsDevice.SetRenderTarget(scene);
+
+            graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, samplerState: SamplerState.PointClamp);
 
@@ -133,9 +146,17 @@ namespace MapEditor
             }
             #endregion
 
+            spriteBatch.End();
+            graphics.GraphicsDevice.SetRenderTarget(null);
+
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
+            spriteBatch.Draw(scene, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, resolutionScale, SpriteEffects.None, 0f);
+
             hud.DrawGUI(spriteBatch);
 
             spriteBatch.End();
+
             base.Draw(gameTime);
         }
 
@@ -157,26 +178,25 @@ namespace MapEditor
 
             if (Input.LeftMouseButtonDown(false) && !colClicked) // clicked
             {
-                colPosition1 = Input.mousePosition;
+                colPosition1 = Input.mousePosition / resolutionScale;
                 colClicked = true;
             }
             else if (colClicked)
             {
-                colPosition2 = Input.mousePosition;
+                colPosition2 = Input.mousePosition / resolutionScale;
                 if ((int)Math.Abs(colPosition1.X - colPosition2.X) > 0 && (int)Math.Abs(colPosition1.Y - colPosition2.Y) > 0)
                 {
                     int width = (int)Math.Abs(colPosition1.X - colPosition2.X);
                     int height = (int)Math.Abs(colPosition1.Y - colPosition2.Y);
 
                     col = new Collider((colPosition1 + colPosition2) / 2, width, height);
-                    col.debugSprite = DebugTextures.GenerateHollowRectangele(width, height, 5, Color.DarkRed);
+                    col.debugSprite = DebugTextures.GenerateHollowRectangele(width, height, 2, Color.DarkRed);
                     col.debugOrigin = new Vector2(width / 2, height / 2);
 
                     if (Input.LeftMouseButtonDown(false)) // clicked
                     {
                         currentAction = Action.None;
                         colClicked = false;
-                        colPosition2 = Input.mousePosition;
                         map.colliders.Add(col);
                     }
                 }

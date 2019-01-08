@@ -21,7 +21,7 @@ namespace TheTaleOfGod
         public static readonly int gameWidth = 480;
         public static readonly int gameHeight = 270;
 
-        public float resolutionScale;
+        public static float resolutionScale;
 
         #endregion
 
@@ -87,11 +87,9 @@ namespace TheTaleOfGod
 
             character.LoadCharacter();
 
-            npc1 = new NPC(new Vector2(100, -100), "Hello world!!", "Great to see you decided to play this game!!");
-            npc1.Load(DebugTextures.GenerateRectangle(16, 32, Color.Yellow));
+            npc1 = new NPC(new Vector2(100, -100), DebugTextures.GenerateRectangle(16, 32, Color.Yellow), "Hello world!!", "Great to see you decided to play this game!!");
 
-            npc2 = new NPC(new Vector2(150, 10), "Hello, my name is tommy! I used to live in peace", "watering me plants in me garden everyday, until the unpredictable struck");
-            npc2.Load(DebugTextures.GenerateRectangle(16, 32, Color.Yellow));
+            npc2 = new NPC(new Vector2(150, 10), DebugTextures.GenerateRectangle(16, 32, Color.Yellow), "Hello, my name is tommy! I used to live in peace", "watering me plants in me garden everyday, until the unpredictable struck");
 
             foreach (var so in sceneObjects)
             {

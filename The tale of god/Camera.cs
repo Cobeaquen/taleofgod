@@ -86,7 +86,7 @@ namespace TheTaleOfGod
 
         public Vector2 WindowToCameraSpace(Vector2 windowPosition)
         {
-            return windowPosition / Game1.instance.resolutionScale;
+            return windowPosition / Game1.resolutionScale;
         }
 
         public bool HasMoved(float distance)

@@ -35,7 +35,7 @@ namespace TheTaleOfGod
             this.position = position;
             this.image = image;
             this.autoRelease = autoRelease;
-            this.text = new Text(position, text, image.Width, image.Height, font, Color.White);
+            this.text = new Text(position, text, image.Width, image.Height, 1f, font, Color.White);
             origin = new Vector2(image.Width / 2f, image.Height / 2f);
             pressed = onPressed;
 
@@ -78,6 +78,7 @@ namespace TheTaleOfGod
 
         public bool MouseOver(Point mousePosition)
         {
+            //mousePosition = (mousePosition.ToVector2() / Game1.resolutionScale).ToPoint();
             return mousePosition.Y < position.Y + image.Height / 2f && mousePosition.Y > position.Y - image.Height / 2f && mousePosition.X < position.X + image.Width / 2f && mousePosition.X > position.X - image.Width / 2f;
         }
 

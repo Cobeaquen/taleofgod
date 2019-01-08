@@ -31,14 +31,14 @@ namespace TheTaleOfGod
             //dialogueBox = Game1.content.Load<Texture2D>("textures\\ui\\dialogue_box");
             dialogueBox = DebugTextures.GenerateRectangle(200, 50, new Color(new Vector4(0.15686274509803921568627450980392f, 0.15686274509803921568627450980392f, 0.15686274509803921568627450980392f, 1f)));
             DialogueBoxPosition = new Vector2(-dialogueBox.Width/2, Game1.gameHeight / 4);
-            DialoguePosition = DialogueBoxPosition * Game1.instance.resolutionScale + new Vector2(viewport.Width, viewport.Height)/2 + new Vector2(15, 25); //Game1.instance.resolutionScale;
+            DialoguePosition = DialogueBoxPosition * Game1.resolutionScale + new Vector2(viewport.Width, viewport.Height)/2 + new Vector2(15, 25); //Game1.instance.resolutionScale;
         }
 
         public Dialogue(string[] lines, float textSize, SpriteFont font)
         {
-            this.lines = Text.StringsToText(lines, DialoguePosition, (int)(dialogueBox.Width * Game1.instance.resolutionScale), (int)(dialogueBox.Height * Game1.instance.resolutionScale), font);
+            this.lines = Text.StringsToText(lines, DialoguePosition, (int)(dialogueBox.Width * Game1.resolutionScale), (int)(dialogueBox.Height * Game1.resolutionScale), 1f / Game1.resolutionScale, font);
             this.textSize = textSize;
-            currentLine = new Text(DialoguePosition, "", (int)(dialogueBox.Width * Game1.instance.resolutionScale), (int)(dialogueBox.Height * Game1.instance.resolutionScale), font, Color.White);
+            currentLine = new Text(DialoguePosition, "", (int)(dialogueBox.Width * Game1.resolutionScale), (int)(dialogueBox.Height * Game1.resolutionScale), textSize, font, Color.White);
         }
 
         public void LoadSpeech() // initializes the speech of the npc
@@ -92,7 +92,7 @@ namespace TheTaleOfGod
         }
         public void DrawDialogueBox(SpriteBatch batch)
         {
-            Vector2 windowPosition = Game1.instance.character.camera.position + DialogueBoxPosition;// - new Vector2(600, 950);
+            Vector2 windowPosition = Game1.instance.character.camera.position + DialogueBoxPosition;
 
             batch.Draw(dialogueBox, windowPosition, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.9f);
         }

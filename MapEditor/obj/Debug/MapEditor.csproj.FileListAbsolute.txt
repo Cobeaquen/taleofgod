@@ -58,21 +58,30 @@ D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\x64\libopenal.so.1
 D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\libSDL2-2.0.0.dylib
 D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\libopenal.1.dylib
 D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll.config
-D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\Content\Content\textures\ui\dialogue_box.xnb
-D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\Content\Content\textures\chr1\chr_head.xnb
 D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\Content\textures\ui\dialogue_box.xnb
-D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\Content\Content\textures\laser_pistol.xnb
-D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\Content\Content\fonts\npc1.xnb
 D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\Content\fonts\npc1.xnb
 D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\Content\textures\laser_pistol.xnb
-D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\Content\Content\gui\fonts\font.xnb
 D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\Content\gui\fonts\font.xnb
 D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\MapEditor.exe
 D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\MapEditor.pdb
-D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll
 D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\protobuf-net.dll
 D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\The tale of god.exe
 D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\The tale of god.pdb
 D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.xml
 D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\protobuf-net.xml
 D:\taleofgod\MapEditor\obj\Debug\MapEditor.csproj.CopyComplete
+D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\SharpDX.DXGI.dll
+D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\SharpDX.dll
+D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\SharpDX.Direct3D11.dll
+D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\SharpDX.MediaFoundation.dll
+D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\SharpDX.Direct2D1.dll
+D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\SharpDX.XAudio2.dll
+D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\SharpDX.XInput.dll
+D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.pdb
+D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\SharpDX.DXGI.xml
+D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\SharpDX.xml
+D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\SharpDX.Direct3D11.xml
+D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\SharpDX.MediaFoundation.xml
+D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\SharpDX.Direct2D1.xml
+D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\SharpDX.XAudio2.xml
+D:\taleofgod\MapEditor\bin\DesktopGL\AnyCPU\Debug\SharpDX.XInput.xml

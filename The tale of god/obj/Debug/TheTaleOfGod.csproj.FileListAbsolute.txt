@@ -61,7 +61,6 @@ C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyC
 C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\The tale of god.pdb
 C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll
 C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\obj\Debug\TheTaleOfGod.csproj.CopyComplete
-D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\Content\textures\chr1\chr_head.xnb
 D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\x86\SDL2.dll
 D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\x64\SDL2.dll
 D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\x86\soft_oal.dll
@@ -74,7 +73,6 @@ D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\libSDL2-2.0.0.dylib
 D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\libopenal.1.dylib
 D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll.config
 D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\textures\chr1\chr_head.xnb
-D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\Content\fonts\npc1.xnb
 D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\fonts\npc1.xnb
 D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\The tale of god.exe
 D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\The tale of god.pdb
@@ -104,9 +102,7 @@ C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyC
 C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.Direct2D1.xml
 C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.XAudio2.xml
 C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.XInput.xml
-D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\Content\textures\ui\dialogue_box.xnb
 D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\textures\ui\dialogue_box.xnb
-D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\Content\textures\laser_pistol.xnb
 D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\textures\laser_pistol.xnb
 D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\protobuf-net.dll
 D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.xml

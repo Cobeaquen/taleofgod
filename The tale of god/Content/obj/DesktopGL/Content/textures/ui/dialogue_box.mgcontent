@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Cobeaquen/Documents/GitHub/taleofgod/The tale of god/Content/textures/ui/dialogue_box.png</SourceFile>
-  <SourceTime>2019-01-03T20:06:05.6567953+01:00</SourceTime>
-  <DestFile>C:/Users/Cobeaquen/Documents/GitHub/taleofgod/The tale of god/Content/bin/DesktopGL/Content/textures/ui/dialogue_box.xnb</DestFile>
-  <DestTime>2019-01-03T20:09:47.3580067+01:00</DestTime>
+  <SourceFile>D:/taleofgod/The tale of god/Content/textures/ui/dialogue_box.png</SourceFile>
+  <SourceTime>2019-01-06T15:46:33.5398441+01:00</SourceTime>
+  <DestFile>D:/taleofgod/The tale of god/Content/bin/DesktopGL/Content/textures/ui/dialogue_box.xnb</DestFile>
+  <DestTime>2019-01-08T20:36:16.9218694+01:00</DestTime>
   <Importer>TextureImporter</Importer>
-  <ImporterTime>2018-09-23T23:55:52+02:00</ImporterTime>
+  <ImporterTime>2018-12-08T17:35:54+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
-  <ProcessorTime>2018-09-23T23:55:52+02:00</ProcessorTime>
+  <ProcessorTime>2018-12-08T17:35:54+01:00</ProcessorTime>
   <Parameters>
     <Key>ColorKeyColor</Key>
     <Value>255,0,255,255</Value>

@@ -13,6 +13,7 @@ namespace TheTaleOfGod
     {
         public int fieldWidth, fieldHeight;
         public string text;
+        public float size;
 
         public SpriteFont font;
         public Color color;
@@ -28,7 +29,7 @@ namespace TheTaleOfGod
         /// <param name="fieldWidth"></param>
         /// <param name="fieldHeight"></param>
         /// <param name="font"></param>
-        public Text(Vector2 position, string text, int fieldWidth, int fieldHeight, SpriteFont font, Color color)
+        public Text(Vector2 position, string text, int fieldWidth, int fieldHeight, float size, SpriteFont font, Color color)
         {
             this.position = position;
             this.fieldWidth = fieldWidth;
@@ -36,6 +37,7 @@ namespace TheTaleOfGod
             this.color = color;
             this.text = text;
             this.font = font;
+            this.size = size;
             this.text = ClampText();
             origin = font.MeasureString(this.text) / 2f;
             //origin = new Vector2(fieldWidth/2f, fieldHeight/2f) / Game1.instance.resolutionScale;
@@ -62,15 +64,15 @@ namespace TheTaleOfGod
         }
         public void Draw(SpriteBatch batch)
         {
-            batch.DrawString(font, text, position, color, 0f, origin, 1f, SpriteEffects.None, 0f);
+            batch.DrawString(font, text, position, color, 0f, origin, size, SpriteEffects.None, 0f);
         }
 
-        public static Text[] StringsToText(string[] values, Vector2 position, int fieldWidth, int fieldHeight, SpriteFont font)
+        public static Text[] StringsToText(string[] values, Vector2 position, int fieldWidth, int fieldHeight, float size, SpriteFont font)
         {
             Text[] texts = new Text[values.Length];
             for (int i = 0; i < texts.Length; i++)
             {
-                texts[i] = new Text(position, values[i], fieldWidth, fieldHeight, font, Color.White);
+                texts[i] = new Text(position, values[i], fieldWidth, fieldHeight, size, font, Color.White);
             }
             return texts;
         }

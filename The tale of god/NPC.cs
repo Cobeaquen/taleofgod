@@ -27,19 +27,15 @@ namespace TheTaleOfGod
 
         KeyboardState prevState;
 
-        public NPC(Vector2 position, params string[] speechLines)
+        public NPC(Vector2 position, Texture2D sprite, params string[] speechLines)
         {
             interacting = false;
             this.position = position;
-            dialogue = new Dialogue(speechLines, 1f, Game1.content.Load<SpriteFont>("fonts\\npc1"));
-            npcs.Add(this);
-        }
-
-        public void Load(Texture2D sprite)
-        {
             this.sprite = sprite;
+            dialogue = new Dialogue(speechLines, 1f, Game1.content.Load<SpriteFont>("fonts\\npc1"));
             origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
             prevState = Keyboard.GetState();
+            npcs.Add(this);
         }
 
         public void Update(GameTime gameTime)
