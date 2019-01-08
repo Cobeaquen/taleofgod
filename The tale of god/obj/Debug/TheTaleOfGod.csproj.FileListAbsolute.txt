@@ -104,3 +104,10 @@ C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyC
 C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.Direct2D1.xml
 C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.XAudio2.xml
 C:\Users\Cobeaquen\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\SharpDX.XInput.xml
+D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\Content\textures\ui\dialogue_box.xnb
+D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\textures\ui\dialogue_box.xnb
+D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\Content\textures\laser_pistol.xnb
+D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\textures\laser_pistol.xnb
+D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\protobuf-net.dll
+D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.xml
+D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\protobuf-net.xml

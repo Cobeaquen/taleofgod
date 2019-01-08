@@ -86,12 +86,9 @@ namespace TheTaleOfGod
             if (characters.Count > 0)
                 AdvanceCharacter();
 
-            //Vector2 txtsize = font.MeasureString(line);
-            //Vector2 txtorigin = new Vector2(txtsize.X / 2f, txtsize.Y / 2f);
             Vector2 txtpos = new Vector2(Game1.screenCenter.X, 3 * Game1.screenCenter.Y / 2f);
 
             currentLine.Draw(batch);
-            //batch.DrawString(lines[0].font, currentLine, DialoguePosition, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f); // remember the font here is always set to the first lines font
         }
         public void DrawDialogueBox(SpriteBatch batch)
         {

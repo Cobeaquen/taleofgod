@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using TheTaleOfGod;
 using System;
+using System.IO;
 
 namespace MapEditor
 {
@@ -30,8 +31,7 @@ namespace MapEditor
         #endregion
 
         #region collider
-        private Texture2D colSprite;
-        private Vector2 colOrigin;
+        private Collider col;
         private Vector2 colPosition1;
         private Vector2 colPosition2;
         private bool colClicked = false;
@@ -58,7 +58,19 @@ namespace MapEditor
             DebugTextures.LoadTextures(GraphicsDevice);
 
             hud = new GUI();
-            map = new Map();
+            if (File.Exists("map1.bin"))
+            {
+                map = Map.Load("map1.bin");
+                foreach (var c in map.colliders)
+                {
+                    c.debugSprite = DebugTextures.GenerateHollowRectangele(c.width, c.height, 5, Color.DarkRed);
+                    c.debugOrigin = new Vector2(c.width / 2f, c.height / 2f);
+                }
+            }
+            else
+            {
+                map = new Map();
+            }
 
             screenCenter = new Vector2(GraphicsDevice.Viewport.Width / 2f, GraphicsDevice.Viewport.Height / 2f);
             screenBottomLeft = new Vector2(0, GraphicsDevice.Viewport.Height);
@@ -67,6 +79,7 @@ namespace MapEditor
             screenTopRight = new Vector2(GraphicsDevice.Viewport.Width, 0);
 
             GUI.buttons.Add(new Button(screenTopLeft + new Vector2(100, 100), "PLACE COLLIDER", true, DebugTextures.GenerateRectangle(150, 150, Color.Sienna), GUI.defaultFont, PlaceCollider));
+            GUI.buttons.Add(Button.Debug("PLACE TILE", 150, 150, Color.DarkSeaGreen, PlaceTiles));
 
             previousState = Mouse.GetState();
         }
@@ -78,25 +91,27 @@ namespace MapEditor
 
         protected override void Update(GameTime gameTime)
         {
+            Input.BeginCheckInput();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                map.Save("map1.bin");
                 Exit();
+            }
 
-            MouseState state = Mouse.GetState();
-
-            hud.Update();
+            hud.Update(gameTime);
 
             switch (currentAction)
             {
                 case Action.None:
                     break;
                 case Action.PlacingCollider:
-                    PlaceCollider(state);
+                    PlaceCollider();
                     break;
                 default:
                     break;
             }
 
-            previousState = state;
+            Input.EndCheckInput();
 
             base.Update(gameTime);
         }
@@ -107,16 +122,16 @@ namespace MapEditor
 
             spriteBatch.Begin(SpriteSortMode.Deferred, samplerState: SamplerState.PointClamp);
 
-            switch (currentAction)
+            #region collider
+            foreach (var col in map.colliders)
             {
-                case Action.None:
-                    break;
-                case Action.PlacingCollider:
-                    DrawCollider();
-                    break;
-                default:
-                    break;
+                col.DrawDebug(spriteBatch);
             }
+            if (col != null)
+            {
+                col.DrawDebug(spriteBatch);
+            }
+            #endregion
 
             hud.DrawGUI(spriteBatch);
 
@@ -135,37 +150,46 @@ namespace MapEditor
             graphics.SynchronizeWithVerticalRetrace = false;
         }
 
-        public void PlaceCollider(MouseState state)
+        #region collider
+        public void PlaceCollider()
         {
-            Console.WriteLine("PLACING COLLIDER");
             currentAction = Action.PlacingCollider;
-            
-            if (state.LeftButton == ButtonState.Pressed && previousState.LeftButton == ButtonState.Released && !colClicked) // clicked
+
+            if (Input.LeftMouseButtonDown(false) && !colClicked) // clicked
             {
-                colPosition1 = state.Position.ToVector2();
+                colPosition1 = Input.mousePosition;
                 colClicked = true;
             }
-            if (colClicked)
+            else if (colClicked)
             {
-                colPosition2 = state.Position.ToVector2();
-                if (state.LeftButton == ButtonState.Pressed && previousState.LeftButton == ButtonState.Released) // clicked
-                {
-                    colPosition2 = state.Position.ToVector2();
-                }
+                colPosition2 = Input.mousePosition;
                 if ((int)Math.Abs(colPosition1.X - colPosition2.X) > 0 && (int)Math.Abs(colPosition1.Y - colPosition2.Y) > 0)
                 {
-                    colSprite = DebugTextures.GenerateRectangle((int)Math.Abs(colPosition1.X - colPosition2.X), (int)Math.Abs(colPosition1.Y - colPosition2.Y), Color.DarkRed);
-                    colOrigin = new Vector2(colSprite.Width / 2, colSprite.Height / 2);
+                    int width = (int)Math.Abs(colPosition1.X - colPosition2.X);
+                    int height = (int)Math.Abs(colPosition1.Y - colPosition2.Y);
+
+                    col = new Collider((colPosition1 + colPosition2) / 2, width, height);
+                    col.debugSprite = DebugTextures.GenerateHollowRectangele(width, height, 5, Color.DarkRed);
+                    col.debugOrigin = new Vector2(width / 2, height / 2);
+
+                    if (Input.LeftMouseButtonDown(false)) // clicked
+                    {
+                        currentAction = Action.None;
+                        colClicked = false;
+                        colPosition2 = Input.mousePosition;
+                        map.colliders.Add(col);
+                    }
                 }
             }
         }
-        public void DrawCollider()
+        #endregion
+
+        #region tiles
+        public void PlaceTiles()
         {
-            if (colSprite != null)
-            {
-                spriteBatch.Draw(colSprite, colPosition1 - colPosition2, null, Color.White, 0f, colPosition1, 1f, SpriteEffects.None, 0f); // fiiix mee
-            }
+
         }
+        #endregion
 
         public enum Action
         {

@@ -39,7 +39,6 @@ namespace TheTaleOfGod
         {
             this.sprite = sprite;
             origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
-            dialogue.LoadSpeech();
             prevState = Keyboard.GetState();
         }
 

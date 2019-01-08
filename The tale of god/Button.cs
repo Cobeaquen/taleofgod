@@ -11,6 +11,8 @@ namespace TheTaleOfGod
 {
     public class Button
     {
+        static Vector2 latestButtonPosition;
+
         public Vector2 position;
         public Vector2 origin;
 
@@ -18,9 +20,12 @@ namespace TheTaleOfGod
         public Text text;
         public Color color;
 
+        public int timesPressed;
+        public float timePressed;
+
         public bool autoRelease;
 
-        public delegate void onPressed(MouseState state);
+        public delegate void onPressed();
         onPressed pressed;
 
         MouseState previousState;
@@ -35,26 +40,33 @@ namespace TheTaleOfGod
             pressed = onPressed;
 
             previousState = Mouse.GetState();
-
             color = Color.White;
+
+            latestButtonPosition = position;
         }
 
-        public void Update()
+        public static Button Debug(string text, int width, int height, Color color, onPressed onPressed)
         {
-            MouseState state = Mouse.GetState();
-            if (MouseOver(state.Position))
+            return new Button(latestButtonPosition + new Vector2(width * 1.5f, 0), text, false, DebugTextures.GenerateRectangle(width, height, color), GUI.defaultFont, onPressed);
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            if (MouseOver(Input.mousePosition.ToPoint()))
             {
                 color.R = 150;
                 color.G = 150;
                 color.B = 150;
                 text.color = color;
-                if (state.LeftButton == ButtonState.Released && previousState.LeftButton == ButtonState.Pressed)
+                if (Input.LeftMouseButtonUp(false))
                 {
-                    pressed(state);
+                    pressed();
+                    timesPressed++;
                 }
-                else if (state.LeftButton == ButtonState.Pressed && !autoRelease)
+                else if (Input.LeftMouseButtonDown(false) && !autoRelease)
                 {
-                    pressed(state);
+                    pressed();
+                    timePressed += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
             }
             else
@@ -62,8 +74,6 @@ namespace TheTaleOfGod
                 color = Color.White;
                 text.color = color;
             }
-
-            previousState = state;
         }
 
         public bool MouseOver(Point mousePosition)

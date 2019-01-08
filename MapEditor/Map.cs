@@ -13,17 +13,19 @@ namespace MapEditor
     public class Map
     {
         [ProtoMember(1)]
-        public NPC[] npcs;
+        public List<NPC> npcs;
 
         [ProtoMember(2)]
-        public SceneObject[] objects;
+        public List<SceneObject> objects;
 
         [ProtoMember(3)]
-        public Collider[] colliders;
+        public List<Collider> colliders;
 
         public Map()
         {
-
+            npcs = new List<NPC>();
+            objects = new List<SceneObject>();
+            colliders = new List<Collider>();
         }
 
         public void Save(string mapName)
