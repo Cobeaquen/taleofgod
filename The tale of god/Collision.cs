@@ -25,25 +25,18 @@ namespace TheTaleOfGod
         /// <param name="height"></param>
         /// <returns></returns>
 
-        public static Rectangle[] CollidingRectangle(Rectangle rect1)
+        public static Rectangle[] CollidingRectangle(Vector2 position, int width, int height) // needs to return multiple tags if colliding with multiple objects (return collider instead of rectangle)
         {
-            /*float topEdge = position.Y - height / 2f;
-            float rightEdge = position.X + width / 2f;
-            float leftEdge = position.X - width / 2f;
-            float bottomEdge = position.Y + height / 2f;
-            */
-
             List<Rectangle> colliders = null;
 
-            foreach (var so in Game1.instance.sceneObjects) // loop through every possible collidable object (has to be more efficent in the fututre)
-            {
-                /*float so_topEdge = so.position.Y - so.height / 2f;
-                float so_bottomEdge = so.position.Y + so.height/ 2f;
-                float so_leftEdge = so.position.X - so.width / 2f;
-                float so_rightEdge = so.position.X + so.width / 2f;
-                */
+            Rectangle rect1 = new Rectangle((int)position.X - width / 2, (int)position.Y - height / 2, width, height);
 
-                Rectangle rect2 = new Rectangle((int)so.position.X - so.width/2, (int)so.position.Y - so.height/2, so.width, so.height);
+            foreach (var co in Game1.instance.map.colliders) // loop through every possible collidable object (has to be more efficient in the fututre)
+            {
+                Rectangle rect2 = new Rectangle((int)co.position.X - co.width/2, (int)co.position.Y - co.height/2, co.width, co.height);
+
+                if (rect1 == rect2)
+                    continue;
 
                 if (Game1.instance.debugDrawing)
                 {
@@ -59,7 +52,6 @@ namespace TheTaleOfGod
                     {
                         colliders = new List<Rectangle>();
                     }
-
                     colliders.Add(col);
                     if (Game1.instance.debugDrawing)
                     {
@@ -79,35 +71,70 @@ namespace TheTaleOfGod
                 }
 
                 #endregion
-
-
-                /*if (leftEdge < so_rightEdge && rightEdge > so_leftEdge && bottomEdge > so_topEdge && topEdge < so_bottomEdge)
-                {
-                    float distFromTop = Math.Abs(Game1.instance.character.position.Y - so_topEdge);
-                    float distFromRight = Math.Abs(Game1.instance.character.position.X - so_rightEdge);
-
-                    if (topEdge < so_topEdge) // colliding from above
-                    {
-                        Game1.instance.character.position.Y -= Game1.instance.character.previousMove.Length();// so_topEdge - height / 2f;
-                    }
-                    else if (bottomEdge > so_bottomEdge) // colliding from below
-                    {
-                        Game1.instance.character.position.Y += Game1.instance.character.previousMove.Length(); //so_bottomEdge + height / 2f;
-                    }
-
-                    else if (leftEdge < so_leftEdge) // colliding from the left
-                    {
-                        Game1.instance.character.position.X -= Game1.instance.character.previousMove.Length(); //so_leftEdge - width/2f;
-                    }
-                    else if (rightEdge > so_rightEdge) // colliding from the right
-                    {
-                        Game1.instance.character.position.X += Game1.instance.character.previousMove.Length();// so_rightEdge + width/2f;
-                    }
-                    return true;
-                }*/
             }
+
             if (colliders == null)
+            {
                 return null;
+            }
+            return colliders.ToArray();
+        }
+
+        public static Rectangle[] CollidingRectangle(Vector2 position, int width, int height, out object collider) // need multiple collider objects!!
+        {
+            List<Rectangle> colliders = null;
+            collider = null;
+
+            Rectangle rect1 = new Rectangle((int)position.X - width / 2, (int)position.Y - height / 2, width, height);
+
+            foreach (var co in Game1.instance.map.colliders) // loop through every possible collidable object (has to be more efficient in the fututre)
+            {
+                Rectangle rect2 = new Rectangle((int)co.position.X - co.width / 2, (int)co.position.Y - co.height / 2, co.width, co.height);
+
+                if (rect1 == rect2)
+                    continue;
+
+                if (Game1.instance.debugDrawing)
+                {
+                    debugTexture = DebugTextures.GenerateHollowRectangele(rect1.Width, rect1.Height, 1, Color.White);
+                    colPosition = rect1.Center.ToVector2();
+                    colOrigin = new Vector2(debugTexture.Width / 2f, debugTexture.Height / 2f);
+                }
+
+                Rectangle col = Rectangle.Intersect(rect1, rect2);
+                if (!col.IsEmpty)
+                {
+                    if (colliders == null)
+                    {
+                        colliders = new List<Rectangle>();
+                    }
+                    collider = co.owner;
+                    colliders.Add(col);
+                    if (Game1.instance.debugDrawing)
+                    {
+                        debugTexture = DebugTextures.GenerateHollowRectangele(col.Width, col.Height, 1, Color.White);
+                        colPosition = col.Center.ToVector2();
+                        colOrigin = new Vector2(debugTexture.Width / 2f, debugTexture.Height / 2f);
+                    }
+                }
+
+                #region debug
+
+                if (Game1.instance.debugDrawing)
+                {
+                    //debugTexture = DebugTextures.GenerateHollowRectangele(rect1.Width, rect1.Height, 2, Color.White);
+                    //colPosition = rect1.Location.ToVector2();
+                    //colOrigin = new Vector2(debugTexture.Width / 2f, debugTexture.Height / 2f);
+                }
+
+                #endregion
+            }
+
+            if (colliders == null)
+            {
+                collider = null;
+                return null;
+            }
             return colliders.ToArray();
         }
     }

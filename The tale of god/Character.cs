@@ -25,6 +25,9 @@ namespace TheTaleOfGod
         public Texture2D sprite; // customize this with clothes
         public Vector2 origin;
 
+        public float maxHealth = 100f;
+        public float health;
+
         public bool isInteracting;
 
         public Gun gun;
@@ -46,12 +49,8 @@ namespace TheTaleOfGod
             isInteracting = false;
             position = new Vector2(100, 100);
 
-            gun = new Gun(10f, 5f, true, position, new Bullet(10f, BulletType.Normal));
-        }
+            gun = new Gun(25f, 5f, true, position, new Bullet(10f, BulletType.Normal));
 
-        public void LoadCharacter()
-        {
-            //sprite = Game1.content.Load<Texture2D>("textures\\chr1\\chr_head");
             sprite = DebugTextures.GenerateRectangle(16, 32, Color.PaleVioletRed);
 
             A = Vector2.Zero; // top left
@@ -64,9 +63,12 @@ namespace TheTaleOfGod
             gun.Load();
             camera = new Camera(new Vector2(0, 0), -500, 500, -500, 500);
 
+            health = maxHealth;
+
             prevKeyState = Keyboard.GetState();
             prevMouseState = Mouse.GetState();
         }
+
         Rectangle playerRect;
         public void Update(GameTime gameTime)
         {
@@ -80,7 +82,8 @@ namespace TheTaleOfGod
             #region movement and collision
 
             playerRect = new Rectangle((int)position.X - sprite.Width / 2, (int)position.Y - sprite.Height / 2, sprite.Width, sprite.Height);
-            Rectangle[] colliders = Collision.CollidingRectangle(playerRect);
+
+            Rectangle[] colliders = Collision.CollidingRectangle(position, sprite.Width, sprite.Height, out object colInfo);
 
             if (keyState.IsKeyDown(Keys.D) && colDir != CollisionDirection.Left)
             {
@@ -142,6 +145,14 @@ namespace TheTaleOfGod
                         colDir = CollisionDirection.Bottom;
                     }
                 }
+                Enemy enemy = (Enemy)colInfo;
+                if (enemy != null)
+                {
+                    Damage(enemy.meleeDamage);
+                    Vector2 dir = position - enemy.position;
+                    dir.Normalize();
+                    Knock(dir, enemy.meleeDamage * 10);
+                }
             }
             else
             {
@@ -168,7 +179,7 @@ namespace TheTaleOfGod
 
             if (keyState.IsKeyDown(Keys.Enter) & !prevKeyState.IsKeyDown(Keys.Enter))
             {
-                foreach (var npc in NPC.npcs)
+                foreach (var npc in Game1.instance.map.npcs)
                 {
                     if (!npc.interacting)
                     {
@@ -223,6 +234,30 @@ namespace TheTaleOfGod
         {
             isInteracting = true;
             npc.Interact();
+        }
+
+        public void Damage(float damage)
+        {
+            health -= damage;
+
+            if (health <= 0)
+            {
+                health = 0;
+                Die();
+            }
+            else
+            {
+                Console.WriteLine("Character at {0} health", health);
+            }
+        }
+        public void Knock(Vector2 direction, float velocity)
+        {
+            position += direction * velocity;
+        }
+
+        public void Die()
+        {
+            Console.WriteLine("Character is dead :(");
         }
 
         public void Draw(SpriteBatch batch)

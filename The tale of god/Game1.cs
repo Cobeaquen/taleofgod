@@ -31,6 +31,8 @@ namespace TheTaleOfGod
         float fps;
         #endregion
 
+        public Map map;
+
         public static GraphicsDevice graphicsDevice;
 
         RenderTarget2D scene;
@@ -38,20 +40,18 @@ namespace TheTaleOfGod
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        public List<SceneObject> sceneObjects = new List<SceneObject>();
-
-        public Character character = new Character();
+        public Character character;
 
         public static NPC npc1;
         public static NPC npc2;
+
+        public Enemy enemy;
 
         public static ContentManager content { get; set; }
 
         public static Vector2 screenCenter;
 
-        public Wall testWall = new Wall(Vector2.One * 40, 50, 100);
-
-        public bool debugDrawing = false;
+        public bool debugDrawing = true;
 
         public Game1()
         {
@@ -59,8 +59,6 @@ namespace TheTaleOfGod
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             content = Content;
-
-            sceneObjects.Add(testWall);
 
             SetApplicationSettings();
         }
@@ -83,18 +81,16 @@ namespace TheTaleOfGod
             DebugTextures.LoadTextures(GraphicsDevice);
             Dialogue.InitializeDialogueSystem(graphics.GraphicsDevice.Viewport);
 
+            map = new Map();
+
             screenCenter = new Vector2(gameWidth / 2f, gameHeight / 2f);
 
-            character.LoadCharacter();
+            character = new Character();
 
-            npc1 = new NPC(new Vector2(100, -100), DebugTextures.GenerateRectangle(16, 32, Color.Yellow), "Hello world!!", "Great to see you decided to play this game!!");
-
-            npc2 = new NPC(new Vector2(150, 10), DebugTextures.GenerateRectangle(16, 32, Color.Yellow), "Hello, my name is tommy! I used to live in peace", "watering me plants in me garden everyday, until the unpredictable struck");
-
-            foreach (var so in sceneObjects)
-            {
-                so.Load(); // is this function only being called on the base class?
-            }
+            map.npcs.Add(new NPC(new Vector2(100, -100), DebugTextures.GenerateRectangle(16, 32, Color.Yellow), "Hello world!!", "Great to see you decided to play this game!!"));
+            map.npcs.Add(new NPC(new Vector2(150, 10), DebugTextures.GenerateRectangle(16, 32, Color.Yellow), "Hello, my name is tommy! I used to live in peace", "watering me plants in me garden everyday, until the unpredictable struck"));
+            map.enemies.Add (new Enemy(100f, 200f, 10f, screenCenter, DebugTextures.GenerateRectangle(16, 16, Color.DarkGray), character));
+            map.objects.Add(new Wall(Vector2.One * 40, 50, 100));
         }
 
         protected override void UnloadContent()
@@ -112,9 +108,24 @@ namespace TheTaleOfGod
                 character.Update(gameTime);
             }
 
-            foreach (var npc in NPC.npcs)
+            foreach (var npc in map.npcs)
             {
                 npc.Update(gameTime);
+            }
+
+            foreach (var enemy in map.enemies)
+            {
+                enemy.Update(gameTime);
+            }
+
+            foreach (var col in map.colliders)
+            {
+                col.Update(gameTime);
+            }
+
+            foreach (var so in map.objects)
+            {
+                so.Update();
             }
 
             #region fps
@@ -145,14 +156,19 @@ namespace TheTaleOfGod
 
             character.Draw(spriteBatch);
 
-            foreach (var npc in NPC.npcs)
+            foreach (var npc in map.npcs)
             {
                 npc.Draw(spriteBatch, gameTime);
             }
 
-            foreach (var so in sceneObjects)
+            foreach (var so in map.objects)
             {
                 so.Draw(spriteBatch); // is this function only being called on the base class?
+            }
+
+            foreach (var enemy in map.enemies)
+            {
+                enemy.Draw(spriteBatch);
             }
 
             if (debugDrawing)
@@ -172,10 +188,9 @@ namespace TheTaleOfGod
 
             spriteBatch.Begin(); // drawing ui
 
-            foreach (var npc in NPC.npcs)
+            foreach (var npc in map.npcs)
             {
-                npc1.DrawDialogue(spriteBatch, gameTime);
-                npc2.DrawDialogue(spriteBatch, gameTime);
+                npc.DrawDialogue(spriteBatch, gameTime);
             }
 
             //spriteBatch.DrawString(npc.font, "testing out this new rendertartget!! NICE JOB TEAM", new Vector2( Mouse.GetState().Position.X, Mouse.GetState().Position.Y), Color.Black);

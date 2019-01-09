@@ -66,9 +66,15 @@ namespace TheTaleOfGod
                     {
                         bullets.RemoveAt(i);
                     }
-                    // this collision rectangle does not change according to its rotation - NEED RAYCASTS (I'M TAKING TIME TO DEVELOP RETARDED METHODS JUST TO THEN REMOVE THEM AND IMPLEMENT ANOTHER METHOD)
-                    else if (Collision.CollidingRectangle(new Rectangle((int)bullets[i].position.X - bullets[i].sprite.Width/2, (int)bullets[i].position.Y - bullets[i].sprite.Height/2, bullets[i].sprite.Width, bullets[i].sprite.Height)) != null)
+                    // this collision rectangle does not change according to its rotation - NEED RAYCASTS (I'M TAKING TIME TO DEVELOP RETARDED METHODS JUST TO THEN REMOVE THEM AND IMPLEMENT ANOTHER METHOD) pls help
+                    else if (Collision.CollidingRectangle(bullets[i].position, bullets[i].sprite.Width, bullets[i].sprite.Height, out object colInfo) != null)//new Rectangle((int)bullets[i].position.X - bullets[i].sprite.Width/2, (int)bullets[i].position.Y - bullets[i].sprite.Height/2, bullets[i].sprite.Width, bullets[i].sprite.Height), out tag) != null)
                     {
+                        Enemy enemy = (Enemy)colInfo;
+                        if (enemy != null) // collided with an enemy
+                        {
+                            enemy.Damage(damage);
+                        }
+
                         bullets.RemoveAt(i);
                     }
                     else
@@ -99,7 +105,7 @@ namespace TheTaleOfGod
                             pos.X -= Math.Abs(direction.X);
                             pos.Y -= Math.Abs(direction.Y);
                         }
-                        if (Collision.CollidingRectangle(new Rectangle(pos.ToPoint(), new Point((int)Math.Abs(direction.X), (int)Math.Abs(direction.Y)))) != null)
+                        if (Collision.CollidingRectangle(pos, (int)Math.Abs(direction.X), (int)Math.Abs(direction.Y)) != null)//new Rectangle(pos.ToPoint(), new Point((int)Math.Abs(direction.X), (int)Math.Abs(direction.Y)))) != null)
                         {
                             bullets.RemoveAt(i);
                             Console.WriteLine("bullet avoided target on a frame");
@@ -111,7 +117,6 @@ namespace TheTaleOfGod
         }
         public virtual void Fire(Vector2 lookDirection)
         {
-            Console.WriteLine("FIRED");
             bullets.Add(Bullet.SpawnBullet(bullet, position, rotation, lookDirection));
         }
         public virtual void Draw(SpriteBatch batch)

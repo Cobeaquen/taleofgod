@@ -14,8 +14,6 @@ namespace TheTaleOfGod
     [ProtoContract]
     public class NPC
     {
-        public static List<NPC> npcs = new List<NPC>();
-
         [ProtoMember(1)]
         public Vector2 position;
         public Vector2 origin;
@@ -35,7 +33,6 @@ namespace TheTaleOfGod
             dialogue = new Dialogue(speechLines, 1f, Game1.content.Load<SpriteFont>("fonts\\npc1"));
             origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
             prevState = Keyboard.GetState();
-            npcs.Add(this);
         }
 
         public void Update(GameTime gameTime)

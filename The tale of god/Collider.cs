@@ -19,16 +19,33 @@ namespace TheTaleOfGod
         public int height;
 
         [ProtoMember(3)]
+        public string tag;
+
+        public object owner;
+
+        [ProtoMember(4)]
         public Vector2 position;
+
+        public int Right;
+        public int Left;
+        public int Top;
+        public int Bottom;
 
         public Texture2D debugSprite;
         public Vector2 debugOrigin;
 
-        public Collider(Vector2 position, int width, int height)
+        public Collider(Vector2 position, int width, int height, string tag = null, object owner = null)
         {
-            this.position = position;
+            this.position = new Vector2(position.X, position.Y);
             this.width = width;
             this.height = height;
+            this.tag = tag;
+            this.owner = owner;
+
+            Right = (int)position.X + width / 2;
+            Left = (int)position.X - width / 2;
+            Top = (int)position.Y - height / 2;
+            Bottom = (int)position.Y + height / 2;
         }
         public Collider()
         {
@@ -36,10 +53,7 @@ namespace TheTaleOfGod
         }
         public void Update(GameTime gameTime)
         {
-            if (Collision.CollidingRectangle(new Rectangle(position.ToPoint(), new Point(width, height))) != null) // colliding
-            {
 
-            }
         }
         public void DrawDebug(SpriteBatch batch)
         {

@@ -7,7 +7,7 @@ using TheTaleOfGod;
 using ProtoBuf;
 using System.IO;
 
-namespace MapEditor
+namespace TheTaleOfGod
 {
     [ProtoContract]
     public class Map
@@ -21,11 +21,15 @@ namespace MapEditor
         [ProtoMember(3)]
         public List<Collider> colliders;
 
+        [ProtoMember(4)]
+        public List<Enemy> enemies;
+
         public Map()
         {
             npcs = new List<NPC>();
             objects = new List<SceneObject>();
             colliders = new List<Collider>();
+            enemies = new List<Enemy>();
         }
 
         public void Save(string mapName)

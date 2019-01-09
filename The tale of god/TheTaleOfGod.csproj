@@ -52,9 +52,11 @@
     <Compile Include="Collision.cs" />
     <Compile Include="DebugTextures.cs" />
     <Compile Include="Dialogue.cs" />
+    <Compile Include="Enemy.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Gun.cs" />
     <Compile Include="Input.cs" />
+    <Compile Include="Map.cs" />
     <Compile Include="NPC.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

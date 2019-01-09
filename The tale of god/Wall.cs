@@ -16,10 +16,7 @@ namespace TheTaleOfGod
         {
             this.position = position;
         }
-        public override void Load()
-        {
-            base.Load();
-        }
+
         public override void Update()
         {
             base.Update();

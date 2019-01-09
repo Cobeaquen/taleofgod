@@ -22,12 +22,20 @@ namespace TheTaleOfGod
         [ProtoMember(3)]
         public int height;
 
+        public Collider collider;
+
         protected Texture2D sprite;
 
         public SceneObject(int width, int height)
         {
             this.width = width;
             this.height = height;
+            collider = new Collider(position, width, height);
+
+            Game1.instance.map.colliders.Add(collider);
+
+            sprite = DebugTextures.GenerateRectangle(width, height, Color.PowderBlue);
+            origin = new Vector2(width / 2f, height / 2f);
         }
 
         public SceneObject()
@@ -35,15 +43,9 @@ namespace TheTaleOfGod
 
         }
 
-        public virtual void Load()
+        public virtual void Update()
         {
-            sprite = DebugTextures.GenerateRectangle(width, height, Color.PowderBlue);
-            origin = new Vector2(width / 2f, height / 2f);
-        }
-
-        public virtual void Update() // unnecessary?? yes probably
-        {
-
+            collider.position = position;
         }
 
         public virtual void Draw(SpriteBatch batch)
