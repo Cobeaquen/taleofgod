@@ -107,3 +107,11 @@ D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\textures\laser_p
 D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\protobuf-net.dll
 D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.xml
 D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\protobuf-net.xml
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\Content\textures\ui\dialogue_box.xnb
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\textures\ui\dialogue_box.xnb
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\Content\textures\laser_pistol.xnb
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\textures\laser_pistol.xnb
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\Content\fonts\npc1.xnb
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\protobuf-net.dll
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.xml
+C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\protobuf-net.xml

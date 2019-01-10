@@ -112,9 +112,9 @@ namespace TheTaleOfGod
             {
                 foreach (var col in colliders)
                 {
-                    if (playerRect.Right > col.Right && col.Height >= col.Width) // colliding from the right
+                    if (playerRect.Right > col.Right && (col.Height >= col.Width)) // colliding from the right
                     {
-                        if (!(move.X > 0))
+                        if (!(move.X > 0) && col.Width != col.Height)
                         {
                             move.X = col.Width - 1f;
                         }
@@ -122,7 +122,7 @@ namespace TheTaleOfGod
                     }
                     else if (playerRect.Left < col.Left && col.Height >= col.Width) // colliding from the left
                     {
-                        if (!(move.X < 0))
+                        if (!(move.X < 0) && col.Width != col.Height)
                         {
                             move.X = 1f - col.Width;
                         }
@@ -130,7 +130,7 @@ namespace TheTaleOfGod
                     }
                     else if (playerRect.Top < col.Top) // colliding from the top
                     {
-                        if (!(move.Y < 0))
+                        if (!(move.Y < 0) && col.Width != col.Height)
                         {
                             move.Y = 1f - col.Height;
                         }
@@ -138,7 +138,7 @@ namespace TheTaleOfGod
                     }
                     else if (playerRect.Bottom > col.Bottom) // colliding from the bottom
                     {
-                        if (!(move.Y > 0))
+                        if (!(move.Y > 0) && col.Width != col.Height)
                         {
                             move.Y = col.Height - 1f;
                         }

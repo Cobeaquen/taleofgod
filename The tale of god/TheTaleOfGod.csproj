@@ -55,6 +55,7 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Gun.cs" />
+    <Compile Include="HealthBar.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="NPC.cs" />

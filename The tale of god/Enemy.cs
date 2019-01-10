@@ -28,6 +28,8 @@ namespace TheTaleOfGod
         private Vector2 move;
         private Collider collider;
 
+        private HealthBar healthBar;
+
         public Enemy(float speed, float maxHealth, float meleeDamage, Vector2 position, Texture2D sprite, Character target)
         {
             this.speed = speed;
@@ -36,6 +38,8 @@ namespace TheTaleOfGod
             this.position = position;
             this.sprite = sprite;
             this.target = target;
+
+            healthBar = new HealthBar();
 
             collider = new Collider(position, sprite.Width, sprite.Height, "enemy", this);
             Game1.instance.map.colliders.Add(collider);
@@ -99,6 +103,8 @@ namespace TheTaleOfGod
         public void Damage(float damage)
         {
             health -= damage;
+            healthBar.ChangeValue(health / maxHealth);
+            healthBar.position = position;
 
             if (health <= 0)
             {
@@ -121,6 +127,7 @@ namespace TheTaleOfGod
         public void Draw(SpriteBatch batch)
         {
             batch.Draw(sprite, position, null, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
+            healthBar.Draw(batch);
         }
     }
 }
