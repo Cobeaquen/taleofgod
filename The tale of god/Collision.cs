@@ -80,10 +80,10 @@ namespace TheTaleOfGod
             return colliders.ToArray();
         }
 
-        public static Rectangle[] CollidingRectangle(Vector2 position, int width, int height, out object collider) // need multiple collider objects!!
+        public static Rectangle[] CollidingRectangle(Vector2 position, int width, int height, out object[] colInfo) // need multiple collider objects!!
         {
             List<Rectangle> colliders = null;
-            collider = null;
+            List<object> colInfos = null;
 
             Rectangle rect1 = new Rectangle((int)position.X - width / 2, (int)position.Y - height / 2, width, height);
 
@@ -108,7 +108,15 @@ namespace TheTaleOfGod
                     {
                         colliders = new List<Rectangle>();
                     }
-                    collider = co.owner;
+                    if (co.owner != null)
+                    {
+                        if (colInfos == null)
+                        {
+                            colInfos = new List<object>();
+                        }
+                        colInfos.Add(co.owner);
+                    }
+
                     colliders.Add(col);
                     if (Game1.instance.debugDrawing)
                     {
@@ -132,9 +140,18 @@ namespace TheTaleOfGod
 
             if (colliders == null)
             {
-                collider = null;
+                colInfo = null;
                 return null;
             }
+            if (colInfos != null)
+            {
+                colInfo = colInfos.ToArray();
+            }
+            else
+            {
+                colInfo = null;
+            }
+
             return colliders.ToArray();
         }
     }

@@ -37,6 +37,9 @@ namespace TheTaleOfGod
 
         public Camera camera;
 
+        public HealthBar healthBar;
+        public Vector2 healthBarOffset = new Vector2(0, 22);
+
         KeyboardState prevKeyState;
         MouseState prevMouseState;
 
@@ -60,10 +63,10 @@ namespace TheTaleOfGod
 
             origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
 
-            gun.Load();
             camera = new Camera(new Vector2(0, 0), -500, 500, -500, 500);
 
             health = maxHealth;
+            healthBar = new HealthBar();
 
             prevKeyState = Keyboard.GetState();
             prevMouseState = Mouse.GetState();
@@ -83,7 +86,7 @@ namespace TheTaleOfGod
 
             playerRect = new Rectangle((int)position.X - sprite.Width / 2, (int)position.Y - sprite.Height / 2, sprite.Width, sprite.Height);
 
-            Rectangle[] colliders = Collision.CollidingRectangle(position, sprite.Width, sprite.Height, out object colInfo);
+            Rectangle[] colliders = Collision.CollidingRectangle(position, sprite.Width, sprite.Height, out object[] colInfo);
 
             if (keyState.IsKeyDown(Keys.D) && colDir != CollisionDirection.Left)
             {
@@ -145,13 +148,19 @@ namespace TheTaleOfGod
                         colDir = CollisionDirection.Bottom;
                     }
                 }
-                Enemy enemy = (Enemy)colInfo;
-                if (enemy != null)
+                if (colInfo != null)
                 {
-                    Damage(enemy.meleeDamage);
-                    Vector2 dir = position - enemy.position;
-                    dir.Normalize();
-                    Knock(dir, enemy.meleeDamage * 10);
+                    foreach (var info in colInfo)
+                    {
+                        Enemy enemy = (Enemy)info;
+                        if (enemy != null) // colliding with the enemy
+                        {
+                            Damage(enemy.meleeDamage);
+                            Vector2 dir = position - enemy.position;
+                            dir.Normalize();
+                            Knock(dir, enemy.meleeDamage * 10);
+                        }
+                    }
                 }
             }
             else
@@ -223,6 +232,8 @@ namespace TheTaleOfGod
             prevMouseState = mouseState;
 
             #endregion
+
+            healthBar.position = position + healthBarOffset;
         }
 
         public void Move(Vector2 newPos)
@@ -247,6 +258,7 @@ namespace TheTaleOfGod
             }
             else
             {
+                healthBar.ChangeValue(health/maxHealth);
                 Console.WriteLine("Character at {0} health", health);
             }
         }
@@ -264,6 +276,7 @@ namespace TheTaleOfGod
         {
             batch.Draw(sprite, position, null, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
             gun.Draw(batch);
+            healthBar.Draw(batch);
         }
     }
 }

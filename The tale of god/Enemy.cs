@@ -16,6 +16,8 @@ namespace TheTaleOfGod
         public float speed;
         public Vector2 position;
 
+        public float attackRange;
+
         public Texture2D sprite;
         public Vector2 origin;
 
@@ -23,17 +25,21 @@ namespace TheTaleOfGod
         public float maxHealth;
         public float health;
 
+        public float rotation;
+
         public Character target;
 
         private Vector2 move;
         private Collider collider;
 
         private HealthBar healthBar;
+        static Vector2 healthBarOffset = new Vector2(0, 15);
 
-        public Enemy(float speed, float maxHealth, float meleeDamage, Vector2 position, Texture2D sprite, Character target)
+        public Enemy(float speed, float maxHealth, float attackRange, float meleeDamage, Vector2 position, Texture2D sprite, Character target)
         {
             this.speed = speed;
             this.maxHealth = maxHealth;
+            this.attackRange = attackRange;
             this.meleeDamage = meleeDamage;
             this.position = position;
             this.sprite = sprite;
@@ -52,14 +58,19 @@ namespace TheTaleOfGod
         public void Update(GameTime gameTime)
         {
             // follow the target
-            Vector2 direction = target.position - position;
-            if (direction != Vector2.Zero)
+            float dist = Vector2.Distance(target.position, position);
+            if (dist < attackRange)
             {
-                direction.Normalize();
-                move = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Vector2 direction = target.position - position;
+                if (direction != Vector2.Zero)
+                {
+                    direction.Normalize();
+                    move = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
             }
+            
             Rectangle enemyRect = new Rectangle((int)position.X - sprite.Width / 2, (int)position.Y - sprite.Height / 2, sprite.Width, sprite.Height);
-            Rectangle[] colliders = Collision.CollidingRectangle(position, sprite.Width, sprite.Height, out object colInfo);
+            Rectangle[] colliders = Collision.CollidingRectangle(position, sprite.Width, sprite.Height, out object[] colInfo);
 
             if (colliders != null)
             {
@@ -96,7 +107,9 @@ namespace TheTaleOfGod
                 }
             }
             position += move;
+            rotation = Game1.VectorToAngle(move);
 
+            healthBar.position = position + healthBarOffset;
             collider.position = position;
         }
 
@@ -104,7 +117,6 @@ namespace TheTaleOfGod
         {
             health -= damage;
             healthBar.ChangeValue(health / maxHealth);
-            healthBar.position = position;
 
             if (health <= 0)
             {
@@ -126,7 +138,7 @@ namespace TheTaleOfGod
 
         public void Draw(SpriteBatch batch)
         {
-            batch.Draw(sprite, position, null, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
+            batch.Draw(sprite, position, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
             healthBar.Draw(batch);
         }
     }

@@ -89,7 +89,7 @@ namespace TheTaleOfGod
 
             map.npcs.Add(new NPC(new Vector2(100, -100), DebugTextures.GenerateRectangle(16, 32, Color.Yellow), "Hello world!!", "Great to see you decided to play this game!!"));
             map.npcs.Add(new NPC(new Vector2(150, 10), DebugTextures.GenerateRectangle(16, 32, Color.Yellow), "Hello, my name is tommy! I used to live in peace", "watering me plants in me garden everyday, until the unpredictable struck"));
-            map.enemies.Add (new Enemy(100f, 200f, 10f, screenCenter, DebugTextures.GenerateRectangle(16, 16, Color.DarkGray), character));
+            map.enemies.Add (new Enemy(100f, 200f, 150f, 10f, screenCenter, DebugTextures.GenerateRectangle(16, 16, Color.DarkGray), character));
             map.objects.Add(new Wall(Vector2.One * 40, 50, 100));
         }
 

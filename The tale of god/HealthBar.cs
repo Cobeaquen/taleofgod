@@ -11,7 +11,7 @@ namespace TheTaleOfGod
 {
     public class HealthBar
     {
-        public float value;
+        public float Value { get; set; }
 
         public Vector2 position;
         public Texture2D sprite;
@@ -19,24 +19,35 @@ namespace TheTaleOfGod
 
         private Vector2 origin;
 
+        private Color color;
+
+        static Color color1 = Color.Green;
+        static Color color2 = Color.Red;
+
         public HealthBar()
         {
-            value = 1f;
+            Value = 1f;
             sprite = DebugTextures.GenerateHollowRectangele(10, 5, 1, Color.Black);
-            progress = DebugTextures.GenerateRectangle(10, 5, Color.Green);
+            progress = DebugTextures.GenerateRectangle(10, 5, Color.White);
             origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
+
+
         }
         public void ChangeValue(float value)
         {
-            this.value = value;
-            progress = DebugTextures.GenerateRectangle((int)(value * 10), 5, Color.White);
+            Value = value;
+            
         }
 
         public void Draw(SpriteBatch batch)
         {
             batch.Draw(sprite, position, null, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
-            Vector2 origin1 = new Vector2(0, sprite.Height / 2f);
-            batch.Draw(progress, position, null, Color.White, 0f, origin1, new Vector2(value, 1f), SpriteEffects.None, 0f);
+
+            Vector2 origin1 = new Vector2(sprite.Width, progress.Height / 2);
+
+            color = Color.Lerp(color2, color1, Value);
+
+            batch.Draw(progress, position + new Vector2(sprite.Width/2f, 0f), null, color, 0f, origin1, new Vector2(Value, 1f), SpriteEffects.None, 0f);
         }
     }
 }

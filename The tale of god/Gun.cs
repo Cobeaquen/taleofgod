@@ -35,18 +35,14 @@ namespace TheTaleOfGod
             this.autoFire = autoFire;
             this.position = position;
             this.bullet = bullet;
-        }
-
-        public virtual void Load()
-        {
+            
             //sprite = Game1.content.Load<Texture2D>("textures\\laser_pistol");
             sprite = DebugTextures.GenerateRectangle(5, 10, Color.DarkGreen);
-            origin = new Vector2(sprite.Width/2f, sprite.Height/2f);
+            origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
 
             bullets = new List<Bullet>();
-
-
         }
+
         public virtual void Update(GameTime gameTime, Vector2 position, float rotation, Vector2 lookDirection)
         {
             this.position = position + lookDirection * positionOffset;
@@ -67,15 +63,9 @@ namespace TheTaleOfGod
                         bullets.RemoveAt(i);
                     }
                     // this collision rectangle does not change according to its rotation - NEED RAYCASTS (I'M TAKING TIME TO DEVELOP RETARDED METHODS JUST TO THEN REMOVE THEM AND IMPLEMENT ANOTHER METHOD) pls help
-                    else if (Collision.CollidingRectangle(bullets[i].position, bullets[i].sprite.Width, bullets[i].sprite.Height, out object colInfo) != null)//new Rectangle((int)bullets[i].position.X - bullets[i].sprite.Width/2, (int)bullets[i].position.Y - bullets[i].sprite.Height/2, bullets[i].sprite.Width, bullets[i].sprite.Height), out tag) != null)
+                    else if (Collision.CollidingRectangle(bullets[i].position, bullets[i].sprite.Width, bullets[i].sprite.Height, out object[] colInfo) != null)//new Rectangle((int)bullets[i].position.X - bullets[i].sprite.Width/2, (int)bullets[i].position.Y - bullets[i].sprite.Height/2, bullets[i].sprite.Width, bullets[i].sprite.Height), out tag) != null)
                     {
-                        Enemy enemy = (Enemy)colInfo;
-                        if (enemy != null) // collided with an enemy
-                        {
-                            enemy.Damage(damage);
-                        }
-
-                        bullets.RemoveAt(i);
+                        Hit(colInfo, i);
                     }
                     else
                     {
@@ -105,9 +95,9 @@ namespace TheTaleOfGod
                             pos.X -= Math.Abs(direction.X);
                             pos.Y -= Math.Abs(direction.Y);
                         }
-                        if (Collision.CollidingRectangle(pos, (int)Math.Abs(direction.X), (int)Math.Abs(direction.Y)) != null)//new Rectangle(pos.ToPoint(), new Point((int)Math.Abs(direction.X), (int)Math.Abs(direction.Y)))) != null)
+                        if (Collision.CollidingRectangle(pos, (int)Math.Abs(direction.X), (int)Math.Abs(direction.Y), out object[] colInfo2) != null)//new Rectangle(pos.ToPoint(), new Point((int)Math.Abs(direction.X), (int)Math.Abs(direction.Y)))) != null)
                         {
-                            bullets.RemoveAt(i);
+                            Hit(colInfo2, i);
                             Console.WriteLine("bullet avoided target on a frame");
                         }
                     }
@@ -115,6 +105,24 @@ namespace TheTaleOfGod
             }
             #endregion
         }
+
+        public void Hit(object[] hitInfo, int bulletIndex)
+        {
+            if (hitInfo != null)
+            {
+                foreach (var info in hitInfo)
+                {
+                    Enemy enemy = (Enemy)info;
+                    if (enemy != null) // collided with an enemy
+                    {
+                        enemy.Damage(damage);
+                    }
+                }
+            }
+
+            bullets.RemoveAt(bulletIndex);
+        }
+
         public virtual void Fire(Vector2 lookDirection)
         {
             bullets.Add(Bullet.SpawnBullet(bullet, position, rotation, lookDirection));
