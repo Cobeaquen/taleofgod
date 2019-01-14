@@ -25,6 +25,10 @@ namespace TheTaleOfGod
         public Texture2D sprite; // customize this with clothes
         public Vector2 origin;
 
+        public Cell cell;
+
+        Cell[] NearbyCells { get; set; }
+
         public float maxHealth = 100f;
         public float health;
 
@@ -80,13 +84,15 @@ namespace TheTaleOfGod
 
             move = Vector2.Zero;
 
+            NearbyCells = Cell.GetAreaOfCells(Cell.GetCell(position), 3, 3);
+
             #region input
 
             #region movement and collision
 
             playerRect = new Rectangle((int)position.X - sprite.Width / 2, (int)position.Y - sprite.Height / 2, sprite.Width, sprite.Height);
 
-            Rectangle[] colliders = Collision.CollidingRectangle(position, sprite.Width, sprite.Height, out object[] colInfo);
+            Rectangle[] colliders = Collision.CollidingRectangle(position, NearbyCells, sprite.Width, sprite.Height, out object[] colInfo);
 
             if (keyState.IsKeyDown(Keys.D) && colDir != CollisionDirection.Left)
             {
@@ -233,6 +239,8 @@ namespace TheTaleOfGod
 
             #endregion
 
+            cell = Cell.GetCell(position);
+
             healthBar.position = position + healthBarOffset;
         }
 
@@ -274,6 +282,11 @@ namespace TheTaleOfGod
 
         public void Draw(SpriteBatch batch)
         {
+            foreach (var cell in NearbyCells)
+            {
+                batch.Draw(Cell.CellSprite, cell.ToVector2(), null, Color.Green, 0f, Cell.SpriteOrigin, 1f, SpriteEffects.None, 0.99f);
+            }
+            batch.Draw(Cell.CellSprite, cell.ToVector2(), null, Color.LightGoldenrodYellow, 0f, Cell.SpriteOrigin, 1f, SpriteEffects.None, 1f);
             batch.Draw(sprite, position, null, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
             gun.Draw(batch);
             healthBar.Draw(batch);

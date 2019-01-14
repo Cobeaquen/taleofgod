@@ -12,7 +12,7 @@ namespace TheTaleOfGod
 {
     public class Wall : SceneObject
     {
-        public Wall(Vector2 position, int width, int height) : base(width, height)
+        public Wall(Vector2 position, int width, int height, bool stationary) : base(width, height, stationary)
         {
             this.position = position;
         }

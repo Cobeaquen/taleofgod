@@ -4,10 +4,10 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>D:/taleofgod/The tale of god/Content/fonts/npc1.spritefont</File>
-    <File>D:/taleofgod/The tale of god/Content/textures/chr1/chr_head.png</File>
-    <File>D:/taleofgod/The tale of god/Content/textures/laser_pistol.png</File>
-    <File>D:/taleofgod/The tale of god/Content/textures/ui/dialogue_box.png</File>
+    <File>C:/Users/Cobeaquen/Documents/GitHub/taleofgod/The tale of god/Content/fonts/npc1.spritefont</File>
+    <File>C:/Users/Cobeaquen/Documents/GitHub/taleofgod/The tale of god/Content/textures/chr1/chr_head.png</File>
+    <File>C:/Users/Cobeaquen/Documents/GitHub/taleofgod/The tale of god/Content/textures/laser_pistol.png</File>
+    <File>C:/Users/Cobeaquen/Documents/GitHub/taleofgod/The tale of god/Content/textures/ui/dialogue_box.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

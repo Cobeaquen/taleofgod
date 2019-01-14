@@ -18,6 +18,8 @@ namespace TheTaleOfGod
 
         public float destroyTime = 2f;
 
+        public Cell[] NearbyCells { get; set; }
+
         public Texture2D sprite;
         public Vector2 origin;
 
@@ -59,11 +61,13 @@ namespace TheTaleOfGod
 
         public void Update(GameTime gameTime)
         {
-            Vector2 move = forwardDirection * velocity * gameTime.ElapsedGameTime.Ticks/100000f;
+            Vector2 move = forwardDirection * velocity * (float)gameTime.ElapsedGameTime.TotalSeconds * 100f;
             previousPosition = position;
             position += move;
 
-            destroyTime -= gameTime.ElapsedGameTime.Ticks / 10000000f;
+            NearbyCells = Cell.GetAreaOfCells(Cell.GetCell(position), 3, 3);
+
+            destroyTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
 
         public void Draw(SpriteBatch batch)

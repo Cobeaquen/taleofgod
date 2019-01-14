@@ -47,6 +47,7 @@
     <Compile Include="Bullet.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Cell.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="Collider.cs" />
     <Compile Include="Collision.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="HealthBar.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="Node.cs" />
     <Compile Include="NPC.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

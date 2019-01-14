@@ -15,6 +15,9 @@ namespace TheTaleOfGod
     {
         public float speed;
         public Vector2 position;
+        public Cell cell = new Cell(0, 0);
+
+        public Cell[] NearbyCells { get; set; }
 
         public float attackRange;
 
@@ -58,19 +61,33 @@ namespace TheTaleOfGod
         public void Update(GameTime gameTime)
         {
             // follow the target
-            float dist = Vector2.Distance(target.position, position);
-            if (dist < attackRange)
+            Vector2 direction = target.position - position;
+            if (direction.Length() < attackRange)
             {
-                Vector2 direction = target.position - position;
+                rotation = Game1.VectorToAngle(direction);
                 if (direction != Vector2.Zero)
                 {
                     direction.Normalize();
                     move = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
+                if (cell != Cell.GetCell(position))
+                {
+                    cell.enemies.Remove(this);
+                    cell.colliders.Remove(collider);
+                    cell = Cell.GetCell(position);
+                    cell.enemies.Add(this);
+                    cell.colliders.Add(collider);
+                }
             }
-            
+            else
+            {
+                move = Vector2.Zero;
+            }
+
+            NearbyCells = Cell.GetAreaOfCells(Cell.GetCell(position), 4, 4);
+
             Rectangle enemyRect = new Rectangle((int)position.X - sprite.Width / 2, (int)position.Y - sprite.Height / 2, sprite.Width, sprite.Height);
-            Rectangle[] colliders = Collision.CollidingRectangle(position, sprite.Width, sprite.Height, out object[] colInfo);
+            Rectangle[] colliders = Collision.CollidingRectangle(position, NearbyCells, sprite.Width, sprite.Height, out object[] colInfo);
 
             if (colliders != null)
             {
@@ -107,7 +124,6 @@ namespace TheTaleOfGod
                 }
             }
             position += move;
-            rotation = Game1.VectorToAngle(move);
 
             healthBar.position = position + healthBarOffset;
             collider.position = position;
@@ -133,6 +149,7 @@ namespace TheTaleOfGod
         public void Die()
         {
             Game1.instance.map.enemies.Remove(this);
+            cell.colliders.Remove(collider);
             Game1.instance.map.colliders.Remove(collider);
         }
 

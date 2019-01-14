@@ -25,41 +25,52 @@ namespace TheTaleOfGod
         /// <param name="height"></param>
         /// <returns></returns>
 
-        public static Rectangle[] CollidingRectangle(Vector2 position, int width, int height) // needs to return multiple tags if colliding with multiple objects (return collider instead of rectangle)
+        public static Rectangle[] CollidingRectangle(Vector2 position, Cell[] cellCheck, int width, int height) // needs to return multiple tags if colliding with multiple objects (return collider instead of rectangle)
         {
             List<Rectangle> colliders = null;
 
             Rectangle rect1 = new Rectangle((int)position.X - width / 2, (int)position.Y - height / 2, width, height);
 
-            foreach (var co in Game1.instance.map.colliders) // loop through every possible collidable object (has to be more efficient in the fututre)
+            foreach (var cell in cellCheck)
             {
-                Rectangle rect2 = new Rectangle((int)co.position.X - co.width/2, (int)co.position.Y - co.height/2, co.width, co.height);
-
-                if (rect1 == rect2)
-                    continue;
-
-                if (Game1.instance.debugDrawing)
+                if (cell.colliders.Count > 0)
                 {
-                    debugTexture = DebugTextures.GenerateHollowRectangele(rect1.Width, rect1.Height, 1, Color.White);
-                    colPosition = rect1.Center.ToVector2();
-                    colOrigin = new Vector2(debugTexture.Width / 2f, debugTexture.Height / 2f);
-                }
+                    foreach (var co in cell.colliders)
+                    {
+                        Rectangle rect2 = new Rectangle((int)co.position.X - co.width / 2, (int)co.position.Y - co.height / 2, co.width, co.height);
 
-                Rectangle col = Rectangle.Intersect(rect1, rect2);
-                if (!col.IsEmpty)
-                {
-                    if (colliders == null)
-                    {
-                        colliders = new List<Rectangle>();
-                    }
-                    colliders.Add(col);
-                    if (Game1.instance.debugDrawing)
-                    {
-                        debugTexture = DebugTextures.GenerateHollowRectangele(col.Width, col.Height, 1, Color.White);
-                        colPosition = col.Center.ToVector2();
-                        colOrigin = new Vector2(debugTexture.Width / 2f, debugTexture.Height / 2f);
+                        if (rect1 == rect2)
+                            continue;
+
+                        if (Game1.instance.debugDrawing)
+                        {
+                            debugTexture = DebugTextures.GenerateHollowRectangele(rect1.Width, rect1.Height, 1, Color.White);
+                            colPosition = rect1.Center.ToVector2();
+                            colOrigin = new Vector2(debugTexture.Width / 2f, debugTexture.Height / 2f);
+                        }
+
+                        Rectangle col = Rectangle.Intersect(rect1, rect2);
+                        if (!col.IsEmpty)
+                        {
+                            if (colliders == null)
+                            {
+                                colliders = new List<Rectangle>();
+                            }
+                            colliders.Add(col);
+                            if (Game1.instance.debugDrawing)
+                            {
+                                debugTexture = DebugTextures.GenerateHollowRectangele(col.Width, col.Height, 1, Color.White);
+                                colPosition = col.Center.ToVector2();
+                                colOrigin = new Vector2(debugTexture.Width / 2f, debugTexture.Height / 2f);
+                            }
+                        }
                     }
                 }
+            }
+
+            /*foreach (var co in Game1.instance.map.colliders) // loop through every possible collidable object (has to be more efficient in the fututre)
+            {
+                
 
                 #region debug
 
@@ -71,7 +82,7 @@ namespace TheTaleOfGod
                 }
 
                 #endregion
-            }
+            }*/
 
             if (colliders == null)
             {
@@ -80,51 +91,62 @@ namespace TheTaleOfGod
             return colliders.ToArray();
         }
 
-        public static Rectangle[] CollidingRectangle(Vector2 position, int width, int height, out object[] colInfo) // need multiple collider objects!!
+        public static Rectangle[] CollidingRectangle(Vector2 position, Cell[] cellCheck, int width, int height, out object[] colInfo) // need multiple collider objects!!
         {
             List<Rectangle> colliders = null;
             List<object> colInfos = null;
 
             Rectangle rect1 = new Rectangle((int)position.X - width / 2, (int)position.Y - height / 2, width, height);
 
-            foreach (var co in Game1.instance.map.colliders) // loop through every possible collidable object (has to be more efficient in the fututre)
+            foreach (var cell in cellCheck)
             {
-                Rectangle rect2 = new Rectangle((int)co.position.X - co.width / 2, (int)co.position.Y - co.height / 2, co.width, co.height);
-
-                if (rect1 == rect2)
-                    continue;
-
-                if (Game1.instance.debugDrawing)
+                if (cell.colliders.Count > 0)
                 {
-                    debugTexture = DebugTextures.GenerateHollowRectangele(rect1.Width, rect1.Height, 1, Color.White);
-                    colPosition = rect1.Center.ToVector2();
-                    colOrigin = new Vector2(debugTexture.Width / 2f, debugTexture.Height / 2f);
-                }
+                    foreach (var co in cell.colliders)
+                    {
+                        Rectangle rect2 = new Rectangle((int)co.position.X - co.width / 2, (int)co.position.Y - co.height / 2, co.width, co.height);
 
-                Rectangle col = Rectangle.Intersect(rect1, rect2);
-                if (!col.IsEmpty)
-                {
-                    if (colliders == null)
-                    {
-                        colliders = new List<Rectangle>();
-                    }
-                    if (co.owner != null)
-                    {
-                        if (colInfos == null)
+                        if (rect1 == rect2)
+                            continue;
+
+                        if (Game1.instance.debugDrawing)
                         {
-                            colInfos = new List<object>();
+                            debugTexture = DebugTextures.GenerateHollowRectangele(rect1.Width, rect1.Height, 1, Color.White);
+                            colPosition = rect1.Center.ToVector2();
+                            colOrigin = new Vector2(debugTexture.Width / 2f, debugTexture.Height / 2f);
                         }
-                        colInfos.Add(co.owner);
-                    }
 
-                    colliders.Add(col);
-                    if (Game1.instance.debugDrawing)
-                    {
-                        debugTexture = DebugTextures.GenerateHollowRectangele(col.Width, col.Height, 1, Color.White);
-                        colPosition = col.Center.ToVector2();
-                        colOrigin = new Vector2(debugTexture.Width / 2f, debugTexture.Height / 2f);
+                        Rectangle col = Rectangle.Intersect(rect1, rect2);
+                        if (!col.IsEmpty)
+                        {
+                            if (colliders == null)
+                            {
+                                colliders = new List<Rectangle>();
+                            }
+                            if (co.owner != null)
+                            {
+                                if (colInfos == null)
+                                {
+                                    colInfos = new List<object>();
+                                }
+                                colInfos.Add(co.owner);
+                            }
+
+                            colliders.Add(col);
+                            if (Game1.instance.debugDrawing)
+                            {
+                                debugTexture = DebugTextures.GenerateHollowRectangele(col.Width, col.Height, 1, Color.White);
+                                colPosition = col.Center.ToVector2();
+                                colOrigin = new Vector2(debugTexture.Width / 2f, debugTexture.Height / 2f);
+                            }
+                        }
                     }
                 }
+            }
+
+            /*foreach (var co in Game1.instance.map.colliders) // loop through every possible collidable object (has to be more efficient in the fututre)
+            {
+                
 
                 #region debug
 
@@ -136,7 +158,7 @@ namespace TheTaleOfGod
                 }
 
                 #endregion
-            }
+            }*/
 
             if (colliders == null)
             {

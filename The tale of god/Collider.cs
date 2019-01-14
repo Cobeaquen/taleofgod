@@ -26,6 +26,8 @@ namespace TheTaleOfGod
         [ProtoMember(4)]
         public Vector2 position;
 
+        public Node[] nodes;
+
         public int Right;
         public int Left;
         public int Top;
@@ -36,7 +38,7 @@ namespace TheTaleOfGod
 
         public Collider(Vector2 position, int width, int height, string tag = null, object owner = null)
         {
-            this.position = new Vector2(position.X, position.Y);
+            this.position = position;
             this.width = width;
             this.height = height;
             this.tag = tag;
@@ -46,6 +48,14 @@ namespace TheTaleOfGod
             Left = (int)position.X - width / 2;
             Top = (int)position.Y - height / 2;
             Bottom = (int)position.Y + height / 2;
+
+            nodes = new Node[4] 
+            {
+                new Node(new Vector2(Left, Top)),
+                new Node(new Vector2(Right, Top)),
+                new Node(new Vector2(Left, Bottom)),
+                new Node(new Vector2(Right, Bottom))
+            };
         }
         public Collider()
         {

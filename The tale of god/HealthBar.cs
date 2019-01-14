@@ -21,7 +21,7 @@ namespace TheTaleOfGod
 
         private Color color;
 
-        static Color color1 = Color.Green;
+        static Color color1 = Color.MediumSeaGreen;
         static Color color2 = Color.Red;
 
         public HealthBar()
