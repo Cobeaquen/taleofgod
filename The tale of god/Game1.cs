@@ -53,6 +53,8 @@ namespace TheTaleOfGod
 
         public bool debugDrawing = true;
 
+        public Raycast raycast;
+
         public Game1()
         {
             instance = this;
@@ -97,6 +99,8 @@ namespace TheTaleOfGod
             Vector2 pos = Cell.SnapToGrid(Vector2.One * 40) + new Vector2(Cell.cellWidth/4f, -Cell.cellHeight/4f);
 
             map.objects.Add(new Wall(pos, 32, 64, true));
+
+            raycast = new Raycast(new Vector2(pos.X - 16, pos.Y + 32), Vector2.UnitX, 32);
         }
 
         protected override void UnloadContent()
