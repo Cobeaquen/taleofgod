@@ -211,17 +211,21 @@ namespace TheTaleOfGod
         {
             CellsOnScreen = GetCellsOnScreen(cameraPos, screenWidth, screenHeight);
         }
-        public static Collider[] GetNearbyColliders(Vector2 origin)
+        public static Collider[] GetNearbyColliders(Vector2 origin, int width, int height)
         {
-            Cell[] nearbyCells = GetAreaOfCells(GetCell(origin), 3, 3);
-            List<Cell> 
-            foreach (var c in cells)
+            Cell[] nearbyCells = GetAreaOfCells(GetCell(origin), width, height);
+            List<Collider> colls = new List<Collider>();
+            foreach (var c in nearbyCells)
             {
                 if (c.colliders.Count > 0)
                 {
-
+                    foreach (var col in c.colliders)
+                    {
+                        colls.Add(col);
+                    }
                 }
             }
+            return colls.ToArray();
         }
         public static void DrawGrid(SpriteBatch batch)
         {

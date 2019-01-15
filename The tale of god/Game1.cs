@@ -100,6 +100,8 @@ namespace TheTaleOfGod
 
             map.objects.Add(new Wall(pos, 32, 64, true));
 
+            Raycast.RayCastTest();
+
             raycast = new Raycast(new Vector2(pos.X - 16, pos.Y + 32), Vector2.UnitX, 32);
         }
 
@@ -169,6 +171,8 @@ namespace TheTaleOfGod
             character.Draw(spriteBatch);
 
             Cell.DrawGrid(spriteBatch);
+
+            Raycast.Draw(spriteBatch);
 
             foreach (var npc in map.npcs)
             {

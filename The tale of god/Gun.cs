@@ -64,16 +64,16 @@ namespace TheTaleOfGod
                     {
                         bullets.RemoveAt(i);
                     }
-                    Raycast ray = new Raycast(bullets[i].position, bullets[i].forwardDirection * 100);
+                    Raycast ray = new Raycast(position, lookDirection * 10000);
                     // this collision rectangle does not change according to its rotation - NEED RAYCASTS (I'M TAKING TIME TO DEVELOP RETARDED METHODS JUST TO THEN REMOVE THEM AND IMPLEMENT ANOTHER METHOD) pls help
                     foreach (var col in Game1.instance.map.colliders)
                     {
                         foreach (var line in col.lines)
                         {
-                            if (ray.Intersecting(Vector2.Zero, line))
+                            if (ray.Intersecting(out object[] colInfo))
                             {
-                                Hit(null, i);
-                                break;
+                                Hit(colInfo, i);
+                                return;
                             }
                         }
                     }

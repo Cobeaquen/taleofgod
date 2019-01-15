@@ -15,8 +15,18 @@ namespace TheTaleOfGod
         public Vector2 b;
         public Vector2 r;
 
+        public static Vector2 intersectPos;
+        public static Texture2D sprite;
+        public static Vector2 origin;
+
         float t;
         float u;
+
+        public static void RayCastTest()
+        {
+            sprite = DebugTextures.GenerateRectangle(4, 4, Color.White);
+            origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
+        }
 
         public Raycast(Vector2 a, Vector2 b)
         {
@@ -35,17 +45,40 @@ namespace TheTaleOfGod
             r = direction * length;
         }
 
-        public bool Intersecting(Vector2 c, Vector2 d)
+        public bool Intersecting(out object[] colInfo)//Vector2 c, Vector2 d)
         {
-            Vector2 s = d - c;
+            //Vector2 s = d - c;
+            bool collided = false;
 
-            t = Cross(c - a, s) / Cross(r, s);
+            List<object> colinfo = new List<object>();
 
-            if (t >= 0 && t <= 1)
+            foreach (var col in Game1.instance.map.colliders)
             {
-                return true;
+                for (int x = 0; x < col.lines.GetLength(0); x++)
+                {
+                    Vector2 c = col.lines[x, 0];
+                    Vector2 s = col.lines[x, 1] - c;
+
+                    t = Cross(c - a, s) / Cross(r, s);
+
+                    if (t >= 0f && t <= 1f)
+                    {
+                        collided = true;
+                        if (col.owner != null)
+                        {
+                            colinfo.Add(col.owner);
+                        }
+                        intersectPos = a + r*t;
+                    }
+                }
             }
-            return false;
+            colInfo = colinfo.ToArray();
+
+            return collided;
+        }
+        public static void Draw(SpriteBatch batch)
+        {
+            batch.Draw(sprite, intersectPos, null, Color.Red, 0f, origin, 1f, SpriteEffects.None, 1f);
         }
 
         public float Cross(Vector2 a, Vector2 b)

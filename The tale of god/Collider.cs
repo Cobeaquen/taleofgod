@@ -21,7 +21,7 @@ namespace TheTaleOfGod
         [ProtoMember(3)]
         public string tag;
 
-        public Vector2[] lines;
+        public Vector2[,] lines;
 
         public object owner;
 
@@ -51,7 +51,7 @@ namespace TheTaleOfGod
             Top = (int)position.Y - height / 2;
             Bottom = (int)position.Y + height / 2;
 
-            nodes = new Node[4] 
+            nodes = new Node[4]
             {
                 new Node(new Vector2(Left, Top)),
                 new Node(new Vector2(Right, Top)),
@@ -59,13 +59,16 @@ namespace TheTaleOfGod
                 new Node(new Vector2(Right, Bottom))
             };
 
-            lines = new Vector2[4]
-            {
-                new Vector2(Right, Top) - new Vector2(Left, Top),
-                new Vector2(Right, Bottom) - new Vector2(Left, Bottom),
-                new Vector2(Left, Top) - new Vector2(Left, Bottom),
-                new Vector2(Right, Top) - new Vector2(Right, Bottom)
-            };
+            lines = new Vector2[4, 2];
+
+            lines[0, 0] = new Vector2(Left, Top);
+            lines[0, 1] = new Vector2(Right, Top);
+            lines[1, 1] = new Vector2(Right, Bottom);
+            lines[1, 0] = new Vector2(Left, Bottom);
+            lines[2, 0] = new Vector2(Left, Top);
+            lines[2, 1] = new Vector2(Left, Bottom);
+            lines[3, 0] = new Vector2(Right, Top);
+            lines[3, 1] = new Vector2(Right, Bottom);
         }
         public Collider()
         {
