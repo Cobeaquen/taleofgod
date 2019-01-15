@@ -58,23 +58,32 @@ namespace TheTaleOfGod
                 {
                     bullets[i].Update(gameTime);
 
+                    Vector2 v = bullets[i].forwardDirection * 1000f;
+
                     if (bullets[i].destroyTime < 0)
                     {
                         bullets.RemoveAt(i);
                     }
+                    Raycast ray = new Raycast(bullets[i].position, bullets[i].forwardDirection * 100);
                     // this collision rectangle does not change according to its rotation - NEED RAYCASTS (I'M TAKING TIME TO DEVELOP RETARDED METHODS JUST TO THEN REMOVE THEM AND IMPLEMENT ANOTHER METHOD) pls help
-
-                    /*else if (Game1.instance.raycast.Intersecting(position, bullets[i].position - position))
+                    foreach (var col in Game1.instance.map.colliders)
                     {
-                        
-                    }*/
+                        foreach (var line in col.lines)
+                        {
+                            if (ray.Intersecting(Vector2.Zero, line))
+                            {
+                                Hit(null, i);
+                                break;
+                            }
+                        }
+                    }
 
-                    else if (Collision.CollidingRectangle(bullets[i].position, bullets[i].NearbyCells, bullets[i].sprite.Width, bullets[i].sprite.Height, out object[] colInfo) != null)//new Rectangle((int)bullets[i].position.X - bullets[i].sprite.Width/2, (int)bullets[i].position.Y - bullets[i].sprite.Height/2, bullets[i].sprite.Width, bullets[i].sprite.Height), out tag) != null)
+                    /*if (Collision.CollidingRectangle(bullets[i].position, bullets[i].NearbyCells, bullets[i].sprite.Width, bullets[i].sprite.Height, out object[] colInfo) != null)//new Rectangle((int)bullets[i].position.X - bullets[i].sprite.Width/2, (int)bullets[i].position.Y - bullets[i].sprite.Height/2, bullets[i].sprite.Width, bullets[i].sprite.Height), out tag) != null)
                     {
                         Hit(colInfo, i);
-                    }
-                    else
-                    {
+                    }*/
+                    //else
+                    //{
                         Vector2 direction = bullets[i].position - bullets[i].previousPosition;
                         Vector2 bulletMove = bullets[i].forwardDirection * direction.Length();
                         if ((int)Math.Abs(direction.X) < 1f)
@@ -103,10 +112,10 @@ namespace TheTaleOfGod
                         }
                         if (Collision.CollidingRectangle(pos, bullets[i].NearbyCells, (int)Math.Abs(direction.X), (int)Math.Abs(direction.Y), out object[] colInfo2) != null)//new Rectangle(pos.ToPoint(), new Point((int)Math.Abs(direction.X), (int)Math.Abs(direction.Y)))) != null)
                         {
-                            Hit(colInfo2, i);
+                            //Hit(colInfo2, i);
                             Console.WriteLine("bullet avoided target on a frame");
                         }
-                    }
+                    //}
                 }
             }
             #endregion

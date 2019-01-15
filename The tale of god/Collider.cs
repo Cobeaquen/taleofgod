@@ -21,6 +21,8 @@ namespace TheTaleOfGod
         [ProtoMember(3)]
         public string tag;
 
+        public Vector2[] lines;
+
         public object owner;
 
         [ProtoMember(4)]
@@ -55,6 +57,14 @@ namespace TheTaleOfGod
                 new Node(new Vector2(Right, Top)),
                 new Node(new Vector2(Left, Bottom)),
                 new Node(new Vector2(Right, Bottom))
+            };
+
+            lines = new Vector2[4]
+            {
+                new Vector2(Right, Top) - new Vector2(Left, Top),
+                new Vector2(Right, Bottom) - new Vector2(Left, Bottom),
+                new Vector2(Left, Top) - new Vector2(Left, Bottom),
+                new Vector2(Right, Top) - new Vector2(Right, Bottom)
             };
         }
         public Collider()

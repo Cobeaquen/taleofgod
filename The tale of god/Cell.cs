@@ -211,6 +211,18 @@ namespace TheTaleOfGod
         {
             CellsOnScreen = GetCellsOnScreen(cameraPos, screenWidth, screenHeight);
         }
+        public static Collider[] GetNearbyColliders(Vector2 origin)
+        {
+            Cell[] nearbyCells = GetAreaOfCells(GetCell(origin), 3, 3);
+            List<Cell> 
+            foreach (var c in cells)
+            {
+                if (c.colliders.Count > 0)
+                {
+
+                }
+            }
+        }
         public static void DrawGrid(SpriteBatch batch)
         {
             foreach (var cell in CellsOnScreen)

@@ -230,8 +230,8 @@ namespace TheTaleOfGod
         private void SetApplicationSettings()
         {
             // screen resolution
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 1440;
+            graphics.PreferredBackBufferHeight = 810;
             IsMouseVisible = true;
             graphics.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
