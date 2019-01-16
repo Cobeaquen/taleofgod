@@ -21,7 +21,7 @@ namespace TheTaleOfGod
         [ProtoMember(3)]
         public string tag;
 
-        public Vector2[,] lines;
+        public Raycast[] rays;
 
         public object owner;
 
@@ -46,10 +46,10 @@ namespace TheTaleOfGod
             this.tag = tag;
             this.owner = owner;
 
-            Right = (int)position.X + width / 2;
-            Left = (int)position.X - width / 2;
-            Top = (int)position.Y - height / 2;
-            Bottom = (int)position.Y + height / 2;
+            Right = (int)position.X + width/2;
+            Left = (int)position.X - width/2;
+            Top = (int)position.Y - height/2;
+            Bottom = (int)position.Y + height/2;
 
             nodes = new Node[4]
             {
@@ -58,17 +58,6 @@ namespace TheTaleOfGod
                 new Node(new Vector2(Left, Bottom)),
                 new Node(new Vector2(Right, Bottom))
             };
-
-            lines = new Vector2[4, 2];
-
-            lines[0, 0] = new Vector2(Left, Top);
-            lines[0, 1] = new Vector2(Right, Top);
-            lines[1, 1] = new Vector2(Right, Bottom);
-            lines[1, 0] = new Vector2(Left, Bottom);
-            lines[2, 0] = new Vector2(Left, Top);
-            lines[2, 1] = new Vector2(Left, Bottom);
-            lines[3, 0] = new Vector2(Right, Top);
-            lines[3, 1] = new Vector2(Right, Bottom);
         }
         public Collider()
         {
@@ -76,7 +65,18 @@ namespace TheTaleOfGod
         }
         public void Update(GameTime gameTime)
         {
+            Right = (int)position.X + width / 2;
+            Left = (int)position.X - width / 2;
+            Top = (int)position.Y - height / 2;
+            Bottom = (int)position.Y + height / 2;
 
+            rays = new Raycast[4]
+            {
+                new Raycast(new Vector2(Left, Top), new Vector2(Right, Top)),
+                new Raycast(new Vector2(Left, Bottom), new Vector2(Right, Bottom)),
+                new Raycast(new Vector2(Left, Top), new Vector2(Left, Bottom)),
+                new Raycast(new Vector2(Right, Top), new Vector2(Right, Bottom))
+            };
         }
         public void DrawDebug(SpriteBatch batch)
         {
@@ -84,6 +84,8 @@ namespace TheTaleOfGod
             {
                 batch.Draw(debugSprite, position, null, Color.White, 0f, debugOrigin, 1f, SpriteEffects.None, 0f); // fiiix mee
             }
+            Texture2D tx = DebugTextures.GenerateRectangle(10, 10, Color.White);
+            batch.Draw(tx, position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f); // fiiix mee
         }
     }
 }

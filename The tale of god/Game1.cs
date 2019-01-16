@@ -157,6 +157,8 @@ namespace TheTaleOfGod
 
             #endregion
 
+            raycast.Intersecting(out object[] data, raycast);
+
             base.Update(gameTime);
         }
 
@@ -168,11 +170,23 @@ namespace TheTaleOfGod
 
             spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, character.camera.view);
 
+            foreach (var col in map.colliders)
+            {
+                foreach (var ray in col.rays)
+                {
+                    ray.Draw(spriteBatch);
+                }
+                //col.DrawDebug(spriteBatch);
+            }
+
+            if (character.gun.ray != null)
+            {
+                character.gun.ray.Draw(spriteBatch);
+            }
+
             character.Draw(spriteBatch);
 
             Cell.DrawGrid(spriteBatch);
-
-            Raycast.Draw(spriteBatch);
 
             foreach (var npc in map.npcs)
             {

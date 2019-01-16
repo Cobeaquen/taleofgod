@@ -39,7 +39,7 @@ namespace TheTaleOfGod
                     {
                         Rectangle rect2 = new Rectangle((int)co.position.X - co.width / 2, (int)co.position.Y - co.height / 2, co.width, co.height);
 
-                        if (rect1 == rect2)
+                        if (rect1 == rect2) // remember that this may be causing issues for different objects with the same size
                             continue;
 
                         if (Game1.instance.debugDrawing)

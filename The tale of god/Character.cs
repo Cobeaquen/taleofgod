@@ -96,26 +96,27 @@ namespace TheTaleOfGod
 
             if (keyState.IsKeyDown(Keys.D) && colDir != CollisionDirection.Left)
             {
-                move.X += speed;
+                move.X += 1;
             }
             else if (keyState.IsKeyDown(Keys.A) && colDir != CollisionDirection.Right)
             {
-                move.X -= speed;
+                move.X -= 1;
             }
             if (keyState.IsKeyDown(Keys.W) && colDir != CollisionDirection.Bottom)
             {
-                move.Y -= speed;
+                move.Y -= 1;
             }
             else if (keyState.IsKeyDown(Keys.S) && colDir != CollisionDirection.Top)
             {
-                move.Y += speed;
+                move.Y += 1;
             }
 
-            if (move.Length() > speed)
+            if (move.X != 0 && move.Y != 0)
             {
-                move = new Vector2(move.X / 2f, move.Y / 2f);
+                move.Normalize();
             }
-            move *= (float)gameTime.ElapsedGameTime.Ticks/100000;
+
+            move *= speed * (float)gameTime.ElapsedGameTime.Ticks/100000;
 
             if (colliders != null) // calculate from which side we are colliding
             {

@@ -11,10 +11,12 @@ namespace TheTaleOfGod
     public class DebugTextures
     {
         public static GraphicsDevice graphicsDevice;
+        public static Texture2D pixel;
 
         public static void LoadTextures(GraphicsDevice graphics)
         {
             graphicsDevice = graphics;
+            pixel = GenerateRectangle(1, 1, Color.White);
         }
 
         public static Texture2D GenerateRectangle(int width, int height, Color color)
@@ -52,6 +54,14 @@ namespace TheTaleOfGod
             }
             tx.SetData(clrs);
             return tx;
+        }
+        public static void DrawDebugLine(SpriteBatch batch, Vector2 begin, Vector2 end, Color color, int width = 1)
+        {
+            Rectangle r = new Rectangle((int)begin.X, (int)begin.Y, (int)(end - begin).Length() + width, width);
+            Vector2 v = Vector2.Normalize(begin - end);
+            float angle = (float)Math.Acos(Vector2.Dot(v, -Vector2.UnitX));
+            if (begin.Y > end.Y) angle = MathHelper.TwoPi - angle;
+            batch.Draw(pixel, r, null, color, angle, Vector2.Zero, SpriteEffects.None, 1f);
         }
     }
 }

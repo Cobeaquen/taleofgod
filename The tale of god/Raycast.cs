@@ -45,7 +45,7 @@ namespace TheTaleOfGod
             r = direction * length;
         }
 
-        public bool Intersecting(out object[] colInfo)//Vector2 c, Vector2 d)
+        public bool Intersecting(out object[] colInfo, Raycast ray = null)//Vector2 c, Vector2 d)
         {
             //Vector2 s = d - c;
             bool collided = false;
@@ -54,14 +54,16 @@ namespace TheTaleOfGod
 
             foreach (var col in Game1.instance.map.colliders)
             {
-                for (int x = 0; x < col.lines.GetLength(0); x++)
+                for (int x = 0; x < col.rays.Length; x++)
                 {
-                    Vector2 c = col.lines[x, 0];
-                    Vector2 s = col.lines[x, 1] - c;
+                    Vector2 c = col.rays[x].a;
+                    Vector2 d = col.rays[x].b;
+                    Vector2 s = d - c;
 
                     t = Cross(c - a, s) / Cross(r, s);
+                    u = Cross(c - a, r) / Cross(r, s);
 
-                    if (t >= 0f && t <= 1f)
+                    if (t >= 0f && t <= 1f && u >= 0f && u <= 1f)
                     {
                         collided = true;
                         if (col.owner != null)
@@ -72,12 +74,29 @@ namespace TheTaleOfGod
                     }
                 }
             }
+            if (ray != null)
+            {
+                Vector2 c = ray.a;
+                Vector2 d = ray.b;
+                Vector2 s = d - c;
+
+                t = Cross(c - a, s) / Cross(r, s);
+                u = Cross(c - a, r) / Cross(r, s);
+
+                if (t >= 0f && t <= 1f && u >= 0f && u <= 1f)
+                {
+                    collided = true;
+                    intersectPos = a + r * t;
+                }
+            }
             colInfo = colinfo.ToArray();
 
             return collided;
         }
-        public static void Draw(SpriteBatch batch)
+
+        public void Draw(SpriteBatch batch)
         {
+            DebugTextures.DrawDebugLine(batch, a, b, Color.White, 1);
             batch.Draw(sprite, intersectPos, null, Color.Red, 0f, origin, 1f, SpriteEffects.None, 1f);
         }
 

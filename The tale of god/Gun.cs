@@ -28,6 +28,8 @@ namespace TheTaleOfGod
 
         public List<Bullet> bullets;
 
+        public Raycast ray;
+
         public Gun(float damage, float fireRate, bool autoFire, Vector2 position, Bullet bullet)
         {
             this.damage = damage;
@@ -64,11 +66,11 @@ namespace TheTaleOfGod
                     {
                         bullets.RemoveAt(i);
                     }
-                    Raycast ray = new Raycast(position, lookDirection * 10000);
+                    ray = new Raycast(position, lookDirection, 500f);
                     // this collision rectangle does not change according to its rotation - NEED RAYCASTS (I'M TAKING TIME TO DEVELOP RETARDED METHODS JUST TO THEN REMOVE THEM AND IMPLEMENT ANOTHER METHOD) pls help
                     foreach (var col in Game1.instance.map.colliders)
                     {
-                        foreach (var line in col.lines)
+                        foreach (var line in col.rays)
                         {
                             if (ray.Intersecting(out object[] colInfo))
                             {
@@ -84,37 +86,6 @@ namespace TheTaleOfGod
                     }*/
                     //else
                     //{
-                        Vector2 direction = bullets[i].position - bullets[i].previousPosition;
-                        Vector2 bulletMove = bullets[i].forwardDirection * direction.Length();
-                        if ((int)Math.Abs(direction.X) < 1f)
-                        {
-                            direction.X = 1;
-                        }
-                        if ((int)Math.Abs(direction.Y) < 1f)
-                        {
-                            direction.Y = 1;
-                        }
-
-                        Vector2 pos = bullets[i].position - bulletMove;
-
-                        if (direction.Y < 0 & direction.X > 0)
-                        {
-                            pos.Y -= Math.Abs(direction.Y);
-                        }
-                        else if (direction.Y > 0 & direction.X < 0)
-                        {
-                            pos.X -= Math.Abs(direction.X);
-                        }
-                        else if (direction.Y < 0 & direction.X < 0)
-                        {
-                            pos.X -= Math.Abs(direction.X);
-                            pos.Y -= Math.Abs(direction.Y);
-                        }
-                        if (Collision.CollidingRectangle(pos, bullets[i].NearbyCells, (int)Math.Abs(direction.X), (int)Math.Abs(direction.Y), out object[] colInfo2) != null)//new Rectangle(pos.ToPoint(), new Point((int)Math.Abs(direction.X), (int)Math.Abs(direction.Y)))) != null)
-                        {
-                            //Hit(colInfo2, i);
-                            Console.WriteLine("bullet avoided target on a frame");
-                        }
                     //}
                 }
             }
