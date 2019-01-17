@@ -77,7 +77,7 @@ namespace TheTaleOfGod
             }*/
 
         }
-        public Vector2 WindowToWorldSpace(Vector2 windowPosition)
+        public Vector2 WindowToWorldSpace(Vector2 windowPosition) // not working properly when far away from vector2.zero
         {
             Vector2 cameraSpace = WindowToCameraSpace(windowPosition);
 

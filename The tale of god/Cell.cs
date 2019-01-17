@@ -57,17 +57,21 @@ namespace TheTaleOfGod
                 }
             }
             CellSprite = DebugTextures.GenerateHollowRectangele(cellWidth, cellHeight, 1, Color.White);
-            SpriteOrigin = Vector2.Zero;
+            SpriteOrigin = new Vector2(cellWidth/2f, cellHeight/2f);
         }
 
         public static Vector2 SnapToGrid(Vector2 position)
         {
-            float x = position.X % cellWidth;
-            float y = position.Y % cellHeight;
+            float x = (float)Math.Round(position.X / (float)cellWidth) * cellWidth;
+            float y = (float)Math.Round(position.Y / (float)cellHeight) * cellHeight;
+
+            return new Vector2(x, y);
+            /*float x = position.X % (float)cellWidth;
+            float y = position.Y % (float)cellHeight;
 
             Vector2 pos = position;
 
-            if (x > cellWidth / 2)
+            if (x > cellWidth / 2f)
             {
                 pos.X += cellWidth - x;
             }
@@ -76,7 +80,7 @@ namespace TheTaleOfGod
                 pos.X -= x;
             }
 
-            if (y > cellHeight / 2)
+            if (y > cellHeight / 2f)
             {
                 pos.Y += cellHeight - y;
             }
@@ -85,7 +89,7 @@ namespace TheTaleOfGod
                 pos.Y -= y;
             }
 
-            return pos;
+            return pos;*/
         }
         public static Vector2 SnapToGridNoRound(Vector2 position)
         {

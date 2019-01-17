@@ -52,8 +52,7 @@ namespace TheTaleOfGod
         public static Vector2 screenCenter;
 
         public bool debugDrawing = true;
-
-        public Raycast raycast;
+        public bool drawGrid = false;
 
         public Game1()
         {
@@ -82,7 +81,7 @@ namespace TheTaleOfGod
             spriteBatch = new SpriteBatch(GraphicsDevice);
             DebugTextures.LoadTextures(GraphicsDevice);
 
-            Cell.CreateGrid(new Point(-5000, -5000), 500, 500);
+            Cell.CreateGrid(new Point(-3200, -3200), 500, 500);
 
             Dialogue.InitializeDialogueSystem(graphics.GraphicsDevice.Viewport);
 
@@ -96,13 +95,11 @@ namespace TheTaleOfGod
             map.npcs.Add(new NPC(new Vector2(150, 10), DebugTextures.GenerateRectangle(16, 32, Color.Yellow), "Hello, my name is tommy! I used to live in peace", "watering me plants in me garden everyday, until the unpredictable struck"));
             map.enemies.Add (new Enemy(100f, 200f, 150f, 10f, screenCenter, DebugTextures.GenerateRectangle(16, 16, Color.DarkGray), character));
 
-            Vector2 pos = Cell.SnapToGrid(Vector2.One * 40) + new Vector2(Cell.cellWidth/4f, -Cell.cellHeight/4f);
+            Vector2 pos = Cell.SnapToGrid(Vector2.One * 40);
 
-            map.objects.Add(new Wall(pos, 32, 64, true));
+            map.objects.Add(new Wall(pos, 64, 64, true));
 
             Raycast.RayCastTest();
-
-            raycast = new Raycast(new Vector2(pos.X - 16, pos.Y + 32), Vector2.UnitX, 32);
         }
 
         protected override void UnloadContent()
@@ -157,8 +154,6 @@ namespace TheTaleOfGod
 
             #endregion
 
-            raycast.Intersecting(out object[] data, raycast);
-
             base.Update(gameTime);
         }
 
@@ -176,7 +171,6 @@ namespace TheTaleOfGod
                 {
                     ray.Draw(spriteBatch);
                 }
-                //col.DrawDebug(spriteBatch);
             }
 
             if (character.gun.ray != null)
@@ -186,7 +180,10 @@ namespace TheTaleOfGod
 
             character.Draw(spriteBatch);
 
-            Cell.DrawGrid(spriteBatch);
+            if (drawGrid)
+            {
+                Cell.DrawGrid(spriteBatch);
+            }
 
             foreach (var npc in map.npcs)
             {
@@ -200,8 +197,6 @@ namespace TheTaleOfGod
 
             foreach (var enemy in map.enemies)
             {
-                //if (Cell.GetCell(enemy.position))
-
                 enemy.Draw(spriteBatch);
             }
 

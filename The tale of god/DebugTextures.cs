@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace TheTaleOfGod
@@ -62,6 +63,11 @@ namespace TheTaleOfGod
             float angle = (float)Math.Acos(Vector2.Dot(v, -Vector2.UnitX));
             if (begin.Y > end.Y) angle = MathHelper.TwoPi - angle;
             batch.Draw(pixel, r, null, color, angle, Vector2.Zero, SpriteEffects.None, 1f);
+        }
+        public static void DrawPointAtCursor(SpriteBatch batch)
+        {
+            Vector2 pos = Cell.SnapToGrid(Game1.instance.character.camera.WindowToWorldSpace(Mouse.GetState().Position.ToVector2()));
+            batch.Draw(GenerateRectangle(32, 32, Color.Red), pos, null, Color.White, 0f, new Vector2(16, 16), 1f, SpriteEffects.None, 1f);
         }
     }
 }

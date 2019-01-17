@@ -54,7 +54,7 @@ namespace TheTaleOfGod
         public Character()
         {
             isInteracting = false;
-            position = new Vector2(100, 100);
+            position = new Vector2(200, 200);
 
             gun = new Gun(25f, 5f, true, position, new Bullet(10f, BulletType.Normal));
 
@@ -84,7 +84,7 @@ namespace TheTaleOfGod
 
             move = Vector2.Zero;
 
-            NearbyCells = Cell.GetAreaOfCells(Cell.GetCell(position), 3, 3);
+            NearbyCells = Cell.GetAreaOfCells(Cell.GetCell(position), 5, 5);
 
             #region input
 
@@ -283,11 +283,14 @@ namespace TheTaleOfGod
 
         public void Draw(SpriteBatch batch)
         {
-            foreach (var cell in NearbyCells)
+            if (Game1.instance.drawGrid)
             {
-                batch.Draw(Cell.CellSprite, cell.ToVector2(), null, Color.Green, 0f, Cell.SpriteOrigin, 1f, SpriteEffects.None, 0.99f);
+                foreach (var cell in NearbyCells)
+                {
+                    batch.Draw(Cell.CellSprite, cell.ToVector2(), null, Color.Green, 0f, Cell.SpriteOrigin, 1f, SpriteEffects.None, 0.99f);
+                }
+                batch.Draw(Cell.CellSprite, cell.ToVector2(), null, Color.LightGoldenrodYellow, 0f, Cell.SpriteOrigin, 1f, SpriteEffects.None, 1f);
             }
-            batch.Draw(Cell.CellSprite, cell.ToVector2(), null, Color.LightGoldenrodYellow, 0f, Cell.SpriteOrigin, 1f, SpriteEffects.None, 1f);
             batch.Draw(sprite, position, null, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
             gun.Draw(batch);
             healthBar.Draw(batch);
