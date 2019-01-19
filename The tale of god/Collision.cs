@@ -176,6 +176,41 @@ namespace TheTaleOfGod
 
             return colliders.ToArray();
         }
+        /// <summary>
+        /// moves the player to the edge of the collider
+        /// </summary>
+        /// <returns></returns>
+        public static void RestrictPosition(Rectangle rect, Rectangle col, ref Vector2 move)
+        {
+            if (rect.Right > col.Right && col.Height >= col.Width) // colliding from the right
+            {
+                if (!(move.X > 0))
+                {
+                    move.X = col.Width - 1f;
+                }
+            }
+            else if (rect.Left < col.Left && col.Height >= col.Width) // colliding from the left
+            {
+                if (!(move.X < 0))
+                {
+                    move.X = 1f - col.Width;
+                }
+            }
+            else if (rect.Top < col.Top) // colliding from the top
+            {
+                if (!(move.Y < 0))
+                {
+                    move.Y = 1f - col.Height;
+                }
+            }
+            else if (rect.Bottom > col.Bottom) // colliding from the bottom
+            {
+                if (!(move.Y > 0))
+                {
+                    move.Y = col.Height - 1f;
+                }
+            }
+        }
     }
     public enum CollisionDirection
     {

@@ -22,6 +22,8 @@ namespace TheTaleOfGod
         float t;
         float u;
 
+        Cell[] closeCells;
+
         public static void RayCastTest()
         {
             sprite = DebugTextures.GenerateRectangle(4, 4, Color.White);
@@ -45,32 +47,65 @@ namespace TheTaleOfGod
             r = direction * length;
         }
 
-        public bool Intersecting(out object[] colInfo, Raycast ray = null)//Vector2 c, Vector2 d)
+        public bool Intersecting(out object[] colInfo, Raycast ray = null)
         {
-            //Vector2 s = d - c;
             bool collided = false;
 
             List<object> colinfo = new List<object>();
 
-            foreach (var col in Game1.instance.map.colliders)
+            Cell topLeft = new Cell();
+
+            Cell origin = Cell.GetCell(((a + b) / 2f));
+
+            int width = (int)Math.Ceiling(Math.Abs(b.X - a.X) / Cell.cellWidth) + 2;
+            int height = (int)Math.Ceiling(Math.Abs(b.Y - a.Y) / Cell.cellHeight) + 2;
+
+            Vector2 size = Cell.SnapToGrid(r);
+
+            if (r.X > 0f && r.Y < 0f)
             {
-                for (int x = 0; x < col.rays.Length; x++)
+                topLeft = Cell.GetCell((int)a.X - Cell.cellWidth, (int)b.Y - Cell.cellHeight);
+            }
+            else if (r.X > 0f && r.Y > 0f)
+            {
+                topLeft = Cell.GetCell((int)a.X - Cell.cellWidth, (int)a.Y - Cell.cellHeight);
+            }
+            else if (r.X < 0f && r.Y > 0f)
+            {
+                topLeft = Cell.GetCell((int)b.X - Cell.cellWidth, (int)a.Y - Cell.cellHeight);
+            }
+            else if (r.X < 0f && r.Y < 0f)
+            {
+                topLeft = Cell.GetCell((int)b.X - Cell.cellWidth, (int)b.Y - Cell.cellHeight);
+            }
+
+            closeCells = Cell.GetAreaOfCellsTopLeft(topLeft, width, height);
+
+            foreach (var cell in closeCells)
+            {
+                if (cell.colliders.Count > 0)
                 {
-                    Vector2 c = col.rays[x].a;
-                    Vector2 d = col.rays[x].b;
-                    Vector2 s = d - c;
-
-                    t = Cross(c - a, s) / Cross(r, s);
-                    u = Cross(c - a, r) / Cross(r, s);
-
-                    if (t >= 0f && t <= 1f && u >= 0f && u <= 1f)
+                    foreach (var col in cell.colliders)
                     {
-                        collided = true;
-                        if (col.owner != null)
+                        for (int x = 0; x < col.rays.Length; x++)
                         {
-                            colinfo.Add(col.owner);
+                            Vector2 c = col.rays[x].a;
+                            Vector2 d = col.rays[x].b;
+                            Vector2 s = d - c;
+
+                            t = Cross(c - a, s) / Cross(r, s);
+                            u = Cross(c - a, r) / Cross(r, s);
+
+                            if (t >= 0f && t <= 1f && u >= 0f && u <= 1f)
+                            {
+                                collided = true;
+                                if (col.owner != null)
+                                {
+                                    colinfo.Add(col.owner);
+                                }
+                                intersectPos = a + r * t;
+                            }
                         }
-                        intersectPos = a + r*t;
                     }
                 }
             }
@@ -98,6 +133,14 @@ namespace TheTaleOfGod
         {
             DebugTextures.DrawDebugLine(batch, a, b, Color.White, 1);
             batch.Draw(sprite, intersectPos, null, Color.Red, 0f, origin, 1f, SpriteEffects.None, 1f);
+
+            if (closeCells != null)
+            {
+                foreach (var c in closeCells)
+                {
+                    c.Draw(batch);
+                }
+            }
         }
 
         public float Cross(Vector2 a, Vector2 b)

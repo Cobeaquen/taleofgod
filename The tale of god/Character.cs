@@ -56,7 +56,7 @@ namespace TheTaleOfGod
             isInteracting = false;
             position = new Vector2(200, 200);
 
-            gun = new Gun(25f, 5f, true, position, new Bullet(10f, BulletType.Normal));
+            gun = new Gun(5f, 5f, true, position, new Bullet(10f, BulletType.Normal));
 
             sprite = DebugTextures.GenerateRectangle(16, 32, Color.PaleVioletRed);
 
@@ -116,13 +116,14 @@ namespace TheTaleOfGod
                 move.Normalize();
             }
 
-            move *= speed * (float)gameTime.ElapsedGameTime.Ticks/100000;
+            move *= speed * gameTime.ElapsedGameTime.Ticks/100000f;
 
             if (colliders != null) // calculate from which side we are colliding
             {
                 foreach (var col in colliders)
                 {
-                    if (playerRect.Right > col.Right && (col.Height >= col.Width)) // colliding from the right
+                    Collision.RestrictPosition(playerRect, col, ref move);
+                    /*if (playerRect.Right > col.Right && (col.Height >= col.Width)) // colliding from the right
                     {
                         if (!(move.X > 0) && col.Width != col.Height)
                         {
@@ -153,7 +154,7 @@ namespace TheTaleOfGod
                             move.Y = col.Height - 1f;
                         }
                         colDir = CollisionDirection.Bottom;
-                    }
+                    }*/
                 }
                 if (colInfo != null)
                 {
@@ -287,7 +288,7 @@ namespace TheTaleOfGod
             {
                 foreach (var cell in NearbyCells)
                 {
-                    batch.Draw(Cell.CellSprite, cell.ToVector2(), null, Color.Green, 0f, Cell.SpriteOrigin, 1f, SpriteEffects.None, 0.99f);
+                    cell.Draw(batch);
                 }
                 batch.Draw(Cell.CellSprite, cell.ToVector2(), null, Color.LightGoldenrodYellow, 0f, Cell.SpriteOrigin, 1f, SpriteEffects.None, 1f);
             }

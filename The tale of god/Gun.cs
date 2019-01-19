@@ -60,24 +60,22 @@ namespace TheTaleOfGod
                 {
                     bullets[i].Update(gameTime);
 
-                    Vector2 v = bullets[i].forwardDirection * 1000f;
+                    Vector2 deltaPos = bullets[i].position - bullets[i].previousPosition;
+
+                    Vector2 start = bullets[i].previousPosition - bullets[i].forwardDirection * bullets[i].sprite.Height;
+                    Vector2 end = bullets[i].position + bullets[i].forwardDirection * bullets[i].sprite.Height;
 
                     if (bullets[i].destroyTime < 0)
                     {
                         bullets.RemoveAt(i);
+                        return;
                     }
-                    ray = new Raycast(position, lookDirection, 500f);
+                    ray = new Raycast(start, end);//, bullets[i].position + deltaPos);
                     // this collision rectangle does not change according to its rotation - NEED RAYCASTS (I'M TAKING TIME TO DEVELOP RETARDED METHODS JUST TO THEN REMOVE THEM AND IMPLEMENT ANOTHER METHOD) pls help
-                    foreach (var col in Game1.instance.map.colliders)
+                    if (ray.Intersecting(out object[] colInfo))
                     {
-                        foreach (var line in col.rays)
-                        {
-                            if (ray.Intersecting(out object[] colInfo))
-                            {
-                                Hit(colInfo, i);
-                                return;
-                            }
-                        }
+                        Hit(colInfo, i);
+                        return;
                     }
 
                     /*if (Collision.CollidingRectangle(bullets[i].position, bullets[i].NearbyCells, bullets[i].sprite.Width, bullets[i].sprite.Height, out object[] colInfo) != null)//new Rectangle((int)bullets[i].position.X - bullets[i].sprite.Width/2, (int)bullets[i].position.Y - bullets[i].sprite.Height/2, bullets[i].sprite.Width, bullets[i].sprite.Height), out tag) != null)

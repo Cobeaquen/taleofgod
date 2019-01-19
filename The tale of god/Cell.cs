@@ -44,6 +44,11 @@ namespace TheTaleOfGod
 
         }
 
+        public void Draw(SpriteBatch batch)
+        {
+            batch.Draw(CellSprite, ToVector2(), null, Color.Green, 0f, SpriteOrigin, 1f, SpriteEffects.None, 0.99f);
+        }
+
         #region gridfunctions
         public static void CreateGrid(Point startingPoint, int rows, int columns)
         {
@@ -66,30 +71,6 @@ namespace TheTaleOfGod
             float y = (float)Math.Round(position.Y / (float)cellHeight) * cellHeight;
 
             return new Vector2(x, y);
-            /*float x = position.X % (float)cellWidth;
-            float y = position.Y % (float)cellHeight;
-
-            Vector2 pos = position;
-
-            if (x > cellWidth / 2f)
-            {
-                pos.X += cellWidth - x;
-            }
-            else
-            {
-                pos.X -= x;
-            }
-
-            if (y > cellHeight / 2f)
-            {
-                pos.Y += cellHeight - y;
-            }
-            else
-            {
-                pos.Y -= y;
-            }
-
-            return pos;*/
         }
         public static Vector2 SnapToGridNoRound(Vector2 position)
         {
@@ -109,7 +90,7 @@ namespace TheTaleOfGod
         }
         public static Cell GetCell(int x, int y)
         {
-            return grid[(x - startingPoint.X) / cellWidth, (y - startingPoint.Y) / cellHeight];
+            return GetCell(new Vector2(x, y));
         }
 
         public Vector2 ToVector2()
@@ -170,6 +151,18 @@ namespace TheTaleOfGod
                 for (int x = 0; x < width; x++)
                 {
                     cells[y * width + x] = GetCell(startPoint.x + (x * cellWidth), startPoint.y + (y * cellHeight));
+                }
+            }
+            return cells;
+        }
+        public static Cell[] GetAreaOfCellsTopLeft(Cell topLeft, int width, int height)
+        {
+            Cell[] cells = new Cell[width * height];
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    cells[y * width + x] = GetCell(topLeft.x + (x * cellWidth), topLeft.y + (y * cellHeight));
                 }
             }
             return cells;

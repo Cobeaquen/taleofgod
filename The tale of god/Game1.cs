@@ -51,7 +51,7 @@ namespace TheTaleOfGod
 
         public static Vector2 screenCenter;
 
-        public bool debugDrawing = true;
+        public bool debugDrawing = false;
         public bool drawGrid = false;
 
         public Game1()
@@ -165,17 +165,15 @@ namespace TheTaleOfGod
 
             spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, character.camera.view);
 
-            foreach (var col in map.colliders)
+            if (drawGrid)
             {
-                foreach (var ray in col.rays)
+                foreach (var col in map.colliders)
                 {
-                    ray.Draw(spriteBatch);
+                    foreach (var ray in col.rays)
+                    {
+                        ray.Draw(spriteBatch);
+                    }
                 }
-            }
-
-            if (character.gun.ray != null)
-            {
-                character.gun.ray.Draw(spriteBatch);
             }
 
             character.Draw(spriteBatch);
@@ -183,6 +181,10 @@ namespace TheTaleOfGod
             if (drawGrid)
             {
                 Cell.DrawGrid(spriteBatch);
+                if (character.gun.ray != null)
+                {
+                    character.gun.ray.Draw(spriteBatch);
+                }
             }
 
             foreach (var npc in map.npcs)

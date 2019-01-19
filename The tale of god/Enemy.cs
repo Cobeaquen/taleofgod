@@ -93,34 +93,7 @@ namespace TheTaleOfGod
             {
                 foreach (var col in colliders)
                 {
-                    if (enemyRect.Right > col.Right && col.Height >= col.Width) // colliding from the right
-                    {
-                        if (!(move.X > 0))
-                        {
-                            move.X = col.Width - 1f;
-                        }
-                    }
-                    else if (enemyRect.Left < col.Left && col.Height >= col.Width) // colliding from the left
-                    {
-                        if (!(move.X < 0))
-                        {
-                            move.X = 1f - col.Width;
-                        }
-                    }
-                    else if (enemyRect.Top < col.Top) // colliding from the top
-                    {
-                        if (!(move.Y < 0))
-                        {
-                            move.Y = 1f - col.Height;
-                        }
-                    }
-                    else if (enemyRect.Bottom > col.Bottom) // colliding from the bottom
-                    {
-                        if (!(move.Y > 0))
-                        {
-                            move.Y = col.Height - 1f;
-                        }
-                    }
+                    Collision.RestrictPosition(enemyRect, col, ref move);
                 }
             }
             position += move;
