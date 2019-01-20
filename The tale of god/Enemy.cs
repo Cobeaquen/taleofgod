@@ -31,9 +31,12 @@ namespace TheTaleOfGod
         public float rotation;
 
         public Character target;
+        public Vector2 targetPosition;
 
         private Vector2 move;
         private Collider collider;
+
+        Raycast ray;
 
         private HealthBar healthBar;
         static Vector2 healthBarOffset = new Vector2(0, 15);
@@ -61,20 +64,23 @@ namespace TheTaleOfGod
         public void Update(GameTime gameTime)
         {
             // follow the target
-            Vector2 direction = target.position - position;
-            if (direction.Length() < attackRange)
+            Vector2 dir = target.position - position;
+            if (dir.Length() < attackRange)
             {
+                Vector2 direction = targetPosition - position;
+
                 rotation = Game1.VectorToAngle(direction);
                 if (direction != Vector2.Zero)
                 {
                     direction.Normalize();
                     move = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
-                if (cell != Cell.GetCell(position))
+                Cell newCell = Cell.GetCell(position);
+                if (cell != newCell)
                 {
                     cell.enemies.Remove(this);
                     cell.colliders.Remove(collider);
-                    cell = Cell.GetCell(position);
+                    cell = newCell;
                     cell.enemies.Add(this);
                     cell.colliders.Add(collider);
                 }
@@ -82,6 +88,41 @@ namespace TheTaleOfGod
             else
             {
                 move = Vector2.Zero;
+            }
+
+            ray = new Raycast(position, target.position);
+
+            if (ray.Intersecting(out object[] colinfo, out Vector2 point))
+            {
+                foreach (var info in colinfo)
+                {
+                    if (info is SceneObject col)
+                    {
+                        float shortestDistance = float.MaxValue;
+                        Node closestNode = null;
+
+                        foreach (var node in col.collider.nodes)
+                        {
+                            float distance = Vector2.Distance(point, node.position);
+                            if (distance < shortestDistance)
+                            {
+                                shortestDistance = distance;
+                                closestNode = node;
+                            }
+                        }
+
+                        targetPosition = closestNode.position;
+                        break;
+                    }
+                    else
+                    {
+                        targetPosition = target.position;
+                    }
+                }
+            }
+            else
+            {
+                targetPosition = target.position;
             }
 
             NearbyCells = Cell.GetAreaOfCells(Cell.GetCell(position), 4, 4);
@@ -129,6 +170,7 @@ namespace TheTaleOfGod
         public void Draw(SpriteBatch batch)
         {
             batch.Draw(sprite, position, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            ray.Draw(batch);
             healthBar.Draw(batch);
         }
     }

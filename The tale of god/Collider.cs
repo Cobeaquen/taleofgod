@@ -21,7 +21,7 @@ namespace TheTaleOfGod
         [ProtoMember(3)]
         public string tag;
 
-        public Raycast[] rays;
+        public Raycast[] edges;
 
         public object owner;
 
@@ -53,10 +53,10 @@ namespace TheTaleOfGod
 
             nodes = new Node[4]
             {
-                new Node(new Vector2(Left, Top)),
-                new Node(new Vector2(Right, Top)),
-                new Node(new Vector2(Left, Bottom)),
-                new Node(new Vector2(Right, Bottom))
+                new Node(new Vector2(Left - 16, Top - 16)),
+                new Node(new Vector2(Right + 16, Top - 16)),
+                new Node(new Vector2(Left - 16, Bottom + 16)),
+                new Node(new Vector2(Right + 16, Bottom + 16))
             };
         }
         public Collider()
@@ -70,12 +70,19 @@ namespace TheTaleOfGod
             Top = (int)position.Y - height / 2;
             Bottom = (int)position.Y + height / 2;
 
-            rays = new Raycast[4]
+            edges = new Raycast[4]
             {
                 new Raycast(new Vector2(Left, Top), new Vector2(Right, Top)),
                 new Raycast(new Vector2(Left, Bottom), new Vector2(Right, Bottom)),
                 new Raycast(new Vector2(Left, Top), new Vector2(Left, Bottom)),
                 new Raycast(new Vector2(Right, Top), new Vector2(Right, Bottom))
+            };
+            nodes = new Node[4]
+            {
+                new Node(new Vector2(Left - 32, Top - 32)),
+                new Node(new Vector2(Right + 32, Top - 32)),
+                new Node(new Vector2(Left - 16, Bottom + 16)),
+                new Node(new Vector2(Right + 16, Bottom + 16))
             };
         }
         public void DrawDebug(SpriteBatch batch)

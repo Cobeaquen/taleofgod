@@ -41,6 +41,8 @@ namespace TheTaleOfGod
 
         public Camera camera;
 
+        public Collider collider;
+
         public HealthBar healthBar;
         public Vector2 healthBarOffset = new Vector2(0, 22);
 
@@ -74,6 +76,11 @@ namespace TheTaleOfGod
 
             prevKeyState = Keyboard.GetState();
             prevMouseState = Mouse.GetState();
+
+            collider = new Collider(position, sprite.Width, sprite.Height, "character", this);
+            Game1.instance.map.colliders.Add(collider);
+
+            cell = Cell.GetCell(position);
         }
 
         Rectangle playerRect;
@@ -118,50 +125,17 @@ namespace TheTaleOfGod
 
             move *= speed * gameTime.ElapsedGameTime.Ticks/100000f;
 
-            if (colliders != null) // calculate from which side we are colliding
+            if (colliders != null)
             {
                 foreach (var col in colliders)
                 {
                     Collision.RestrictPosition(playerRect, col, ref move);
-                    /*if (playerRect.Right > col.Right && (col.Height >= col.Width)) // colliding from the right
-                    {
-                        if (!(move.X > 0) && col.Width != col.Height)
-                        {
-                            move.X = col.Width - 1f;
-                        }
-                        colDir = CollisionDirection.Right;
-                    }
-                    else if (playerRect.Left < col.Left && col.Height >= col.Width) // colliding from the left
-                    {
-                        if (!(move.X < 0) && col.Width != col.Height)
-                        {
-                            move.X = 1f - col.Width;
-                        }
-                        colDir = CollisionDirection.Left;
-                    }
-                    else if (playerRect.Top < col.Top) // colliding from the top
-                    {
-                        if (!(move.Y < 0) && col.Width != col.Height)
-                        {
-                            move.Y = 1f - col.Height;
-                        }
-                        colDir = CollisionDirection.Top;
-                    }
-                    else if (playerRect.Bottom > col.Bottom) // colliding from the bottom
-                    {
-                        if (!(move.Y > 0) && col.Width != col.Height)
-                        {
-                            move.Y = col.Height - 1f;
-                        }
-                        colDir = CollisionDirection.Bottom;
-                    }*/
                 }
                 if (colInfo != null)
                 {
                     foreach (var info in colInfo)
                     {
-                        Enemy enemy = (Enemy)info;
-                        if (enemy != null) // colliding with the enemy
+                        if (info is Enemy enemy) // colliding with the enemy
                         {
                             Damage(enemy.meleeDamage);
                             Vector2 dir = position - enemy.position;
@@ -240,6 +214,16 @@ namespace TheTaleOfGod
             prevMouseState = mouseState;
 
             #endregion
+
+            Cell newCell = Cell.GetCell(position);
+            if (cell != newCell)
+            {
+                cell.colliders.Remove(collider);
+                cell = newCell;
+                cell.colliders.Add(collider);
+            }
+            collider.position = position;
+            collider.Update(gameTime);
 
             cell = Cell.GetCell(position);
 

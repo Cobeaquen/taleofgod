@@ -96,10 +96,14 @@ namespace TheTaleOfGod
             {
                 foreach (var info in hitInfo)
                 {
-                    Enemy enemy = (Enemy)info;
-                    if (enemy != null) // collided with an enemy
+                    if (info is Enemy)
                     {
+                        Enemy enemy = (Enemy)info;
                         enemy.Damage(damage);
+                    }
+                    else if (info is Character)
+                    {
+                        return;
                     }
                 }
             }

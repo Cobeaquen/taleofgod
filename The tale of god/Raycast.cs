@@ -15,7 +15,7 @@ namespace TheTaleOfGod
         public Vector2 b;
         public Vector2 r;
 
-        public static Vector2 intersectPos;
+        public Vector2 intersectPos;
         public static Texture2D sprite;
         public static Vector2 origin;
 
@@ -47,7 +47,85 @@ namespace TheTaleOfGod
             r = direction * length;
         }
 
-        public bool Intersecting(out object[] colInfo, Raycast ray = null)
+        public bool Intersecting(out object[] colInfo, out Vector2 point)
+        {
+            bool collided = false;
+
+            List<object> colinfo = new List<object>();
+
+            Cell topLeft = new Cell();
+
+            Cell origin = Cell.GetCell(((a + b) / 2f));
+
+            int width = (int)Math.Ceiling(Math.Abs(b.X - a.X) / Cell.cellWidth) + 2;
+            int height = (int)Math.Ceiling(Math.Abs(b.Y - a.Y) / Cell.cellHeight) + 2;
+
+            Vector2 size = Cell.SnapToGrid(r);
+
+            point = Vector2.Zero;
+
+            if (r.X > 0f && r.Y < 0f)
+            {
+                topLeft = Cell.GetCell((int)a.X - Cell.cellWidth, (int)b.Y - Cell.cellHeight);
+            }
+            else if (r.X > 0f && r.Y > 0f)
+            {
+                topLeft = Cell.GetCell((int)a.X - Cell.cellWidth, (int)a.Y - Cell.cellHeight);
+            }
+            else if (r.X < 0f && r.Y > 0f)
+            {
+                topLeft = Cell.GetCell((int)b.X - Cell.cellWidth, (int)a.Y - Cell.cellHeight);
+            }
+            else if (r.X < 0f && r.Y < 0f)
+            {
+                topLeft = Cell.GetCell((int)b.X - Cell.cellWidth, (int)b.Y - Cell.cellHeight);
+            }
+
+            closeCells = Cell.GetAreaOfCellsTopLeft(topLeft, width, height);
+
+            foreach (var cell in closeCells)
+            {
+                if (cell.colliders.Count > 0)
+                {
+                    float shortestDistance = float.MaxValue;
+                    Vector2 colPoint;
+                    foreach (var col in cell.colliders)
+                    {
+                        for (int x = 0; x < col.edges.Length; x++)
+                        {
+                            Vector2 c = col.edges[x].a;
+                            Vector2 d = col.edges[x].b;
+                            Vector2 s = d - c;
+
+                            t = Cross(c - a, s) / Cross(r, s);
+                            u = Cross(c - a, r) / Cross(r, s);
+
+                            if (t >= 0f && t <= 1f && u >= 0f && u <= 1f)
+                            {
+                                collided = true;
+                                if (col.owner != null)
+                                {
+                                    colinfo.Add(col.owner);
+                                }
+                                colPoint = a + r * t;
+
+                                float dist = Vector2.Distance(a, colPoint); // problem where the point returned isn't the closest
+                                if (dist < shortestDistance)
+                                {
+                                    shortestDistance = dist;
+                                    point = colPoint;
+                                    intersectPos = colPoint;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            colInfo = colinfo.ToArray();
+
+            return collided;
+        }
+        public bool Intersecting(out object[] colInfo)
         {
             bool collided = false;
 
@@ -87,10 +165,10 @@ namespace TheTaleOfGod
                 {
                     foreach (var col in cell.colliders)
                     {
-                        for (int x = 0; x < col.rays.Length; x++)
+                        for (int x = 0; x < col.edges.Length; x++)
                         {
-                            Vector2 c = col.rays[x].a;
-                            Vector2 d = col.rays[x].b;
+                            Vector2 c = col.edges[x].a;
+                            Vector2 d = col.edges[x].b;
                             Vector2 s = d - c;
 
                             t = Cross(c - a, s) / Cross(r, s);
@@ -109,24 +187,26 @@ namespace TheTaleOfGod
                     }
                 }
             }
-            if (ray != null)
-            {
-                Vector2 c = ray.a;
-                Vector2 d = ray.b;
-                Vector2 s = d - c;
-
-                t = Cross(c - a, s) / Cross(r, s);
-                u = Cross(c - a, r) / Cross(r, s);
-
-                if (t >= 0f && t <= 1f && u >= 0f && u <= 1f)
-                {
-                    collided = true;
-                    intersectPos = a + r * t;
-                }
-            }
             colInfo = colinfo.ToArray();
 
             return collided;
+        }
+        public bool Intersecting(Raycast ray, out Vector2 point)
+        {
+            Vector2 c = ray.a;
+            Vector2 d = ray.b;
+            Vector2 s = d - c;
+
+            t = Cross(c - a, s) / Cross(r, s);
+            u = Cross(c - a, r) / Cross(r, s);
+
+            if (t >= 0f && t <= 1f && u >= 0f && u <= 1f)
+            {
+                point = a + r * t;
+                return true;
+            }
+            point = Vector2.Zero;
+            return false;
         }
 
         public void Draw(SpriteBatch batch)

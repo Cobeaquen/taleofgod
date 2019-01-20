@@ -34,7 +34,7 @@ namespace TheTaleOfGod
             this.width = width;
             this.height = height;
             this.stationary = stationary;
-            collider = new Collider(position, width, height);
+            collider = new Collider(position, width, height, "sceneobject", this);
 
             Game1.instance.map.colliders.Add(collider);
 

@@ -52,7 +52,7 @@ namespace TheTaleOfGod
         public static Vector2 screenCenter;
 
         public bool debugDrawing = false;
-        public bool drawGrid = false;
+        public bool drawGrid = true;
 
         public Game1()
         {
@@ -124,14 +124,14 @@ namespace TheTaleOfGod
                 npc.Update(gameTime);
             }
 
-            foreach (var enemy in map.enemies)
-            {
-                enemy.Update(gameTime);
-            }
-
             foreach (var col in map.colliders)
             {
                 col.Update(gameTime);
+            }
+
+            foreach (var enemy in map.enemies)
+            {
+                enemy.Update(gameTime);
             }
 
             foreach (var so in map.objects)
@@ -169,7 +169,7 @@ namespace TheTaleOfGod
             {
                 foreach (var col in map.colliders)
                 {
-                    foreach (var ray in col.rays)
+                    foreach (var ray in col.edges)
                     {
                         ray.Draw(spriteBatch);
                     }
