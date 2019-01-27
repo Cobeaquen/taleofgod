@@ -47,7 +47,7 @@ namespace TheTaleOfGod
             r = direction * length;
         }
 
-        public bool Intersecting(out object[] colInfo, out Vector2 point)
+        public bool Intersecting(out object[] colInfo, out Vector2 point) // use custom class to store more than only object
         {
             bool collided = false;
 

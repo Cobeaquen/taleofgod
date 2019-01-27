@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TheTaleOfGod;
 using ProtoBuf;
 using System.IO;
+using TheTaleOfGod.enemies;
 
 namespace TheTaleOfGod
 {

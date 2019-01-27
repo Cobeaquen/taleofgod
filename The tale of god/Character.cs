@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using TheTaleOfGod.enemies;
 
 namespace TheTaleOfGod
 {
@@ -49,8 +50,6 @@ namespace TheTaleOfGod
         KeyboardState prevKeyState;
         MouseState prevMouseState;
 
-        private float timeToFire;
-
         CollisionDirection colDir;
 
         public Character()
@@ -58,7 +57,7 @@ namespace TheTaleOfGod
             isInteracting = false;
             position = new Vector2(200, 200);
 
-            gun = new Gun(5f, 5f, true, position, new Bullet(10f, BulletType.Normal));
+            gun = new Gun(5f, 5f, true, position, new Bullet(7.5f, BulletType.Normal), this);
 
             sprite = DebugTextures.GenerateRectangle(16, 32, Color.PaleVioletRed);
 
@@ -137,10 +136,10 @@ namespace TheTaleOfGod
                     {
                         if (info is Enemy enemy) // colliding with the enemy
                         {
-                            Damage(enemy.meleeDamage);
+                            Damage(6);
                             Vector2 dir = position - enemy.position;
                             dir.Normalize();
-                            Knock(dir, enemy.meleeDamage * 10);
+                            Knock(dir, 6 * 10);
                         }
                     }
                 }
@@ -194,19 +193,13 @@ namespace TheTaleOfGod
 
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
-                if (0 >= timeToFire)
+                if (gun.CanFire())
                 {
-                    if (gun.autoFire || prevMouseState.LeftButton == ButtonState.Released) // fire here
-                    {
-                        timeToFire = 1f / gun.fireRate;
-                        gun.Fire(mouseDirection);
-                    }
+                    gun.Fire(mouseDirection);
                 }
             }
-            if (timeToFire > 0)
-            {
-                timeToFire -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
+
+
 
             #endregion
 

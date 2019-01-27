@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using TheTaleOfGod.enemies;
 
 namespace TheTaleOfGod
 {
@@ -30,19 +31,27 @@ namespace TheTaleOfGod
 
         public Raycast ray;
 
-        public Gun(float damage, float fireRate, bool autoFire, Vector2 position, Bullet bullet)
+        private float timeToFire = 0f;
+        private MouseState prevMouseState;
+
+        private object[] avoid;
+
+        public Gun(float damage, float fireRate, bool autoFire, Vector2 position, Bullet bullet, params object[] avoid)
         {
             this.damage = damage;
             this.fireRate = fireRate;
             this.autoFire = autoFire;
             this.position = position;
             this.bullet = bullet;
+            this.avoid = avoid;
             
             //sprite = Game1.content.Load<Texture2D>("textures\\laser_pistol");
             sprite = DebugTextures.GenerateRectangle(5, 10, Color.DarkGreen);
             origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
 
             bullets = new List<Bullet>();
+
+            prevMouseState = Mouse.GetState();
         }
 
         public virtual void Update(GameTime gameTime, Vector2 position, float rotation, Vector2 lookDirection)
@@ -50,7 +59,10 @@ namespace TheTaleOfGod
             this.position = position + lookDirection * positionOffset;
             this.rotation = rotation;
 
-            // remember to upgrade this to use raycasts later, this is an unreliable method - it will cause issues on lower framerates (plus raycasts are needed for laser guns)
+            /*if (timeToFire > 0)
+            {
+                timeToFire -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }*/
 
             #region bullet movement and collisions
 
@@ -60,8 +72,6 @@ namespace TheTaleOfGod
                 {
                     bullets[i].Update(gameTime);
 
-                    Vector2 deltaPos = bullets[i].position - bullets[i].previousPosition;
-
                     Vector2 start = bullets[i].previousPosition - bullets[i].forwardDirection * bullets[i].sprite.Height;
                     Vector2 end = bullets[i].position + bullets[i].forwardDirection * bullets[i].sprite.Height;
 
@@ -70,24 +80,28 @@ namespace TheTaleOfGod
                         bullets.RemoveAt(i);
                         return;
                     }
-                    ray = new Raycast(start, end);//, bullets[i].position + deltaPos);
+                    ray = new Raycast(start, end);
                     // this collision rectangle does not change according to its rotation - NEED RAYCASTS (I'M TAKING TIME TO DEVELOP RETARDED METHODS JUST TO THEN REMOVE THEM AND IMPLEMENT ANOTHER METHOD) pls help
                     if (ray.Intersecting(out object[] colInfo))
                     {
                         Hit(colInfo, i);
                         return;
                     }
-
-                    /*if (Collision.CollidingRectangle(bullets[i].position, bullets[i].NearbyCells, bullets[i].sprite.Width, bullets[i].sprite.Height, out object[] colInfo) != null)//new Rectangle((int)bullets[i].position.X - bullets[i].sprite.Width/2, (int)bullets[i].position.Y - bullets[i].sprite.Height/2, bullets[i].sprite.Width, bullets[i].sprite.Height), out tag) != null)
-                    {
-                        Hit(colInfo, i);
-                    }*/
-                    //else
-                    //{
-                    //}
                 }
             }
+            if (timeToFire > 0)
+            {
+                timeToFire -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
             #endregion
+        }
+        public bool CanFire()
+        {
+            if (0 >= timeToFire)
+            {
+                return true;
+            }
+            return false;
         }
 
         public void Hit(object[] hitInfo, int bulletIndex)
@@ -96,6 +110,10 @@ namespace TheTaleOfGod
             {
                 foreach (var info in hitInfo)
                 {
+                    if (avoid.Contains(info))
+                    {
+                        return;
+                    }
                     if (info is Enemy)
                     {
                         Enemy enemy = (Enemy)info;
@@ -103,7 +121,8 @@ namespace TheTaleOfGod
                     }
                     else if (info is Character)
                     {
-                        return;
+                        Character character = (Character)info;
+                        character.Damage(damage);
                     }
                 }
             }
@@ -113,6 +132,7 @@ namespace TheTaleOfGod
 
         public virtual void Fire(Vector2 lookDirection)
         {
+            timeToFire = 1f / fireRate;
             bullets.Add(Bullet.SpawnBullet(bullet, position, rotation, lookDirection));
         }
         public virtual void Draw(SpriteBatch batch)

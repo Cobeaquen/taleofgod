@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using ProtoBuf;
 
-namespace TheTaleOfGod
+namespace TheTaleOfGod.enemies
 {
     public class Enemy
     {
@@ -20,15 +20,16 @@ namespace TheTaleOfGod
         public Cell[] NearbyCells { get; set; }
 
         public float attackRange;
+        public float targetRange;
 
         public Texture2D sprite;
         public Vector2 origin;
 
-        public float meleeDamage;
         public float maxHealth;
         public float health;
 
         public float rotation;
+        public Vector2 lookDirection;
 
         public Character target;
         public Vector2 targetPosition;
@@ -41,12 +42,12 @@ namespace TheTaleOfGod
         private HealthBar healthBar;
         static Vector2 healthBarOffset = new Vector2(0, 15);
 
-        public Enemy(float speed, float maxHealth, float attackRange, float meleeDamage, Vector2 position, Texture2D sprite, Character target)
+        public Enemy(float speed, float maxHealth, float attackRange, float targetRange, Vector2 position, Texture2D sprite, Character target)
         {
             this.speed = speed;
             this.maxHealth = maxHealth;
             this.attackRange = attackRange;
-            this.meleeDamage = meleeDamage;
+            this.targetRange = targetRange;
             this.position = position;
             this.sprite = sprite;
             this.target = target;
@@ -61,29 +62,42 @@ namespace TheTaleOfGod
             health = maxHealth;
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             // follow the target
             Vector2 dir = target.position - position;
-            if (dir.Length() < attackRange)
+            float magnitude = dir.Length();
+            if (magnitude < attackRange)
             {
-                Vector2 direction = targetPosition - position;
+                dir.Normalize();
+                if (magnitude > targetRange)
+                {
+                    Vector2 direction = dir;
 
-                rotation = Game1.VectorToAngle(direction);
-                if (direction != Vector2.Zero)
-                {
-                    direction.Normalize();
-                    move = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (direction != Vector2.Zero)
+                    {
+                        move = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    }
+                    Cell newCell = Cell.GetCell(position);
+                    if (cell != newCell)
+                    {
+                        cell.enemies.Remove(this);
+                        cell.colliders.Remove(collider);
+                        cell = newCell;
+                        cell.enemies.Add(this);
+                        cell.colliders.Add(collider);
+                    }
                 }
-                Cell newCell = Cell.GetCell(position);
-                if (cell != newCell)
+                else
                 {
-                    cell.enemies.Remove(this);
-                    cell.colliders.Remove(collider);
-                    cell = newCell;
-                    cell.enemies.Add(this);
-                    cell.colliders.Add(collider);
+                    move = Vector2.Zero;
                 }
+                float newrot = Game1.VectorToAngle(dir);
+
+                newrot = Math.Sign(newrot) == -1 ? newrot + MathHelper.TwoPi : newrot;
+                rotation = Game1.LerpRotation(rotation, newrot, 0.9f);
+                Console.WriteLine(newrot);//MathHelper.TwoPi - Math.Abs(Game1.VectorToAngle(dir)));
+                lookDirection = dir;
             }
             else
             {
@@ -136,6 +150,10 @@ namespace TheTaleOfGod
                 {
                     Collision.RestrictPosition(enemyRect, col, ref move);
                 }
+                foreach (var info in colInfo)
+                {
+                    OnCollisionEnter(info);
+                }
             }
             position += move;
 
@@ -143,7 +161,7 @@ namespace TheTaleOfGod
             collider.position = position;
         }
 
-        public void Damage(float damage)
+        public virtual void Damage(float damage)
         {
             health -= damage;
             healthBar.ChangeValue(health / maxHealth);
@@ -160,17 +178,26 @@ namespace TheTaleOfGod
             }
         }
 
-        public void Die()
+        public virtual void OnCollisionEnter(object colinfo)
+        {
+
+        }
+        public virtual void InflictDamage(Character target)
+        {
+            //target.Damage()
+        }
+
+        public virtual void Die()
         {
             Game1.instance.map.enemies.Remove(this);
             cell.colliders.Remove(collider);
             Game1.instance.map.colliders.Remove(collider);
         }
 
-        public void Draw(SpriteBatch batch)
+        public virtual void Draw(SpriteBatch batch)
         {
             batch.Draw(sprite, position, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-            ray.Draw(batch);
+            //ray.Draw(batch);
             healthBar.Draw(batch);
         }
     }

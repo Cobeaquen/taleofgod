@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
 using System;
 using ProtoBuf;
+using TheTaleOfGod.enemies;
 
 namespace TheTaleOfGod
 {
@@ -52,7 +53,7 @@ namespace TheTaleOfGod
         public static Vector2 screenCenter;
 
         public bool debugDrawing = false;
-        public bool drawGrid = true;
+        public bool drawGrid = false;
 
         public Game1()
         {
@@ -93,7 +94,7 @@ namespace TheTaleOfGod
 
             map.npcs.Add(new NPC(new Vector2(100, -100), DebugTextures.GenerateRectangle(16, 32, Color.Yellow), "Hello world!!", "Great to see you decided to play this game!!"));
             map.npcs.Add(new NPC(new Vector2(150, 10), DebugTextures.GenerateRectangle(16, 32, Color.Yellow), "Hello, my name is tommy! I used to live in peace", "watering me plants in me garden everyday, until the unpredictable struck"));
-            map.enemies.Add (new Enemy(100f, 200f, 150f, 10f, screenCenter, DebugTextures.GenerateRectangle(16, 16, Color.DarkGray), character));
+            map.enemies.Add(new PeasantSoldier(50f, 200f, 200f, 100f, screenCenter, DebugTextures.GenerateRectangle(16, 16, Color.DarkGray), character));
 
             Vector2 pos = Cell.SnapToGrid(Vector2.One * 40);
 
@@ -239,6 +240,12 @@ namespace TheTaleOfGod
         public static float VectorToAngle(Vector2 vector)
         {
             return (float)Math.Atan2(vector.Y, vector.X);
+        }
+
+        public static float LerpRotation(float start, float end, float amount)
+        {
+            float shortest_angle = ((((end - start) % MathHelper.TwoPi) + MathHelper.Pi*3) % MathHelper.TwoPi) - MathHelper.Pi;
+            return shortest_angle * amount;
         }
 
 
