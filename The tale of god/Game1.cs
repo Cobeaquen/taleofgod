@@ -244,8 +244,7 @@ namespace TheTaleOfGod
 
         public static float LerpRotation(float start, float end, float amount)
         {
-            float shortest_angle = ((((end - start) % MathHelper.TwoPi) + MathHelper.Pi*3) % MathHelper.TwoPi) - MathHelper.Pi;
-            return shortest_angle * amount;
+            return MathHelper.Lerp(start, end, amount);
         }
 
 

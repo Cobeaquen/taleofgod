@@ -95,8 +95,28 @@ namespace TheTaleOfGod.enemies
                 float newrot = Game1.VectorToAngle(dir);
 
                 newrot = Math.Sign(newrot) == -1 ? newrot + MathHelper.TwoPi : newrot;
-                rotation = Game1.LerpRotation(rotation, newrot, 0.9f);
-                Console.WriteLine(newrot);//MathHelper.TwoPi - Math.Abs(Game1.VectorToAngle(dir)));
+
+                Console.WriteLine(rotation);
+
+                float rot = newrot - rotation;
+
+                if (Math.Abs(rotation - newrot) > MathHelper.Pi)
+                {
+                    newrot += MathHelper.TwoPi;
+                }
+                rotation += rot * 0.001f;
+
+                /*if (Math.Abs(newrot - rotation) > MathHelper.Pi)
+                {
+                    rotation = newrot + (MathHelper.TwoPi - newrot - rotation) * 0.002f;
+                }
+                else
+                {
+                    rotation = rotation + (newrot - rotation) * 0.002f;
+                }*/
+
+                //rotation = Game1.LerpRotation(a, newrot, 0.09f);
+
                 lookDirection = dir;
             }
             else
