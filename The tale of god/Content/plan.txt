@@ -1,0 +1,6 @@
+health bar and armor ui.
+armor mechanic.
+more and different enemies, unique abilities, repelling of each other so they don't overlap.
+loot mechanic, picking up and dropping as well as ui.
+xp mechanic, for every level gain some amount of hp and armor. get to choose perk, like more loot.
+player abilities: throw grenade, greater firerate, more damage, more defense or hp, reflecting or absorbing bullets to get xp,

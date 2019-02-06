@@ -21,6 +21,7 @@ namespace TheTaleOfGod.enemies
 
         public float attackRange;
         public float targetRange;
+        public float turnSpeed;
 
         public Texture2D sprite;
         public Vector2 origin;
@@ -42,9 +43,10 @@ namespace TheTaleOfGod.enemies
         private HealthBar healthBar;
         static Vector2 healthBarOffset = new Vector2(0, 15);
 
-        public Enemy(float speed, float maxHealth, float attackRange, float targetRange, Vector2 position, Texture2D sprite, Character target)
+        public Enemy(float speed, float turnSpeed, float maxHealth, float attackRange, float targetRange, Vector2 position, Texture2D sprite, Character target)
         {
             this.speed = speed;
+            this.turnSpeed = turnSpeed;
             this.maxHealth = maxHealth;
             this.attackRange = attackRange;
             this.targetRange = targetRange;
@@ -92,32 +94,16 @@ namespace TheTaleOfGod.enemies
                 {
                     move = Vector2.Zero;
                 }
-                float newrot = Game1.VectorToAngle(dir);
 
-                newrot = Math.Sign(newrot) == -1 ? newrot + MathHelper.TwoPi : newrot;
+                Vector2 rotationDirection = Game1.AngleToVector(rotation);
 
-                Console.WriteLine(rotation);
+                Vector2 newDir = Vector2.Lerp(rotationDirection, dir, turnSpeed);
 
-                float rot = newrot - rotation;
+                float newrot = Game1.VectorToAngle(newDir);
 
-                if (Math.Abs(rotation - newrot) > MathHelper.Pi)
-                {
-                    newrot += MathHelper.TwoPi;
-                }
-                rotation += rot * 0.001f;
+                rotation = newrot;
 
-                /*if (Math.Abs(newrot - rotation) > MathHelper.Pi)
-                {
-                    rotation = newrot + (MathHelper.TwoPi - newrot - rotation) * 0.002f;
-                }
-                else
-                {
-                    rotation = rotation + (newrot - rotation) * 0.002f;
-                }*/
-
-                //rotation = Game1.LerpRotation(a, newrot, 0.09f);
-
-                lookDirection = dir;
+                lookDirection = newDir;
             }
             else
             {

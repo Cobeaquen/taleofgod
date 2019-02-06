@@ -16,7 +16,7 @@ namespace TheTaleOfGod.enemies
 
         float bulletRotationOffset = MathHelper.PiOver2;
 
-        public PeasantSoldier (float speed, float maxHealth, float attackRange, float targetRange, Vector2 position, Texture2D sprite, Character target) : base(speed, maxHealth, attackRange, targetRange, position, sprite, target)
+        public PeasantSoldier (float speed, float turnSpeed, float maxHealth, float attackRange, float targetRange, Vector2 position, Texture2D sprite, Character target) : base(speed, turnSpeed, maxHealth, attackRange, targetRange, position, sprite, target)
         {
             gun = new Gun(10f, 2f, true, position, new Bullet(10f, BulletType.Normal), this);
         }
