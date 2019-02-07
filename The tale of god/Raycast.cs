@@ -47,11 +47,11 @@ namespace TheTaleOfGod
             r = direction * length;
         }
 
-        public bool Intersecting(out object[] colInfo, out Vector2 point) // use custom class to store more than only object
+        public bool Intersecting(out Collider[] colInfo, out Vector2 point) // use custom class to store more than only object
         {
             bool collided = false;
 
-            List<object> colinfo = new List<object>();
+            List<Collider> colinfo = new List<Collider>();
 
             Cell topLeft = new Cell();
 
@@ -105,7 +105,7 @@ namespace TheTaleOfGod
                                 collided = true;
                                 if (col.owner != null)
                                 {
-                                    colinfo.Add(col.owner);
+                                    colinfo.Add(col);
                                 }
                                 colPoint = a + r * t;
 
@@ -125,11 +125,11 @@ namespace TheTaleOfGod
 
             return collided;
         }
-        public bool Intersecting(out object[] colInfo)
+        public bool Intersecting(out Collider[] colInfo)
         {
             bool collided = false;
 
-            List<object> colinfo = new List<object>();
+            List<Collider> colinfo = new List<Collider>();
 
             Cell topLeft = new Cell();
 
@@ -179,7 +179,7 @@ namespace TheTaleOfGod
                                 collided = true;
                                 if (col.owner != null)
                                 {
-                                    colinfo.Add(col.owner);
+                                    colinfo.Add(col);
                                 }
                                 intersectPos = a + r * t;
                             }

@@ -112,26 +112,14 @@ namespace TheTaleOfGod.enemies
 
             ray = new Raycast(position, target.position);
 
-            if (ray.Intersecting(out object[] colinfo, out Vector2 point))
+            if (ray.Intersecting(out Collider[] colinfo, out Vector2 point))
             {
                 foreach (var info in colinfo)
                 {
-                    if (info is SceneObject col)
+                    if (info.owner is SceneObject col)
                     {
-                        float shortestDistance = float.MaxValue;
-                        Node closestNode = null;
-
-                        foreach (var node in col.collider.nodes)
-                        {
-                            float distance = Vector2.Distance(point, node.position);
-                            if (distance < shortestDistance)
-                            {
-                                shortestDistance = distance;
-                                closestNode = node;
-                            }
-                        }
-
-                        targetPosition = closestNode.position;
+                        OnTargetBlocked(info, point);
+                        
                         break;
                     }
                     else
@@ -148,7 +136,7 @@ namespace TheTaleOfGod.enemies
             NearbyCells = Cell.GetAreaOfCells(Cell.GetCell(position), 4, 4);
 
             Rectangle enemyRect = new Rectangle((int)position.X - sprite.Width / 2, (int)position.Y - sprite.Height / 2, sprite.Width, sprite.Height);
-            Rectangle[] colliders = Collision.CollidingRectangle(position, NearbyCells, sprite.Width, sprite.Height, out object[] colInfo);
+            Rectangle[] colliders = Collision.CollidingRectangle(position, NearbyCells, sprite.Width, sprite.Height, out Collider[] colInfo);
 
             if (colliders != null)
             {
@@ -165,6 +153,24 @@ namespace TheTaleOfGod.enemies
 
             healthBar.position = position + healthBarOffset;
             collider.position = position;
+        }
+
+        public virtual void OnTargetBlocked(Collider col, Vector2 point)
+        {
+            float shortestDistance = float.MaxValue;
+            Node closestNode = null;
+
+            foreach (var node in collider.nodes)
+            {
+                float distance = Vector2.Distance(point, node.position);
+                if (distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    closestNode = node;
+                }
+            }
+
+            targetPosition = closestNode.position;
         }
 
         public virtual void Damage(float damage)
@@ -184,7 +190,7 @@ namespace TheTaleOfGod.enemies
             }
         }
 
-        public virtual void OnCollisionEnter(object colinfo)
+        public virtual void OnCollisionEnter(Collider colinfo)
         {
 
         }

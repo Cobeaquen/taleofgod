@@ -57,7 +57,7 @@ namespace TheTaleOfGod
             isInteracting = false;
             position = new Vector2(200, 200);
 
-            gun = new Gun(5f, 5f, true, position, new Bullet(7.5f, BulletType.Normal), this);
+            gun = new Gun(5f, 5f, true, position, new Bullet(7.5f, BulletType.Normal), "character");
 
             sprite = DebugTextures.GenerateRectangle(16, 32, Color.PaleVioletRed);
 
@@ -98,7 +98,7 @@ namespace TheTaleOfGod
 
             playerRect = new Rectangle((int)position.X - sprite.Width / 2, (int)position.Y - sprite.Height / 2, sprite.Width, sprite.Height);
 
-            Rectangle[] colliders = Collision.CollidingRectangle(position, NearbyCells, sprite.Width, sprite.Height, out object[] colInfo);
+            Rectangle[] colliders = Collision.CollidingRectangle(position, NearbyCells, sprite.Width, sprite.Height, out Collider[] colInfo);
 
             if (keyState.IsKeyDown(Keys.D) && colDir != CollisionDirection.Left)
             {
@@ -134,7 +134,7 @@ namespace TheTaleOfGod
                 {
                     foreach (var info in colInfo)
                     {
-                        if (info is Enemy enemy) // colliding with the enemy
+                        if (info.owner is Enemy enemy) // colliding with the enemy
                         {
                             Damage(6);
                             Vector2 dir = position - enemy.position;

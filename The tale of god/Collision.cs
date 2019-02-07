@@ -91,10 +91,10 @@ namespace TheTaleOfGod
             return colliders.ToArray();
         }
 
-        public static Rectangle[] CollidingRectangle(Vector2 position, Cell[] cellCheck, int width, int height, out object[] colInfo) // need multiple collider objects!!
+        public static Rectangle[] CollidingRectangle(Vector2 position, Cell[] cellCheck, int width, int height, out Collider[] colInfo) // need multiple collider objects!!
         {
             List<Rectangle> colliders = null;
-            List<object> colInfos = null;
+            List<Collider> colInfos = null;
 
             Rectangle rect1 = new Rectangle((int)position.X - width / 2, (int)position.Y - height / 2, width, height);
 
@@ -127,9 +127,9 @@ namespace TheTaleOfGod
                             {
                                 if (colInfos == null)
                                 {
-                                    colInfos = new List<object>();
+                                    colInfos = new List<Collider>();
                                 }
-                                colInfos.Add(co.owner);
+                                colInfos.Add(co);
                             }
 
                             colliders.Add(col);

@@ -36,7 +36,7 @@ namespace TheTaleOfGod
 
         private object[] avoid;
 
-        public Gun(float damage, float fireRate, bool autoFire, Vector2 position, Bullet bullet, params object[] avoid)
+        public Gun(float damage, float fireRate, bool autoFire, Vector2 position, Bullet bullet, params string[] avoid)
         {
             this.damage = damage;
             this.fireRate = fireRate;
@@ -82,7 +82,7 @@ namespace TheTaleOfGod
                     }
                     ray = new Raycast(start, end);
                     // this collision rectangle does not change according to its rotation - NEED RAYCASTS (I'M TAKING TIME TO DEVELOP RETARDED METHODS JUST TO THEN REMOVE THEM AND IMPLEMENT ANOTHER METHOD) pls help
-                    if (ray.Intersecting(out object[] colInfo))
+                    if (ray.Intersecting(out Collider[] colInfo))
                     {
                         Hit(colInfo, i);
                         return;
@@ -104,24 +104,25 @@ namespace TheTaleOfGod
             return false;
         }
 
-        public void Hit(object[] hitInfo, int bulletIndex)
+        public void Hit(Collider[] hitInfo, int bulletIndex)
         {
             if (hitInfo != null)
             {
                 foreach (var info in hitInfo)
                 {
-                    if (avoid.Contains(info))
+                    if (avoid.Contains(info.tag))
                     {
                         return;
                     }
-                    if (info is Enemy)
+                    
+                    if (info.owner is Enemy)
                     {
-                        Enemy enemy = (Enemy)info;
+                        Enemy enemy = (Enemy)info.owner;
                         enemy.Damage(damage);
                     }
-                    else if (info is Character)
+                    else if (info.owner is Character)
                     {
-                        Character character = (Character)info;
+                        Character character = (Character)info.owner;
                         character.Damage(damage);
                     }
                 }

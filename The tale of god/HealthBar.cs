@@ -47,7 +47,7 @@ namespace TheTaleOfGod
 
             color = Color.Lerp(color2, color1, Value);
 
-            batch.Draw(progress, position + new Vector2(sprite.Width/2f, 0f), null, color, 0f, origin1, new Vector2(Value, 1f), SpriteEffects.None, 0f);
+            batch.Draw(progress, position + new Vector2(sprite.Width/2f, 0f), null, color, 0f, origin1, new Vector2(Value, 1f), SpriteEffects.None, 0.1f);
         }
     }
 }
