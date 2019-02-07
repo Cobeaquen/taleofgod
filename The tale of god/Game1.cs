@@ -53,7 +53,7 @@ namespace TheTaleOfGod
         public static Vector2 screenCenter;
 
         public bool debugDrawing = false;
-        public bool drawGrid = false;
+        public bool drawGrid = true;
 
         public Game1()
         {

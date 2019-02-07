@@ -80,6 +80,7 @@ namespace TheTaleOfGod
             Game1.instance.map.colliders.Add(collider);
 
             cell = Cell.GetCell(position);
+            cell.colliders.Add(collider);
         }
 
         Rectangle playerRect;
