@@ -29,6 +29,7 @@ namespace TheTaleOfGod.enemies
         public float health;
 
         public float rotation;
+        float prevRot;
         public Vector2 lookDirection;
 
         public Character target;
@@ -95,9 +96,13 @@ namespace TheTaleOfGod.enemies
                 float newrot = Game1.VectorToAngle(dir);
 
                 newrot = Math.Sign(newrot) == -1 ? newrot + MathHelper.TwoPi : newrot;
-                rotation = Game1.LerpRotation(rotation, newrot, 0.9f);
+
+                rotation = MathHelper.Lerp(rotation, newrot, 0.01f);
+                //Game1.LerpRotation(rotation, newrot, 0.9f);
                 Console.WriteLine(newrot);//MathHelper.TwoPi - Math.Abs(Game1.VectorToAngle(dir)));
                 lookDirection = dir;
+
+                prevRot = rotation;
             }
             else
             {
