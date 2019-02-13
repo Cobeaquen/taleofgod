@@ -136,7 +136,29 @@ namespace TheTaleOfGod.enemies
             NearbyCells = Cell.GetAreaOfCells(Cell.GetCell(position), 4, 4);
 
             Rectangle enemyRect = new Rectangle((int)position.X - sprite.Width / 2, (int)position.Y - sprite.Height / 2, sprite.Width, sprite.Height);
-            Rectangle[] colliders = Collision.CollidingRectangle(position, NearbyCells, sprite.Width, sprite.Height, out Collider[] colInfo);
+            Rectangle[] colliders = Collision.CollidingRectangle(position, NearbyCells, sprite.Width, sprite.Height, out Collider[] colInfo, "enemy", out Collider[] nearEnemies);
+
+            if (nearEnemies != null)
+            {
+                foreach (var e in nearEnemies)
+                {
+                    Enemy enemy = (Enemy)e.owner;
+                    if (enemy != this)
+                    {
+                        Vector2 dif = enemy.position - position;
+
+                        float x = dif.Length() / 50f;
+                        if (x <= 1f)
+                        {
+                            float value = Math.Abs(Game1.Sigmoid(1f - x, 1.3f)) * 0.02f;
+
+                            dif.Normalize();
+
+                            position += dif * -value;
+                        }
+                    }
+                }
+            }
 
             if (colliders != null)
             {
@@ -208,6 +230,10 @@ namespace TheTaleOfGod.enemies
 
         public virtual void Draw(SpriteBatch batch)
         {
+            /*foreach (var c in NearbyCells)
+            {
+                c.Draw(batch);
+            }*/
             batch.Draw(sprite, position, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
             //ray.Draw(batch);
             healthBar.Draw(batch);

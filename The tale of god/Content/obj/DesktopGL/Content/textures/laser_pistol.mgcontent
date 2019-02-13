@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>D:/taleofgod/The tale of god/Content/textures/laser_pistol.png</SourceFile>
-  <SourceTime>2019-01-06T15:46:33.5378428+01:00</SourceTime>
-  <DestFile>D:/taleofgod/The tale of god/Content/bin/DesktopGL/Content/textures/laser_pistol.xnb</DestFile>
-  <DestTime>2019-02-06T22:59:12.5224527+01:00</DestTime>
+  <SourceFile>C:/Users/Cobeaquen/Documents/GitHub/taleofgod/The tale of god/Content/textures/laser_pistol.png</SourceFile>
+  <SourceTime>2019-01-01T15:24:38.1213923+01:00</SourceTime>
+  <DestFile>C:/Users/Cobeaquen/Documents/GitHub/taleofgod/The tale of god/Content/bin/DesktopGL/Content/textures/laser_pistol.xnb</DestFile>
+  <DestTime>2019-02-13T19:35:36.2423912+01:00</DestTime>
   <Importer>TextureImporter</Importer>
-  <ImporterTime>2018-12-08T17:35:54+01:00</ImporterTime>
+  <ImporterTime>2018-09-23T23:55:52+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
-  <ProcessorTime>2018-12-08T17:35:54+01:00</ProcessorTime>
+  <ProcessorTime>2018-09-23T23:55:52+02:00</ProcessorTime>
   <Parameters>
     <Key>ColorKeyColor</Key>
     <Value>255,0,255,255</Value>

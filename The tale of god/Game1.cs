@@ -53,7 +53,7 @@ namespace TheTaleOfGod
         public static Vector2 screenCenter;
 
         public bool debugDrawing = false;
-        public bool drawGrid = true;
+        public bool drawGrid = false;
 
         public Game1()
         {
@@ -94,8 +94,12 @@ namespace TheTaleOfGod
 
             map.npcs.Add(new NPC(new Vector2(100, -100), DebugTextures.GenerateRectangle(16, 32, Color.Yellow), "Hello world!!", "Great to see you decided to play this game!!"));
             map.npcs.Add(new NPC(new Vector2(150, 10), DebugTextures.GenerateRectangle(16, 32, Color.Yellow), "Hello, my name is tommy! I used to live in peace", "watering me plants in me garden everyday, until the unpredictable struck"));
-            map.enemies.Add(new PeasantSoldier(50f, 0.005f, 200f, 200f, 100f, screenCenter, DebugTextures.GenerateRectangle(16, 16, Color.DarkGray), character));
-            map.enemies.Add(new PeasantSoldier(56f, 0.004f, 200f, 200f, 100f, new Vector2(100, 300), DebugTextures.GenerateRectangle(16, 16, Color.GreenYellow), character));
+            map.enemies.Add(new PeasantSoldier(50f, 0.005f, 200f, 300f, 50, screenCenter, DebugTextures.GenerateRectangle(16, 16, Color.DarkGray), character));
+            map.enemies.Add(new PeasantSoldier(86, 0.004f, 200f, 300f, 50, new Vector2(53, 3466), DebugTextures.GenerateRectangle(16, 16, Color.GreenYellow), character));
+            map.enemies.Add(new PeasantSoldier(70f, 0.004f, 200f, 300f, 50, new Vector2(62, 23), DebugTextures.GenerateRectangle(16, 16, Color.DarkRed), character));
+            map.enemies.Add(new PeasantSoldier(69f, 0.004f, 200f, 300f, 50, new Vector2(97, 2), DebugTextures.GenerateRectangle(16, 16, Color.Red), character));
+            map.enemies.Add(new PeasantSoldier(82f, 0.004f, 200f, 300f, 50, new Vector2(64, 0), DebugTextures.GenerateRectangle(16, 16, Color.Yellow), character));
+            map.enemies.Add(new PeasantSoldier(56f, 0.004f, 200f, 300f, 50, new Vector2(2, 49), DebugTextures.GenerateRectangle(16, 16, Color.Blue), character));
 
             Vector2 pos = Cell.SnapToGrid(Vector2.One * 40);
 
@@ -233,6 +237,8 @@ namespace TheTaleOfGod
             base.Draw(gameTime);
         }
 
+        #region General functions
+
         public static Vector2 AngleToVector(float angle)
         {
             return new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
@@ -247,6 +253,13 @@ namespace TheTaleOfGod
         {
             return MathHelper.Lerp(start, end, amount);
         }
+
+        public static float Sigmoid(float x, float steepness)
+        {
+            return (steepness * x) / (float)Math.Sqrt(1f + (float)Math.Pow(steepness * x, 2f));
+        }
+
+        #endregion
 
 
         private void SetApplicationSettings()
