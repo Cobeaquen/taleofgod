@@ -11,6 +11,12 @@ namespace TheTaleOfGod
 {
     public class Game1 : Game
     {
+        #region General
+
+        public const float oneOverSqrt2 = 0.70710678118654752440084436210485f;
+
+        #endregion
+
         #region singleton
 
         public static Game1 instance;
@@ -94,12 +100,12 @@ namespace TheTaleOfGod
 
             map.npcs.Add(new NPC(new Vector2(100, -100), DebugTextures.GenerateRectangle(16, 32, Color.Yellow), "Hello world!!", "Great to see you decided to play this game!!"));
             map.npcs.Add(new NPC(new Vector2(150, 10), DebugTextures.GenerateRectangle(16, 32, Color.Yellow), "Hello, my name is tommy! I used to live in peace", "watering me plants in me garden everyday, until the unpredictable struck"));
-            map.enemies.Add(new PeasantSoldier(50f, 0.005f, 200f, 300f, 50, screenCenter, DebugTextures.GenerateRectangle(16, 16, Color.DarkGray), character));
-            map.enemies.Add(new PeasantSoldier(86, 0.004f, 200f, 300f, 50, new Vector2(53, 3466), DebugTextures.GenerateRectangle(16, 16, Color.GreenYellow), character));
-            map.enemies.Add(new PeasantSoldier(70f, 0.004f, 200f, 300f, 50, new Vector2(62, 23), DebugTextures.GenerateRectangle(16, 16, Color.DarkRed), character));
-            map.enemies.Add(new PeasantSoldier(69f, 0.004f, 200f, 300f, 50, new Vector2(97, 2), DebugTextures.GenerateRectangle(16, 16, Color.Red), character));
-            map.enemies.Add(new PeasantSoldier(82f, 0.004f, 200f, 300f, 50, new Vector2(64, 0), DebugTextures.GenerateRectangle(16, 16, Color.Yellow), character));
-            map.enemies.Add(new PeasantSoldier(56f, 0.004f, 200f, 300f, 50, new Vector2(2, 49), DebugTextures.GenerateRectangle(16, 16, Color.Blue), character));
+            map.enemies.Add(new PeasantSoldier(50f, 0.005f, 200f, 300f, 100, screenCenter, DebugTextures.GenerateRectangle(16, 16, Color.DarkGray), character));
+            map.enemies.Add(new PeasantSoldier(86, 0.004f, 200f, 300f, 100, new Vector2(53, 3466), DebugTextures.GenerateRectangle(16, 16, Color.GreenYellow), character));
+            map.enemies.Add(new PeasantSoldier(70f, 0.004f, 200f, 300f, 100, new Vector2(62, 23), DebugTextures.GenerateRectangle(16, 16, Color.DarkRed), character));
+            map.enemies.Add(new PeasantSoldier(69f, 0.004f, 200f, 300f, 100, new Vector2(97, 2), DebugTextures.GenerateRectangle(16, 16, Color.Red), character));
+            map.enemies.Add(new PeasantSoldier(82f, 0.004f, 200f, 300f, 100, new Vector2(64, 0), DebugTextures.GenerateRectangle(16, 16, Color.Yellow), character));
+            map.enemies.Add(new PeasantSoldier(56f, 0.004f, 200f, 300f, 100, new Vector2(2, 49), DebugTextures.GenerateRectangle(16, 16, Color.Blue), character));
 
             Vector2 pos = Cell.SnapToGrid(Vector2.One * 40);
 

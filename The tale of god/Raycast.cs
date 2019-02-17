@@ -218,7 +218,7 @@ namespace TheTaleOfGod
             {
                 foreach (var c in closeCells)
                 {
-                    c.Draw(batch);
+                    c.Draw(batch, Color.Yellow);
                 }
             }
         }

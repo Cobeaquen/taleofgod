@@ -45,9 +45,9 @@ namespace TheTaleOfGod
 
         }
 
-        public void Draw(SpriteBatch batch)
+        public void Draw(SpriteBatch batch, Color color)
         {
-            batch.Draw(CellSprite, ToVector2(), null, Color.Green, 0f, SpriteOrigin, 1f, SpriteEffects.None, 0.99f);
+            batch.Draw(CellSprite, ToVector2(), null, color, 0f, SpriteOrigin, 1f, SpriteEffects.None, 0.99f);
         }
 
         #region gridfunctions

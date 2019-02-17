@@ -55,13 +55,12 @@ namespace TheTaleOfGod.enemies
             this.target = target;
 
             healthBar = new HealthBar();
+            health = maxHealth;
 
             collider = new Collider(position, sprite.Width, sprite.Height, "enemy", this);
             Game1.instance.map.colliders.Add(collider);
 
             origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
-
-            health = maxHealth;
         }
 
         public virtual void Update(GameTime gameTime)
@@ -79,15 +78,6 @@ namespace TheTaleOfGod.enemies
                     if (direction != Vector2.Zero)
                     {
                         move = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    }
-                    Cell newCell = Cell.GetCell(position);
-                    if (cell != newCell)
-                    {
-                        cell.enemies.Remove(this);
-                        cell.colliders.Remove(collider);
-                        cell = newCell;
-                        cell.enemies.Add(this);
-                        cell.colliders.Add(collider);
                     }
                 }
                 else
@@ -109,6 +99,8 @@ namespace TheTaleOfGod.enemies
             {
                 move = Vector2.Zero;
             }
+
+            CellUpdate();
 
             ray = new Raycast(position, target.position);
 
@@ -140,24 +132,7 @@ namespace TheTaleOfGod.enemies
 
             if (nearEnemies != null)
             {
-                foreach (var e in nearEnemies)
-                {
-                    Enemy enemy = (Enemy)e.owner;
-                    if (enemy != this)
-                    {
-                        Vector2 dif = enemy.position - position;
-
-                        float x = dif.Length() / 50f;
-                        if (x <= 1f)
-                        {
-                            float value = Math.Abs(Game1.Sigmoid(1f - x, 1.3f)) * 0.02f;
-
-                            dif.Normalize();
-
-                            position += dif * -value;
-                        }
-                    }
-                }
+                Repel(nearEnemies);
             }
 
             if (colliders != null)
@@ -175,6 +150,42 @@ namespace TheTaleOfGod.enemies
 
             healthBar.position = position + healthBarOffset;
             collider.position = position;
+        }
+
+        public virtual void Repel(Collider[] nearEnemies)
+        {
+            foreach (var e in nearEnemies)
+            {
+                Enemy enemy = (Enemy)e.owner;
+                if (enemy != this)
+                {
+                    Vector2 dif = enemy.position - position;
+
+                    float x = dif.Length() / 50f;
+                    if (x <= 1f)
+                    {
+                        float value = Math.Abs(Game1.Sigmoid(1f - x, 1.3f)) * 0.035f;
+
+                        dif.Normalize();
+
+                        position += dif * -value;
+                        collider.position = position;
+                    }
+                }
+            }
+        }
+
+        public void CellUpdate()
+        {
+            Cell newCell = Cell.GetCell(position);
+            if (cell != newCell)
+            {
+                cell.enemies.Remove(this);
+                cell.colliders.Remove(collider);
+                cell = newCell;
+                cell.enemies.Add(this);
+                cell.colliders.Add(collider);
+            }
         }
 
         public virtual void OnTargetBlocked(Collider col, Vector2 point)
@@ -230,10 +241,14 @@ namespace TheTaleOfGod.enemies
 
         public virtual void Draw(SpriteBatch batch)
         {
-            /*foreach (var c in NearbyCells)
+            if (Game1.instance.drawGrid)
             {
-                c.Draw(batch);
-            }*/
+                foreach (var c in NearbyCells)
+                {
+                    c.Draw(batch, Color.AntiqueWhite);
+                }
+            }
+            
             batch.Draw(sprite, position, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
             //ray.Draw(batch);
             healthBar.Draw(batch);

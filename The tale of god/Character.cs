@@ -93,9 +93,9 @@ namespace TheTaleOfGod
 
             NearbyCells = Cell.GetAreaOfCells(Cell.GetCell(position), 5, 5);
 
-            #region input
+            #region input/movement
 
-            #region movement and collision
+            #region movement & collision
 
             playerRect = new Rectangle((int)position.X - sprite.Width / 2, (int)position.Y - sprite.Height / 2, sprite.Width, sprite.Height);
 
@@ -120,7 +120,7 @@ namespace TheTaleOfGod
 
             if (move.X != 0 && move.Y != 0)
             {
-                move.Normalize();
+                move = new Vector2(Math.Sign(move.X) * Game1.oneOverSqrt2, Math.Sign(move.Y) * Game1.oneOverSqrt2);
             }
 
             move *= speed * gameTime.ElapsedGameTime.Ticks/100000f;
@@ -266,7 +266,7 @@ namespace TheTaleOfGod
             {
                 foreach (var cell in NearbyCells)
                 {
-                    cell.Draw(batch);
+                    cell.Draw(batch, Color.Green);
                 }
                 batch.Draw(Cell.CellSprite, cell.ToVector2(), null, Color.LightGoldenrodYellow, 0f, Cell.SpriteOrigin, 1f, SpriteEffects.None, 1f);
             }
