@@ -44,6 +44,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Bar.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="enemies\PeasantSoldier.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Gui.cs" />
     <Compile Include="Gun.cs" />
     <Compile Include="HealthBar.cs" />
     <Compile Include="Input.cs" />

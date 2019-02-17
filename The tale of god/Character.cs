@@ -30,7 +30,7 @@ namespace TheTaleOfGod
 
         Cell[] NearbyCells { get; set; }
 
-        public float maxHealth = 100f;
+        public float maxHealth = 500f;
         public float health;
 
         public bool isInteracting;
@@ -44,8 +44,8 @@ namespace TheTaleOfGod
 
         public Collider collider;
 
-        public HealthBar healthBar;
         public Vector2 healthBarOffset = new Vector2(0, 22);
+        public Gui gui;
 
         KeyboardState prevKeyState;
         MouseState prevMouseState;
@@ -57,7 +57,7 @@ namespace TheTaleOfGod
             isInteracting = false;
             position = new Vector2(200, 200);
 
-            gun = new Gun(5f, 5f, true, position, new Bullet(7.5f, BulletType.Normal), "character");
+            gun = new Gun(10f, 10f, true, position, new Bullet(7.5f, BulletType.Normal), "character");
 
             sprite = DebugTextures.GenerateRectangle(16, 32, Color.PaleVioletRed);
 
@@ -71,7 +71,8 @@ namespace TheTaleOfGod
             camera = new Camera(new Vector2(0, 0), -500, 500, -500, 500);
 
             health = maxHealth;
-            healthBar = new HealthBar();
+
+            gui = new Gui(maxHealth);
 
             prevKeyState = Keyboard.GetState();
             prevMouseState = Mouse.GetState();
@@ -83,7 +84,6 @@ namespace TheTaleOfGod
             cell.colliders.Add(collider);
         }
 
-        Rectangle playerRect;
         public void Update(GameTime gameTime)
         {
             KeyboardState keyState = Keyboard.GetState();
@@ -97,7 +97,7 @@ namespace TheTaleOfGod
 
             #region movement & collision
 
-            playerRect = new Rectangle((int)position.X - sprite.Width / 2, (int)position.Y - sprite.Height / 2, sprite.Width, sprite.Height);
+            Rectangle playerRect = new Rectangle((int)position.X - sprite.Width / 2, (int)position.Y - sprite.Height / 2, sprite.Width, sprite.Height);
 
             Rectangle[] colliders = Collision.CollidingRectangle(position, NearbyCells, sprite.Width, sprite.Height, out Collider[] colInfo);
 
@@ -120,7 +120,7 @@ namespace TheTaleOfGod
 
             if (move.X != 0 && move.Y != 0)
             {
-                move = new Vector2(Math.Sign(move.X) * Game1.oneOverSqrt2, Math.Sign(move.Y) * Game1.oneOverSqrt2);
+                move = new Vector2(Math.Sign(move.X) * Game1.OneOverSqrt2, Math.Sign(move.Y) * Game1.OneOverSqrt2);
             }
 
             move *= speed * gameTime.ElapsedGameTime.Ticks/100000f;
@@ -220,8 +220,6 @@ namespace TheTaleOfGod
             collider.Update(gameTime);
 
             cell = Cell.GetCell(position);
-
-            healthBar.position = position + healthBarOffset;
         }
 
         public void Move(Vector2 newPos)
@@ -246,7 +244,7 @@ namespace TheTaleOfGod
             }
             else
             {
-                healthBar.ChangeValue(health/maxHealth);
+                gui.UpdateHealth(health);
                 Console.WriteLine("Character at {0} health", health);
             }
         }
@@ -272,7 +270,10 @@ namespace TheTaleOfGod
             }
             batch.Draw(sprite, position, null, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
             gun.Draw(batch);
-            healthBar.Draw(batch);
+        }
+        public void DrawGUI(SpriteBatch batch)
+        {
+            gui.Draw(batch);
         }
     }
 }

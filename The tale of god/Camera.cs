@@ -89,6 +89,11 @@ namespace TheTaleOfGod
             return windowPosition / Game1.resolutionScale;
         }
 
+        public Vector2 WorldToWindowSpace(Vector2 worldPosition)
+        {
+            return position + worldPosition;
+        }
+
         public bool HasMoved(float distance)
         {
             if (Math.Abs(previousPos.X - position.X) > distance || Math.Abs(previousPos.Y - position.Y) > distance)

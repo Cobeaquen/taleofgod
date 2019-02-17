@@ -282,14 +282,18 @@ namespace TheTaleOfGod
         /// <returns></returns>
         public static void RestrictPosition(Rectangle rect, Rectangle col, ref Vector2 move)
         {
-            if (rect.Right > col.Right && col.Height >= col.Width) // colliding from the right
+            if (col.Width == 1 && col.Height == 1)
+            {
+                return;
+            }
+            if (rect.Right > col.Right && col.Height > col.Width) // colliding from the right
             {
                 if (!(move.X > 0))
                 {
                     move.X = col.Width - 1f;
                 }
             }
-            else if (rect.Left < col.Left && col.Height >= col.Width) // colliding from the left
+            else if (rect.Left < col.Left && col.Height > col.Width) // colliding from the left
             {
                 if (!(move.X < 0))
                 {

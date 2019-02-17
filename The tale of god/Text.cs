@@ -11,6 +11,8 @@ namespace TheTaleOfGod
 {
     public class Text
     {
+        public static SpriteFont defaultFont;
+
         public int fieldWidth, fieldHeight;
         public string text;
         public float size;

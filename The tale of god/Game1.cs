@@ -13,7 +13,7 @@ namespace TheTaleOfGod
     {
         #region General
 
-        public const float oneOverSqrt2 = 0.70710678118654752440084436210485f;
+        public const float OneOverSqrt2 = 0.707106781f;
 
         #endregion
 
@@ -87,6 +87,8 @@ namespace TheTaleOfGod
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             DebugTextures.LoadTextures(GraphicsDevice);
+
+            Text.defaultFont = Content.Load<SpriteFont>("fonts\\npc1");
 
             Cell.CreateGrid(new Point(-3200, -3200), 500, 500);
 
@@ -235,6 +237,8 @@ namespace TheTaleOfGod
             {
                 npc.DrawDialogue(spriteBatch, gameTime);
             }
+
+            character.DrawGUI(spriteBatch);
 
             //spriteBatch.DrawString(npc.font, "testing out this new rendertartget!! NICE JOB TEAM", new Vector2( Mouse.GetState().Position.X, Mouse.GetState().Position.Y), Color.Black);
 

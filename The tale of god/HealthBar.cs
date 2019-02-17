@@ -30,8 +30,6 @@ namespace TheTaleOfGod
             sprite = DebugTextures.GenerateHollowRectangele(10, 5, 1, Color.Black);
             progress = DebugTextures.GenerateRectangle(10, 5, Color.White);
             origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
-
-
         }
         public void ChangeValue(float value)
         {
