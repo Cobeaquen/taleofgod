@@ -100,3 +100,4 @@ C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\De
 C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\protobuf-net.dll
 C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.xml
 C:\Users\user\Documents\GitHub\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\protobuf-net.xml
+D:\taleofgod\The tale of god\bin\DesktopGL\AnyCPU\Debug\Content\fonts\gui.xnb

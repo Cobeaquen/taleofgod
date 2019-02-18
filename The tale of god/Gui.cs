@@ -16,11 +16,11 @@ namespace TheTaleOfGod
 
         public Gui(float maxHealth)
         {
-            bar = new Bar(200, 60, Color.MediumSpringGreen, Color.Red, 5)
+            bar = new Bar(400, 120, Color.MediumSpringGreen, Color.Red, Color.DarkSlateGray, 3, 1f)
             {
-                position = new Vector2(150, 700), maxValue = maxHealth
+                position = new Vector2(240, 1000), maxValue = maxHealth
             };
-            HPText = new Text(bar.position + new Vector2(-bar.width/2f + Text.defaultFont.MeasureString("HP").X, -50), "HP", 200, 100, 1, Text.defaultFont, Color.White);
+            HPText = new Text(bar.position + new Vector2(-bar.width/2f + Text.guiFont.MeasureString("HP").X, -100), "HP", 200, 100, 1, Text.guiFont, Color.White);
         }
 
         public void Update()

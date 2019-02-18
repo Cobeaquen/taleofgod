@@ -80,6 +80,8 @@ namespace TheTaleOfGod
 
             graphicsDevice = GraphicsDevice;
 
+            Window.Position = new Point(2900, 125);
+
             base.Initialize();
         }
 
@@ -89,6 +91,7 @@ namespace TheTaleOfGod
             DebugTextures.LoadTextures(GraphicsDevice);
 
             Text.defaultFont = Content.Load<SpriteFont>("fonts\\npc1");
+            Text.guiFont = Content.Load<SpriteFont>("fonts\\gui");
 
             Cell.CreateGrid(new Point(-3200, -3200), 500, 500);
 
@@ -275,12 +278,13 @@ namespace TheTaleOfGod
         private void SetApplicationSettings()
         {
             // screen resolution
-            graphics.PreferredBackBufferWidth = 1440;
-            graphics.PreferredBackBufferHeight = 810;
+            graphics.PreferredBackBufferWidth = 1920;//1440;
+            graphics.PreferredBackBufferHeight = 1080;//810;
             IsMouseVisible = true;
             graphics.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             graphics.IsFullScreen = false;
+            Window.AllowUserResizing = false;
         }
     }
 }

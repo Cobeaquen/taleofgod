@@ -13,6 +13,7 @@ namespace TheTaleOfGod
     {
         public Texture2D progress;
         public Texture2D border;
+        public Texture2D background;
 
         public Vector2 origin;
 
@@ -27,9 +28,13 @@ namespace TheTaleOfGod
         public Color color1;
         public Color color2;
 
+        public bool transparent;
+
+        public Color backgroundColor;
+
         private Color color;
 
-        public Bar (int width, int height, Color color1, Color color2, int borderThickness = 0, float startValue = 0f)
+        public Bar (int width, int height, Color color1, Color color2, Color backgroundColor, int borderThickness = 0, float startValue = 0f)
         {
             Value = startValue;
 
@@ -47,6 +52,17 @@ namespace TheTaleOfGod
                 origin = new Vector2(border.Width / 2f, border.Height / 2f);
             }
 
+            if (backgroundColor != Color.Transparent)
+            {
+                this.backgroundColor = backgroundColor;
+                background = DebugTextures.GenerateRectangle(progress.Width, progress.Height, Color.White);
+                transparent = false;
+            }
+            else
+            {
+                transparent = true;
+            }
+
             if (color2 == null)
             {
                 color2 = color1;
@@ -61,6 +77,11 @@ namespace TheTaleOfGod
         public void Draw(SpriteBatch batch)
         {
             Vector2 origin1 = new Vector2(progress.Width, progress.Height / 2);
+
+            if (!transparent) // background
+            {
+                batch.Draw(background, position + new Vector2(progress.Width / 2f, 0f), null, backgroundColor, 0f, origin1, 1f, SpriteEffects.None, 0.5f);
+            }
 
             color = Color.Lerp(color2, color1, Value);
 
